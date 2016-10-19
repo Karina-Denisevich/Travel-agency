@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.Karina-Denisevich</groupId>
+    <groupId>com.github.Karina_Denisevich</groupId>
     <artifactId>parent-project</artifactId>
     <version>1.0.0</version>
 
@@ -16,10 +16,10 @@
     </properties>
 
     <modules>
-        <module>datamodel</module>
         <module>dao-api</module>
         <module>dao-impl-db</module>
         <module>dao-impl-xml</module>
+        <module>datamodel</module>
         <module>services</module>
         <module>webapp</module>
     </modules>
@@ -28,32 +28,32 @@
         <dependencies>
             <!-- Project modules -->
             <dependency>
-                <groupId>com.github.Karina-Denisevich</groupId>
+                <groupId>com.github.Karina_Denisevich</groupId>
                 <artifactId>datamodel</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
-                <groupId>com.github.Karina-Denisevich</groupId>
+                <groupId>com.github.Karina_Denisevich</groupId>
                 <artifactId>dao-api</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
-                <groupId>com.github.Karina-Denisevich</groupId>
+                <groupId>com.github.Karina_Denisevich</groupId>
                 <artifactId>dao-impl-db</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
-                <groupId>com.github.Karina-Denisevich</groupId>
+                <groupId>com.github.Karina_Denisevich</groupId>
                 <artifactId>dao-impl-xml</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
-                <groupId>com.github.Karina-Denisevich</groupId>
+                <groupId>com.github.Karina_Denisevich</groupId>
                 <artifactId>services</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
-                <groupId>com.github.Karina-Denisevich</groupId>
+                <groupId>com.github.Karina_Denisevich</groupId>
                 <artifactId>webapp</artifactId>
                 <version>1.0.0</version>
             </dependency>
@@ -88,6 +88,11 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context-support</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
@@ -132,7 +137,7 @@
                         <showDeprecation>true</showDeprecation>
                     </configuration>
                 </plugin>
-                <!--eclipse-->
+                <!--idea-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-idea-plugin</artifactId>

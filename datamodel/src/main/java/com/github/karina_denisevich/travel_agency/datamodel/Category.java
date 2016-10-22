@@ -1,24 +1,24 @@
 package com.github.karina_denisevich.travel_agency.datamodel;
 
-public class TourType extends AbstractModel {
+public class Category extends AbstractModel {
 
-    private enum TypeEnum{
+    private enum CategoryEnum {
         ESCOURTED_TOUR,
         RAIL_TOUR,
         BUS_TOUR,
         SHOP_TOUR,
         SAFARI_TOUR,
         BEACH_TOUR,
-        OTHER_TOUR;
+        OTHER_TOUR
     }
 
-    private TypeEnum type;
+    private Category type;
 
-    public TypeEnum getType() {
+    public Category getCategory() {
         return type;
     }
 
-    public void setType(TypeEnum type) {
+    public void setCategory(Category type) {
         this.type = type;
     }
 }

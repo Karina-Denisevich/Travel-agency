@@ -1,70 +1,67 @@
-CREATE DATABASE IF NOT EXISTS travel_agency
-DEFAULT CHARSET = utf8;
-USE travel_agency;
 CREATE TABLE `user` (
-  `id`            BIGINT    NOT NULL AUTO_INCREMENT,
-  `first_name`    CHAR(100) NOT NULL,
-  `last_name`     CHAR(100) NOT NULL,
-  `email`         CHAR(100) NOT NULL UNIQUE,
-  `bday`          DATE,
-  `discount`      DOUBLE    NOT NULL DEFAULT '0',
-  `orders_amount` INT       NOT NULL DEFAULT '0',
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `email` char(100) NOT NULL UNIQUE,
+  `password` char(100) NOT NULL,
+  `role_id` bigint NOT NULL,
   PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `role` (
-  `id`   BIGINT   NOT NULL AUTO_INCREMENT,
-  `type` CHAR(30) NOT NULL UNIQUE,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `type` char(30) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
-);
-
-CREATE TABLE `user_2_role` (
-  `user_id` BIGINT NOT NULL,
-  `role_id` BIGINT NOT NULL
 );
 
 CREATE TABLE `tour` (
-  `id`         BIGINT    NOT NULL AUTO_INCREMENT,
-  `title`       CHAR(150) NOT NULL,
-  `photo_link` CHAR(255),
-  `hot`        TINYINT   NOT NULL DEFAULT '0',
-  `type_id`    BIGINT,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `title` char(150) NOT NULL,
+  `photo_link` char(256),
+  `hot` tinyint NOT NULL DEFAULT '0',
+  `price` double NOT NULL,
+  `description` TEXT,
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `tour_type` (
-  `id`   BIGINT    NOT NULL AUTO_INCREMENT,
-  `type` CHAR(100) NOT NULL UNIQUE,
+CREATE TABLE `category` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `type` char(100) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `user_2_tour` (
-  `user_id` BIGINT NOT NULL,
-  `tour_id` BIGINT NOT NULL
-);
-
-CREATE TABLE `tour_description` (
-  `id`                BIGINT NOT NULL,
-  `full_description`  TEXT,
-  `short_description` CHAR(255),
+CREATE TABLE `order` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `order_date` DATE NOT NULL,
+  `confirmed` tinyint NOT NULL DEFAULT '0',
+  `user_id` bigint NOT NULL,
+  `tour_id` bigint NOT NULL,
   PRIMARY KEY (`id`)
 );
 
-ALTER TABLE `user_2_role`
-  ADD CONSTRAINT `user_2_role_fk0` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+CREATE TABLE `user_details` (
+  `id` bigint NOT NULL,
+  `first_name` char(100) NOT NULL,
+  `last_name` char(150) NOT NULL,
+  `discount` double NOT NULL DEFAULT '0',
+  `bdate` DATE,
+  `phone` char(25),
+  `skype` char(100),
+  PRIMARY KEY (`id`)
+);
 
-ALTER TABLE `user_2_role`
-  ADD CONSTRAINT `user_2_role_fk1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
+CREATE TABLE `tour_2_category` (
+  `tour_id` bigint NOT NULL,
+  `categoty_id` bigint NOT NULL
+);
 
-ALTER TABLE `tour`
-  ADD CONSTRAINT `tour_fk0` FOREIGN KEY (`type_id`) REFERENCES `tour_type` (`id`);
+ALTER TABLE `user` ADD CONSTRAINT `user_fk0` FOREIGN KEY (`role_id`) REFERENCES `role`(`id`);
 
-ALTER TABLE `user_2_tour`
-  ADD CONSTRAINT `user_2_tour_fk0` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+ALTER TABLE `order` ADD CONSTRAINT `order_fk0` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`);
 
-ALTER TABLE `user_2_tour`
-  ADD CONSTRAINT `user_2_tour_fk1` FOREIGN KEY (`tour_id`) REFERENCES `tour` (`id`);
+ALTER TABLE `order` ADD CONSTRAINT `order_fk1` FOREIGN KEY (`tour_id`) REFERENCES `tour`(`id`);
 
-ALTER TABLE `tour_description`
-  ADD CONSTRAINT `tour_description_fk0` FOREIGN KEY (`id`) REFERENCES `tour` (`id`);
+ALTER TABLE `user_details` ADD CONSTRAINT `user_details_fk0` FOREIGN KEY (`id`) REFERENCES `user`(`id`);
+
+ALTER TABLE `tour_2_category` ADD CONSTRAINT `tour_2_category_fk0` FOREIGN KEY (`tour_id`) REFERENCES `tour`(`id`);
+
+ALTER TABLE `tour_2_category` ADD CONSTRAINT `tour_2_category_fk1` FOREIGN KEY (`categoty_id`) REFERENCES `category`(`id`);
 

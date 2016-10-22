@@ -4,7 +4,9 @@ public class Tour extends AbstractModel {
 
     private String title;
     private String photoLink;
-    private boolean isHot;
+    private Boolean isHot;
+    private Double price;
+    private String description;
 
 
     public String getTitle() {
@@ -23,11 +25,27 @@ public class Tour extends AbstractModel {
         this.photoLink = photoLink;
     }
 
-    public boolean isHot() {
+    public Boolean getIsHot() {
         return isHot;
     }
 
-    public void setHot(boolean hot) {
+    public void setIsHot(Boolean hot) {
         isHot = hot;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

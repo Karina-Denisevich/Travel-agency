@@ -48,4 +48,15 @@ public class Tour extends AbstractModel {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "Tour{" +
+                "title='" + title + '\'' +
+                ", photoLink='" + photoLink + '\'' +
+                ", isHot=" + isHot +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

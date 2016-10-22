@@ -21,4 +21,11 @@ public class Category extends AbstractModel {
     public void setCategory(Category type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "type=" + type +
+                '}';
+    }
 }

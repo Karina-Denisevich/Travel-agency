@@ -17,4 +17,11 @@ public class Role extends AbstractModel {
     public void setType(RoleEnum type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "type=" + type +
+                '}';
+    }
 }

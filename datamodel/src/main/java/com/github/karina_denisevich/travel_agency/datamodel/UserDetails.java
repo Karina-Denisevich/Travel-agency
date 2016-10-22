@@ -58,4 +58,16 @@ public class UserDetails extends AbstractModel {
     public void setSkype(String skype) {
         this.skype = skype;
     }
+
+    @Override
+    public String toString() {
+        return "UserDetails{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", discount=" + discount +
+                ", bDate=" + bDate +
+                ", phone='" + phone + '\'' +
+                ", skype='" + skype + '\'' +
+                '}';
+    }
 }

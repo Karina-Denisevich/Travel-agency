@@ -1,6 +1,6 @@
 package com.github.karina_denisevich.travel_agency.datamodel;
 
-public class AbstractModel {
+public abstract class AbstractModel {
 
     private Long id;
 
@@ -12,4 +12,10 @@ public class AbstractModel {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "AbstractModel{" +
+                "id=" + id +
+                '}';
+    }
 }

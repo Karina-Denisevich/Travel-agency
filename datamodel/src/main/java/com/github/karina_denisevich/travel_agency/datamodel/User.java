@@ -35,6 +35,7 @@ public class User extends AbstractModel {
         return "User{" +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", roleId=" + roleId +
                 '}';
     }
 }

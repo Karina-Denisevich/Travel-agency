@@ -4,6 +4,7 @@ public class User extends AbstractModel {
 
     private String email;
     private String password;
+    private Long roleId;
 
     public String getEmail() {
         return email;
@@ -19,6 +20,14 @@ public class User extends AbstractModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     @Override

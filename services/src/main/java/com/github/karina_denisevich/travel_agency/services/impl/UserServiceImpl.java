@@ -26,11 +26,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveAll(List<User> users) {
-
+        users.forEach(this::save);
     }
 
     @Override
     public User get(Long id) {
-        return null;
+        return userDao.get(id);
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userDao.getAll();
+    }
+
+    @Override
+    public void delete(Long id) {
+        userDao.delete(id);
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        return userDao.getByEmail(email);
     }
 }

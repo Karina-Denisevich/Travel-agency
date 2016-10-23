@@ -11,4 +11,10 @@ public interface UserService {
     void saveAll(List<User> users);
 
     User get(Long id);
+
+    List<User> getAll();
+
+    void delete(Long id);
+
+    User getByEmail(String email);
 }

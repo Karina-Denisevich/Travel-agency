@@ -22,6 +22,7 @@
         <module>datamodel</module>
         <module>services</module>
         <module>webapp</module>
+        <module>db-annotation</module>
     </modules>
 
     <dependencyManagement>
@@ -55,6 +56,11 @@
             <dependency>
                 <groupId>com.github.Karina_Denisevich</groupId>
                 <artifactId>webapp</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.Karina_Denisevich</groupId>
+                <artifactId>db-annotation</artifactId>
                 <version>1.0.0</version>
             </dependency>
 

@@ -1,7 +1,10 @@
 package com.github.karina_denisevich.travel_agency.datamodel;
 
+import com.github.karina_denisevich.travel_agency.annotation.DbTable;
+
 import java.util.Date;
 
+@DbTable(name = "user_details")
 public class UserDetails extends AbstractModel {
 
     private String firstName;

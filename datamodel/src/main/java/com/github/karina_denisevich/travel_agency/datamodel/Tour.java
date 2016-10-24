@@ -1,5 +1,8 @@
 package com.github.karina_denisevich.travel_agency.datamodel;
 
+import com.github.karina_denisevich.travel_agency.annotation.DbTable;
+
+@DbTable(name = "tour")
 public class Tour extends AbstractModel {
 
     private String title;

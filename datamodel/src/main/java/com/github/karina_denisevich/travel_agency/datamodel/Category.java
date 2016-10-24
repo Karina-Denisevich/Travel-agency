@@ -1,5 +1,8 @@
 package com.github.karina_denisevich.travel_agency.datamodel;
 
+import com.github.karina_denisevich.travel_agency.annotation.DbTable;
+
+@DbTable(name = "category")
 public class Category extends AbstractModel {
 
     private enum CategoryEnum {

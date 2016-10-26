@@ -1,6 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.util.OrderDao;
+import com.github.karina_denisevich.travel_agency.daodb.OrderDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Order;
 import org.springframework.stereotype.Repository;
 

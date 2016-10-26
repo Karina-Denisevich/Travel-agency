@@ -9,11 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class UserWithMapper implements RowMapper<User> {
+public class UserWithRoleMapper implements RowMapper<User> {
 
     private final RoleMapper roleMapper;
 
-    public UserWithMapper(RoleMapper roleMapper) {
+    public UserWithRoleMapper(RoleMapper roleMapper) {
         this.roleMapper = roleMapper;
     }
 

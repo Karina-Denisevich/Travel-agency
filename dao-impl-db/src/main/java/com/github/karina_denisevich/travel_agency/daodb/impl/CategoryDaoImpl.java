@@ -1,6 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.util.CategoryDao;
+import com.github.karina_denisevich.travel_agency.daodb.CategoryDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import org.springframework.stereotype.Repository;
 

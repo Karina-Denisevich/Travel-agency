@@ -1,12 +1,16 @@
 package com.github.karina_denisevich.travel_agency.daodb;
 
-import com.github.karina_denisevich.travel_agency.datamodel.User;
+import com.github.karina_denisevich.travel_agency.annotation.DbTable;
+import org.springframework.core.GenericTypeResolver;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.AnnotationFormatError;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 @Repository
@@ -15,12 +19,30 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
     @Inject
     private JdbcTemplate jdbcTemplate;
 
+    private final Class<T> genericType;
+
+    private final String tableName;
+
+    @SuppressWarnings("unchecked")
+    public GenericDaoImpl() {
+
+        this.genericType = (Class<T>) ((ParameterizedType) getClass()
+                .getGenericSuperclass()).getActualTypeArguments()[0];
+        if (genericType.isAnnotationPresent(DbTable.class)) {
+            Annotation annotation = genericType.getAnnotation(DbTable.class);
+            DbTable dbTable = (DbTable) annotation;
+            tableName = dbTable.name();
+        } else {
+            throw new AnnotationFormatError("There are no annotation @DbTable");
+        }
+    }
+
     @Override
     public T get(PK id) {
-        String sql = "SELECT * FROM user WHERE id = ?";
+        String sql = "SELECT * FROM " + tableName + " WHERE id = ?";
 
-        return (T)jdbcTemplate.queryForObject(sql, new Object[]{id},
-                new BeanPropertyRowMapper<>(User.class));
+        return (T) jdbcTemplate.queryForObject(sql, new Object[]{id},
+                new BeanPropertyRowMapper<>(genericType));
     }
 
     @Override
@@ -41,5 +63,10 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
     @Override
     public List<T> getAll() {
         return null;
+    }
+
+    @Override
+    public void insertBatch(List<T> tList) {
+
     }
 }

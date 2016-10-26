@@ -1,8 +1,8 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.util.UserDetailsDao;
+import com.github.karina_denisevich.travel_agency.daodb.UserDetailsDao;
 import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
-import com.github.karina_denisevich.travel_agency.services.util.UserDetailsService;
+import com.github.karina_denisevich.travel_agency.services.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;

@@ -1,7 +1,6 @@
 package com.github.karina_denisevich.travel_agency.services;
 
 import com.github.karina_denisevich.travel_agency.datamodel.User;
-import com.github.karina_denisevich.travel_agency.services.util.UserService;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -52,8 +51,8 @@ public class SpringRunner {
     @Test
     public void insertTest() {
         User user = new User();
-        user.setEmail("bla99bla");
-        user.setPassword("111111");
+        user.setEmail("blffa799bla");
+        user.setPassword("11ff81111");
 
         Long id = userService.save(user);
 

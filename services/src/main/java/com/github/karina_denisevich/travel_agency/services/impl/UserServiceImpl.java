@@ -1,10 +1,10 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.util.RoleDao;
-import com.github.karina_denisevich.travel_agency.daodb.util.UserDao;
+import com.github.karina_denisevich.travel_agency.daodb.RoleDao;
+import com.github.karina_denisevich.travel_agency.daodb.UserDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
-import com.github.karina_denisevich.travel_agency.services.util.UserService;
+import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;

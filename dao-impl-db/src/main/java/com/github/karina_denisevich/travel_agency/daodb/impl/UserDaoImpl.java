@@ -1,40 +1,37 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
+import com.github.karina_denisevich.travel_agency.daodb.GenericDaoImpl;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.RoleMapper;
-import com.github.karina_denisevich.travel_agency.daodb.mapper.UserWithMapper;
-import com.github.karina_denisevich.travel_agency.daodb.util.UserDao;
+import com.github.karina_denisevich.travel_agency.daodb.mapper.UserWithRoleMapper;
+import com.github.karina_denisevich.travel_agency.daodb.UserDao;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
 
     @Inject
     private JdbcTemplate jdbcTemplate;
 
-
-    @Override
-    public User get(Long id) {
-
-        final String sql = "SELECT * FROM user WHERE id = ?";
-
-        return jdbcTemplate.queryForObject(sql, new Object[]{id},
-                new BeanPropertyRowMapper<>(User.class));
-    }
+//
+//    @Override
+//    public User get(Long id) {
+//
+//        final String sql = "SELECT * FROM user WHERE id = ?";
+//
+//        return jdbcTemplate.queryForObject(sql, new Object[]{id},
+//                new BeanPropertyRowMapper<>(User.class));
+//    }
 
     @Override
     public Long insert(User entity) {
@@ -129,7 +126,7 @@ public class UserDaoImpl implements UserDao {
 
         return jdbcTemplate.queryForObject(sql,
                 new Object[]{id},
-                new UserWithMapper(new RoleMapper()));
+                new UserWithRoleMapper(new RoleMapper()));
     }
 
 }

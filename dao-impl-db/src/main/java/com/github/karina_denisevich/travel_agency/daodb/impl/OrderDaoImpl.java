@@ -1,6 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.OrderDao;
+import com.github.karina_denisevich.travel_agency.daodb.util.OrderDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Order;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +15,8 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public void insert(Order entity) {
-
+    public Long insert(Order entity) {
+        return null;
     }
 
     @Override
@@ -33,4 +33,7 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> getAll() {
         return null;
     }
+
+    @Override
+    public void insertBatch(List<Order> orders) {}
 }

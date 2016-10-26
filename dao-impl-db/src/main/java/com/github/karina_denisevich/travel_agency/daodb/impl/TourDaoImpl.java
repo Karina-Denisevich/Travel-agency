@@ -1,6 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.TourDao;
+import com.github.karina_denisevich.travel_agency.daodb.util.TourDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +15,8 @@ public class TourDaoImpl implements TourDao {
     }
 
     @Override
-    public void insert(Tour entity) {
-
+    public Long insert(Tour entity) {
+        return null;
     }
 
     @Override
@@ -32,5 +32,9 @@ public class TourDaoImpl implements TourDao {
     @Override
     public List<Tour> getAll() {
         return null;
+    }
+
+    @Override
+    public void insertBatch(List<Tour> tours) {
     }
 }

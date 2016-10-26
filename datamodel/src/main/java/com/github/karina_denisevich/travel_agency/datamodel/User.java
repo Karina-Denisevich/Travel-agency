@@ -7,7 +7,16 @@ public class User extends AbstractModel {
 
     private String email;
     private String password;
-    private Long roleId;
+    private Role role;
+   // private Long roleId;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public String getEmail() {
         return email;
@@ -25,20 +34,19 @@ public class User extends AbstractModel {
         this.password = password;
     }
 
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
+//    public Long getRoleId() {
+//        return roleId;
+//    }
+//
+//    public void setRoleId(Long roleId) {
+//        this.roleId = roleId;
+//    }
 
     @Override
     public String toString() {
         return "User{" +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", roleId=" + roleId +
                 '}';
     }
 }

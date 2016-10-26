@@ -1,8 +1,8 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.OrderDao;
+import com.github.karina_denisevich.travel_agency.daodb.util.OrderDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Order;
-import com.github.karina_denisevich.travel_agency.services.OrderService;
+import com.github.karina_denisevich.travel_agency.services.util.OrderService;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;

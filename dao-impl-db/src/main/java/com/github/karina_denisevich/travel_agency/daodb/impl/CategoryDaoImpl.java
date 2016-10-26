@@ -1,6 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.CategoryDao;
+import com.github.karina_denisevich.travel_agency.daodb.util.CategoryDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +15,8 @@ public class CategoryDaoImpl implements CategoryDao {
     }
 
     @Override
-    public void insert(Category entity) {
-
+    public Long insert(Category entity) {
+        return null;
     }
 
     @Override
@@ -32,5 +32,10 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public List<Category> getAll() {
         return null;
+    }
+
+    @Override
+    public void insertBatch(List<Category> categories) {
+
     }
 }

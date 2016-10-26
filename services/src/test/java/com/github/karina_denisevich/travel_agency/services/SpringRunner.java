@@ -1,12 +1,14 @@
 package com.github.karina_denisevich.travel_agency.services;
 
 import com.github.karina_denisevich.travel_agency.datamodel.User;
+import com.github.karina_denisevich.travel_agency.services.util.UserService;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -17,16 +19,13 @@ public class SpringRunner {
     UserService userService;
 
     Long id;
-    User user;
 
     @Before
     public void executeBeforeEachTest() {
-        user = new User();
-        user.setEmail("Test");
-        user.setPassword("test");
-        user.setRoleId(1L);
-        userService.save(user);
-        id = userService.getByEmail("Test").getId();
+        User user = new User();
+        user.setEmail("TEST");
+        user.setPassword("111111");
+        id = userService.save(user);
     }
 
     @Test
@@ -45,6 +44,7 @@ public class SpringRunner {
     }
 
     @Test
+    @Ignore
     public void deleteTest() {
         userService.delete(id);
     }
@@ -52,11 +52,43 @@ public class SpringRunner {
     @Test
     public void insertTest() {
         User user = new User();
-        user.setEmail("Test1");
-        user.setPassword("test1");
-        user.setRoleId(1L);
+        user.setEmail("bla99bla");
+        user.setPassword("111111");
 
-        userService.save(user);
+        Long id = userService.save(user);
+
+        Assert.assertNotNull(id);
+
+        User userFromDb = userService.get(id);
+
+        Assert.assertEquals(user.getEmail(), userFromDb.getEmail());
+        userService.delete(id);
+    }
+
+    @Test
+    @Ignore
+    public void insertBatchTest() {
+        List<User> userList = new ArrayList<>();
+        User user = new User();
+        user.setEmail("mmm");
+        user.setPassword("111111");
+
+        User user1 = new User();
+        user1.setEmail("nnn");
+        user1.setPassword("111111dd");
+
+        userList.add(user);
+        userList.add(user1);
+
+        userService.saveAll(userList);
+    }
+
+    @Test
+    public void getWithRoleTest() {
+        User user = userService.getWithRole(id);
+        Assert.assertNotNull("user for id=" + id + " should not be null", user);
+        Assert.assertNotNull("role for id=" + id + " should not be null", user.getRole());
+        Assert.assertEquals(id, user.getId());
     }
 
     @After

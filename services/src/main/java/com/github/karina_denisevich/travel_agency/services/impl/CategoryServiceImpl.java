@@ -1,9 +1,9 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
 
-import com.github.karina_denisevich.travel_agency.daodb.CategoryDao;
+import com.github.karina_denisevich.travel_agency.daodb.util.CategoryDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
-import com.github.karina_denisevich.travel_agency.services.CategoryService;
+import com.github.karina_denisevich.travel_agency.services.util.CategoryService;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;

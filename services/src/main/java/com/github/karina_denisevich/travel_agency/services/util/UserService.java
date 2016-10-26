@@ -1,4 +1,4 @@
-package com.github.karina_denisevich.travel_agency.services;
+package com.github.karina_denisevich.travel_agency.services.util;
 
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 
@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserService {
 
-    void save(User user);
+    Long save(User user);
 
     void saveAll(List<User> users);
 
@@ -17,4 +17,6 @@ public interface UserService {
     void delete(Long id);
 
     User getByEmail(String email);
+
+    User getWithRole(Long id);
 }

@@ -1,13 +1,24 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.UserDao;
+import com.github.karina_denisevich.travel_agency.daodb.mapper.RoleMapper;
+import com.github.karina_denisevich.travel_agency.daodb.mapper.UserWithMapper;
+import com.github.karina_denisevich.travel_agency.daodb.util.UserDao;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -19,59 +30,106 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User get(Long id) {
 
-        String sql = "SELECT * FROM user WHERE id = ?";
+        final String sql = "SELECT * FROM user WHERE id = ?";
 
         return jdbcTemplate.queryForObject(sql, new Object[]{id},
                 new BeanPropertyRowMapper<>(User.class));
     }
 
     @Override
-    public void insert(User entity) {
+    public Long insert(User entity) {
 
-        String sql = "INSERT INTO user (email, password, role_id)" +
+        final String sql = "INSERT INTO user (email, password, role_id)" +
                 " VALUES (?, ?, ?)";
 
-        jdbcTemplate.update(sql, new Object[]{entity.getEmail(),
-                entity.getPassword(), entity.getRoleId()});
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
+        jdbcTemplate.update(
+                connection -> {
+                    PreparedStatement ps =
+                            connection.prepareStatement(sql, new String[]{"id"});
+                    ps.setString(1, entity.getEmail());
+                    ps.setString(2, entity.getPassword());
+                    ps.setLong(3, entity.getRole().getId());
+                    return ps;
+                },
+                keyHolder);
+
+        entity.setId(keyHolder.getKey().longValue());
+
+        return entity.getId();
     }
 
     @Override
     public void update(User entity) {
 
-        String sql = "UPDATE user " +
+        final String sql = "UPDATE user " +
                 "SET email = ?, password = ?, role_id = ? " +
                 "WHERE id = ?";
 
-        jdbcTemplate.update(sql, new Object[]{entity.getEmail(),
-                entity.getPassword(), entity.getRoleId()});
+        jdbcTemplate.update(sql, entity.getEmail(),
+                entity.getPassword(), entity.getRole().getId());
     }
 
     @Override
     public void delete(Long id) {
 
-        String sql = "DELETE FROM user WHERE id = ?";
+        final String sql = "DELETE FROM user WHERE id = ?";
 
-        jdbcTemplate.update(sql, new Object[]{id});
+        jdbcTemplate.update(sql, id);
     }
 
     @Override
     public List<User> getAll() {
 
-        String sql = "SELECT * FROM user";
+        final String sql = "SELECT * FROM user";
 
         List<User> users = jdbcTemplate.query(sql,
-                new BeanPropertyRowMapper(User.class));
+                new BeanPropertyRowMapper<>(User.class));
 
         return users;
     }
 
     @Override
+    public void insertBatch(List<User> entityList) {
+
+        final String sql = "INSERT INTO user (email, password, role_id)" +
+                " VALUES (?, ?, ?)";
+
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                User user = entityList.get(i);
+                ps.setString(1, user.getEmail());
+                ps.setString(2, user.getPassword());
+                ps.setLong(3, user.getRole().getId());
+            }
+
+            public int getBatchSize() {
+                return entityList.size();
+            }
+        });
+    }
+
+    @Override
     public User getByEmail(String email) {
 
-        String sql = "SELECT * FROM user WHERE email = ?";
+        final String sql = "SELECT * FROM user WHERE email = ?";
 
         return jdbcTemplate.queryForObject(sql, new Object[]{email},
                 new BeanPropertyRowMapper<>(User.class));
     }
+
+    @Override
+    public User getWithRole(Long id) {
+
+        final String sql = "SELECT * FROM user u "
+                + "LEFT JOIN role r ON u.role_id=r.id "
+                + "WHERE u.id = ?";
+
+        return jdbcTemplate.queryForObject(sql,
+                new Object[]{id},
+                new UserWithMapper(new RoleMapper()));
+    }
+
 }

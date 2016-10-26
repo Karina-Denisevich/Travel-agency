@@ -23,16 +23,6 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
     @Inject
     private JdbcTemplate jdbcTemplate;
 
-//
-//    @Override
-//    public User get(Long id) {
-//
-//        final String sql = "SELECT * FROM user WHERE id = ?";
-//
-//        return jdbcTemplate.queryForObject(sql, new Object[]{id},
-//                new BeanPropertyRowMapper<>(User.class));
-//    }
-
     @Override
     public Long insert(User entity) {
 

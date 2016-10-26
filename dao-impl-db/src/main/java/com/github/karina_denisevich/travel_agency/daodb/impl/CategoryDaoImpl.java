@@ -1,18 +1,19 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
 import com.github.karina_denisevich.travel_agency.daodb.CategoryDao;
+import com.github.karina_denisevich.travel_agency.daodb.GenericDaoImpl;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @Repository
-public class CategoryDaoImpl implements CategoryDao {
+public class CategoryDaoImpl extends GenericDaoImpl<Category, Long> implements CategoryDao {
 
-    @Override
-    public Category get(Long id) {
-        return null;
-    }
+    @Inject
+    JdbcTemplate jdbcTemplate;
 
     @Override
     public Long insert(Category entity) {

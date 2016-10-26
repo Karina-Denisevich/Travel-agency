@@ -1,5 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
+import com.github.karina_denisevich.travel_agency.daodb.GenericDaoImpl;
 import com.github.karina_denisevich.travel_agency.daodb.RoleDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -10,15 +11,10 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Repository
-public class RoleDaoImpl implements RoleDao {
+public class RoleDaoImpl extends GenericDaoImpl<Role, Long> implements RoleDao {
 
     @Inject
     JdbcTemplate jdbcTemplate;
-
-    @Override
-    public Role get(Long id) {
-        return null;
-    }
 
     @Override
     public Long insert(Role entity) {

@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails get(Long id) {
-        return null;
+        return userDetailsDao.get(id);
     }
 
     @Override

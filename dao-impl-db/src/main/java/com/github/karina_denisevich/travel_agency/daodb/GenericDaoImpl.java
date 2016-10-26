@@ -1,7 +1,7 @@
 package com.github.karina_denisevich.travel_agency.daodb;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTable;
-import org.springframework.core.GenericTypeResolver;
+import com.google.common.base.CaseFormat;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
-import java.lang.annotation.AnnotationFormatError;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
@@ -28,20 +27,29 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
 
         this.genericType = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
+
         if (genericType.isAnnotationPresent(DbTable.class)) {
             Annotation annotation = genericType.getAnnotation(DbTable.class);
             DbTable dbTable = (DbTable) annotation;
-            tableName = dbTable.name();
+            if (!dbTable.name().isEmpty()) {
+                tableName = dbTable.name();
+            } else {
+                tableName = getTableName(genericType.getSimpleName());
+            }
         } else {
-            throw new AnnotationFormatError("There are no annotation @DbTable");
+            tableName = getTableName(genericType.getSimpleName());
         }
+    }
+
+    private String getTableName(String className){
+        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, className);
     }
 
     @Override
     public T get(PK id) {
         String sql = "SELECT * FROM " + tableName + " WHERE id = ?";
 
-        return (T) jdbcTemplate.queryForObject(sql, new Object[]{id},
+        return jdbcTemplate.queryForObject(sql, new Object[]{id},
                 new BeanPropertyRowMapper<>(genericType));
     }
 

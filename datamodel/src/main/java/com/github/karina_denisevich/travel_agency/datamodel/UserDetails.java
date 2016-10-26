@@ -4,7 +4,7 @@ import com.github.karina_denisevich.travel_agency.annotation.DbTable;
 
 import java.util.Date;
 
-@DbTable(name = "user_details")
+@DbTable()
 public class UserDetails extends AbstractModel {
 
     private String firstName;

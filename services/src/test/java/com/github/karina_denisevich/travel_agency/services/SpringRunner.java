@@ -1,6 +1,7 @@
 package com.github.karina_denisevich.travel_agency.services;
 
 import com.github.karina_denisevich.travel_agency.datamodel.User;
+import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,6 +18,9 @@ public class SpringRunner {
     @Inject
     UserService userService;
 
+    @Inject
+    UserDetailsService userDetailsService;
+
     Long id;
 
     @Before
@@ -28,6 +32,7 @@ public class SpringRunner {
     }
 
     @Test
+    @Ignore
     public void getByIdTest() {
         User user = userService.get(id);
 
@@ -49,9 +54,17 @@ public class SpringRunner {
     }
 
     @Test
+    public void userDetailsTest() {
+        UserDetails userDetails = userDetailsService.get(40L);
+
+        Assert.assertEquals("n", userDetails.getFirstName());
+    }
+
+    @Test
+    @Ignore
     public void insertTest() {
         User user = new User();
-        user.setEmail("blffa799bla");
+        user.setEmail("fa799kfbla");
         user.setPassword("11ff81111");
 
         Long id = userService.save(user);

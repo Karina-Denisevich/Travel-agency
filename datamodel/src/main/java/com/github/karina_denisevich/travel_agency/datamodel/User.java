@@ -8,7 +8,7 @@ public class User extends AbstractModel {
     private String email;
     private String password;
     private Role role;
-   // private Long roleId;
+    private UserDetails userDetails;
 
     public Role getRole() {
         return role;
@@ -34,13 +34,13 @@ public class User extends AbstractModel {
         this.password = password;
     }
 
-//    public Long getRoleId() {
-//        return roleId;
-//    }
-//
-//    public void setRoleId(Long roleId) {
-//        this.roleId = roleId;
-//    }
+    public UserDetails getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(UserDetails userDetails) {
+        this.userDetails = userDetails;
+    }
 
     @Override
     public String toString() {

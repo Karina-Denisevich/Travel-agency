@@ -9,14 +9,14 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Service
-public class RoleServiceImpl implements RoleService{
+public class RoleServiceImpl implements RoleService {
 
     @Inject
     RoleDao roleDao;
 
     @Override
-    public void save(Role user) {
-
+    public Long save(Role user) {
+        return null;
     }
 
     @Override

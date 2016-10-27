@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TourService {
 
-    void save(Tour tour);
+    Long save(Tour tour);
 
     void saveAll(List<Tour> tours);
 

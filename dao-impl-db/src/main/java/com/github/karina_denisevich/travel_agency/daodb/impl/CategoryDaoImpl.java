@@ -1,7 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
 import com.github.karina_denisevich.travel_agency.daodb.CategoryDao;
-import com.github.karina_denisevich.travel_agency.daodb.mapper.CategoryMapper;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.CategoryUnmapper;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,11 +17,6 @@ public class CategoryDaoImpl extends GenericDaoImpl<Category, Long> implements C
 
     public CategoryDaoImpl() {
         super(new CategoryUnmapper());
-    }
-
-    @Override
-    public void update(Category entity) {
-
     }
 
     @Override

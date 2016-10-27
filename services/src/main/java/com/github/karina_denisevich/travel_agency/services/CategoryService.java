@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CategoryService {
 
-    void save(Category category);
+    Long save(Category category);
 
     void saveAll(List<Category> categories);
 

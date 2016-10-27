@@ -6,10 +6,6 @@ import com.github.karina_denisevich.travel_agency.daodb.unmapper.RowUnmapper;
 import com.google.common.base.CaseFormat;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterBatchUpdateUtils;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +14,6 @@ import javax.inject.Inject;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -70,11 +65,20 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
     @Override
     @SuppressWarnings("unchecked")
     public PK insert(T entity) {
-        SimpleJdbcInsert insertEntity = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName(tableName)
-                .usingGeneratedKeyColumns("id");
+        Map map = rowUnmapper.mapColumns(entity);
+        SimpleJdbcInsert insertEntity;
 
-        return (PK) insertEntity.executeAndReturnKey(rowUnmapper.mapColumns(entity));
+        if (map.containsKey("id")) {
+            insertEntity = new SimpleJdbcInsert(jdbcTemplate)
+                    .withTableName(tableName);
+            insertEntity.execute(map);
+            return (PK) map.get("id");
+        } else {
+            insertEntity = new SimpleJdbcInsert(jdbcTemplate)
+                    .withTableName(tableName)
+                    .usingGeneratedKeyColumns("id");
+            return (PK) insertEntity.executeAndReturnKey(map);
+        }
     }
 
     @Override

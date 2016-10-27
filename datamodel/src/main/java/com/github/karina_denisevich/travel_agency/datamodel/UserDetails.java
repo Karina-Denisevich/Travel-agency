@@ -13,6 +13,7 @@ public class UserDetails extends AbstractModel {
     private Date bDate;
     private String phone;
     private String skype;
+    private User user;
 
     public String getFirstName() {
         return firstName;
@@ -60,6 +61,14 @@ public class UserDetails extends AbstractModel {
 
     public void setSkype(String skype) {
         this.skype = skype;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

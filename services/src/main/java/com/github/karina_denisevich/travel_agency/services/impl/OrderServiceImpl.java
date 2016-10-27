@@ -15,8 +15,8 @@ public class OrderServiceImpl implements OrderService {
     OrderDao orderDao;
 
     @Override
-    public void save(Order category) {
-
+    public Long save(Order category) {
+        return null;
     }
 
     @Override

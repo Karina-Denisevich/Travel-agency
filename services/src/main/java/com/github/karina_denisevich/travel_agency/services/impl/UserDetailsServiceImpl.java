@@ -15,8 +15,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     UserDetailsDao userDetailsDao;
 
     @Override
-    public void save(UserDetails userDetails) {
-
+    public Long save(UserDetails userDetails) {
+        if (userDetails.getDiscount() == null) {
+            userDetails.setDiscount(0.0);
+        }
+        if (userDetails.getId() == null) {
+            return userDetailsDao.insert(userDetails);
+        } else {
+            userDetailsDao.update(userDetails);
+            return userDetails.getId();
+        }
     }
 
     @Override

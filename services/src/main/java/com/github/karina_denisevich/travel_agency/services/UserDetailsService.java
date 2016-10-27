@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserDetailsService {
 
-    void save(UserDetails userDetails);
+    Long save(UserDetails userDetails);
 
     void saveAll(List<UserDetails> userDetailses);
 

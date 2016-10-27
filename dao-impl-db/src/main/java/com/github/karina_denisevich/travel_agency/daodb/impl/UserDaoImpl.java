@@ -1,8 +1,8 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
+import com.github.karina_denisevich.travel_agency.daodb.UserDao;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.RoleMapper;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.UserWithRoleMapper;
-import com.github.karina_denisevich.travel_agency.daodb.UserDao;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.UserUnmapper;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -14,7 +14,6 @@ import javax.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
@@ -25,17 +24,6 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
     public UserDaoImpl() {
         super(new UserUnmapper());
     }
-
-//    @Override
-//    public void update(User entity) {
-//
-//        final String sql = "UPDATE user " +
-//                "SET email = ?, password = ?, role_id = ? " +
-//                "WHERE id = ?";
-//
-//        jdbcTemplate.update(sql, entity.getEmail(),
-//                entity.getPassword(), entity.getRole().getId(), 40L);
-//    }
 
     @Override
     public void insertBatch(List<User> entityList) {

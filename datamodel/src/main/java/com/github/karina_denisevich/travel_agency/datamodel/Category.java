@@ -7,7 +7,7 @@ import java.util.List;
 @DbTable(name = "category")
 public class Category extends AbstractModel {
 
-    private enum CategoryEnum {
+    public enum CategoryEnum {
         ESCOURTED_TOUR,
         RAIL_TOUR,
         BUS_TOUR,
@@ -17,14 +17,14 @@ public class Category extends AbstractModel {
         OTHER_TOUR
     }
 
-    private Category type;
+    private CategoryEnum type;
     private List<Tour> tourList;
 
-    public Category getCategory() {
+    public CategoryEnum getType() {
         return type;
     }
 
-    public void setCategory(Category type) {
+    public void setType(CategoryEnum type) {
         this.type = type;
     }
 

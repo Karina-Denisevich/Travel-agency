@@ -15,8 +15,8 @@ public class TourServiceImpl implements TourService {
     TourDao tourDao;
 
     @Override
-    public void save(Tour tour) {
-
+    public Long save(Tour tour) {
+        return null;
     }
 
     @Override

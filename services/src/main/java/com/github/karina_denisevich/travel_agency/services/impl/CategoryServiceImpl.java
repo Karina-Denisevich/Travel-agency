@@ -16,8 +16,13 @@ public class CategoryServiceImpl implements CategoryService {
     CategoryDao categoryDao;
 
     @Override
-    public void save(Category category) {
-
+    public Long save(Category category) {
+        if (category.getId() == null) {
+            return categoryDao.insert(category);
+        } else {
+            categoryDao.update(category);
+            return category.getId();
+        }
     }
 
     @Override

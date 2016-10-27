@@ -1,7 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
 import com.github.karina_denisevich.travel_agency.daodb.OrderDao;
-import com.github.karina_denisevich.travel_agency.daodb.mapper.OrderMapper;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.OrderUnmapper;
 import com.github.karina_denisevich.travel_agency.datamodel.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,11 +17,6 @@ public class OrderDaoImpl extends GenericDaoImpl<Order, Long> implements OrderDa
 
     public OrderDaoImpl(){
         super(new OrderUnmapper());
-    }
-
-    @Override
-    public void update(Order entity) {
-
     }
 
     @Override

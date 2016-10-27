@@ -13,13 +13,11 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:service-context.xml")
-public class SpringRunner {
+public class UserTest {
 
     @Inject
     UserService userService;
 
-    @Inject
-    UserDetailsService userDetailsService;
 
     Long id;
 
@@ -61,18 +59,12 @@ public class SpringRunner {
         userService.delete(id);
     }
 
-    @Test
-    public void userDetailsTest() {
-        UserDetails userDetails = userDetailsService.get(40L);
-
-        Assert.assertEquals("n", userDetails.getFirstName());
-    }
 
     @Test
-    @Ignore
+    //@Ignore
     public void insertTest() {
         User user = new User();
-        user.setEmail("fa799kfbla");
+        user.setEmail("testik");
         user.setPassword("11ff81111");
 
         Long id = userService.save(user);

@@ -52,7 +52,7 @@ CREATE TABLE `user_details` (
 
 CREATE TABLE `tour_2_category` (
   `tour_id`     BIGINT NOT NULL,
-  `categoty_id` BIGINT NOT NULL
+  `category_id` BIGINT NOT NULL
 );
 
 ALTER TABLE `user`
@@ -71,5 +71,5 @@ ALTER TABLE `tour_2_category`
   ADD CONSTRAINT `tour_2_category_fk0` FOREIGN KEY (`tour_id`) REFERENCES `tour` (`id`);
 
 ALTER TABLE `tour_2_category`
-  ADD CONSTRAINT `tour_2_category_fk1` FOREIGN KEY (`categoty_id`) REFERENCES `category` (`id`);
+  ADD CONSTRAINT `tour_2_category_fk1` FOREIGN KEY (category_id) REFERENCES `category` (`id`);
 

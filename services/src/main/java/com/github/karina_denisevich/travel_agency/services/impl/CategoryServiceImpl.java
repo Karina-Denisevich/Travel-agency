@@ -44,4 +44,9 @@ public class CategoryServiceImpl implements CategoryService {
     public void delete(Long id) {
 
     }
+
+    @Override
+    public Category getByType(Category.CategoryEnum type) {
+        return categoryDao.getByType(type);
+    }
 }

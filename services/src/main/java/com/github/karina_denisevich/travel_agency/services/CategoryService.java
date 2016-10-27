@@ -15,4 +15,6 @@ public interface CategoryService {
     List<Category> getAll();
 
     void delete(Long id);
+
+    Category getByType(Category.CategoryEnum type);
 }

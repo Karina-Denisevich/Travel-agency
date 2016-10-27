@@ -1,6 +1,7 @@
 package com.github.karina_denisevich.travel_agency.services;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,5 +27,13 @@ public class CategoryTest {
 
         categoryService.save(category1);
         categoryService.save(category2);
+    }
+
+    @Test
+    @Ignore
+    public void getByType(){
+        Category category = categoryService.getByType(Category.CategoryEnum.OTHER_TOUR);
+        System.out.println(category);
+        Assert.assertEquals(Category.CategoryEnum.OTHER_TOUR, category.getType());
     }
 }

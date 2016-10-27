@@ -1,8 +1,8 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.GenericDaoImpl;
 import com.github.karina_denisevich.travel_agency.daodb.RoleDao;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.RoleMapper;
+import com.github.karina_denisevich.travel_agency.daodb.unmapper.RoleUnmapper;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,13 +18,7 @@ public class RoleDaoImpl extends GenericDaoImpl<Role, Long> implements RoleDao {
     JdbcTemplate jdbcTemplate;
 
     public RoleDaoImpl(){
-        super(new RoleMapper());
-    }
-
-    @Override
-    public Long insert(Role entity) {
-
-        return null;
+        super(new RoleUnmapper());
     }
 
     @Override

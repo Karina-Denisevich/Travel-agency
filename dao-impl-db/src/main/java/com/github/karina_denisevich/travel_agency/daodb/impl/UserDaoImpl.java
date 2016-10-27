@@ -1,21 +1,20 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.GenericDaoImpl;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.RoleMapper;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.UserWithRoleMapper;
 import com.github.karina_denisevich.travel_agency.daodb.UserDao;
+import com.github.karina_denisevich.travel_agency.daodb.unmapper.UserUnmapper;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
@@ -24,43 +23,19 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
     private JdbcTemplate jdbcTemplate;
 
     public UserDaoImpl() {
-        super(new UserWithRoleMapper(new RoleMapper()));
+        super(new UserUnmapper());
     }
 
-    @Override
-    public Long insert(User entity) {
-
-        final String sql = "INSERT INTO user (email, password, role_id)" +
-                " VALUES (?, ?, ?)";
-
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-
-        jdbcTemplate.update(
-                connection -> {
-                    PreparedStatement ps =
-                            connection.prepareStatement(sql, new String[]{"id"});
-                    ps.setString(1, entity.getEmail());
-                    ps.setString(2, entity.getPassword());
-                    ps.setLong(3, entity.getRole().getId());
-                    return ps;
-                },
-                keyHolder);
-
-        entity.setId(keyHolder.getKey().longValue());
-
-        return entity.getId();
-    }
-
-    @Override
-    public void update(User entity) {
-
-        final String sql = "UPDATE user " +
-                "SET email = ?, password = ?, role_id = ? " +
-                "WHERE id = ?";
-
-        jdbcTemplate.update(sql, entity.getEmail(),
-                entity.getPassword(), entity.getRole().getId());
-    }
+//    @Override
+//    public void update(User entity) {
+//
+//        final String sql = "UPDATE user " +
+//                "SET email = ?, password = ?, role_id = ? " +
+//                "WHERE id = ?";
+//
+//        jdbcTemplate.update(sql, entity.getEmail(),
+//                entity.getPassword(), entity.getRole().getId(), 40L);
+//    }
 
     @Override
     public void insertBatch(List<User> entityList) {

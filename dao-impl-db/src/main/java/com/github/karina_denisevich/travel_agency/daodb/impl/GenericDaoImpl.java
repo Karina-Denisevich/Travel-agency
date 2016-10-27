@@ -1,10 +1,16 @@
-package com.github.karina_denisevich.travel_agency.daodb;
+package com.github.karina_denisevich.travel_agency.daodb.impl;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTable;
+import com.github.karina_denisevich.travel_agency.daodb.GenericDao;
+import com.github.karina_denisevich.travel_agency.daodb.unmapper.RowUnmapper;
 import com.google.common.base.CaseFormat;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterBatchUpdateUtils;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +18,9 @@ import javax.inject.Inject;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public abstract class GenericDaoImpl<T, PK extends Serializable> implements GenericDao<T, PK> {
@@ -22,14 +30,14 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
 
     private final Class<T> genericType;
 
-    private final RowMapper<T> rowMapper;
+    private final RowUnmapper<T> rowUnmapper;
 
     private final String tableName;
 
     @SuppressWarnings("unchecked")
-    public GenericDaoImpl(RowMapper<T> rowMapper) {
+    public GenericDaoImpl(RowUnmapper<T> rowUnmapper) {
 
-        this.rowMapper = rowMapper;
+        this.rowUnmapper = rowUnmapper;
 
         this.genericType = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
@@ -60,13 +68,37 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public PK insert(T entity) {
-        return null;
+        SimpleJdbcInsert insertEntity = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName(tableName)
+                .usingGeneratedKeyColumns("id");
+
+        return (PK) insertEntity.executeAndReturnKey(rowUnmapper.mapColumns(entity));
     }
 
     @Override
     public void update(T entity) {
+        StringBuilder sql = new StringBuilder("UPDATE " + tableName + " SET ");
 
+        Map<String, Object> map = rowUnmapper.mapColumns(entity);
+        Object[] valueArr = new Object[map.size()];
+
+        int index = 0;
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            if (index < map.size() - 1) {
+                sql.append(entry.getKey().concat(" = ?"));
+                if (index < map.size() - 2) {
+                    sql.append(",");
+                }
+                sql.append(" ");
+            }
+            valueArr[index] = entry.getValue();
+            index++;
+        }
+        sql.append("WHERE id = ?");
+
+        jdbcTemplate.update(sql.toString(), valueArr);
     }
 
     @Override

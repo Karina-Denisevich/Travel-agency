@@ -23,12 +23,21 @@ public class SpringRunner {
 
     Long id;
 
-    @Before
+    //@Before
     public void executeBeforeEachTest() {
         User user = new User();
         user.setEmail("TEST");
         user.setPassword("111111");
         id = userService.save(user);
+    }
+
+    @Test
+    public void updateTest(){
+        User user = new User();
+        user.setId(40L);
+        user.setEmail("TESTUPDATE");
+        user.setPassword("111111");
+        userService.save(user);
     }
 
     @Test
@@ -43,7 +52,6 @@ public class SpringRunner {
     @Test
     public void getAllTest() {
         List<User> userList = userService.getAll();
-
         Assert.assertNotNull("users' list should not be null", userList);
     }
 
@@ -95,7 +103,7 @@ public class SpringRunner {
         userService.saveAll(userList);
     }
 
-    @Test
+   // @Test
     public void getWithRoleTest() {
         User user = userService.getWithRole(id);
         Assert.assertNotNull("user for id=" + id + " should not be null", user);
@@ -103,7 +111,7 @@ public class SpringRunner {
         Assert.assertEquals(id, user.getId());
     }
 
-    @After
+   // @After
     public void executeAfter() {
         userService.delete(id);
     }

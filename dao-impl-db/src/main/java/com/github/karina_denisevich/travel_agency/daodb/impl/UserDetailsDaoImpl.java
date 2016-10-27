@@ -1,8 +1,8 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.GenericDaoImpl;
 import com.github.karina_denisevich.travel_agency.daodb.UserDetailsDao;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.UserDetailsMapper;
+import com.github.karina_denisevich.travel_agency.daodb.unmapper.UserDetailsUnmapper;
 import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -18,12 +18,7 @@ public class UserDetailsDaoImpl extends GenericDaoImpl<UserDetails, Long>
     JdbcTemplate jdbcTemplate;
 
     public UserDetailsDaoImpl() {
-        super(new UserDetailsMapper());
-    }
-
-    @Override
-    public Long insert(UserDetails entity) {
-        return null;
+        super(new UserDetailsUnmapper());
     }
 
     @Override

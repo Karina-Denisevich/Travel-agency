@@ -2,6 +2,7 @@ package com.github.karina_denisevich.travel_agency.daodb.impl;
 
 import com.github.karina_denisevich.travel_agency.daodb.GenericDaoImpl;
 import com.github.karina_denisevich.travel_agency.daodb.OrderDao;
+import com.github.karina_denisevich.travel_agency.daodb.mapper.OrderMapper;
 import com.github.karina_denisevich.travel_agency.datamodel.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,10 @@ public class OrderDaoImpl extends GenericDaoImpl<Order, Long> implements OrderDa
 
     @Inject
     JdbcTemplate jdbcTemplate;
+
+    public OrderDaoImpl(){
+        super(new OrderMapper());
+    }
 
     @Override
     public Long insert(Order entity) {

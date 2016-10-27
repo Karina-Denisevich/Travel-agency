@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserWithRoleMapper implements RowMapper<User> {
@@ -25,6 +26,9 @@ public class UserWithRoleMapper implements RowMapper<User> {
         entity.setPassword(rs.getString("password"));
 
         Role role = this.roleMapper.mapRow(rs, rowNum);
+        List<User> userList = new ArrayList<>();
+        userList.add(entity);
+        role.setUsers(userList);
         entity.setRole(role);
 
         return entity;

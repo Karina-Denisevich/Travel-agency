@@ -4,6 +4,7 @@ import com.github.karina_denisevich.travel_agency.annotation.DbTable;
 import com.google.common.base.CaseFormat;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
@@ -20,10 +21,14 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
 
     private final Class<T> genericType;
 
+    private final RowMapper<T> rowMapper;
+
     private final String tableName;
 
     @SuppressWarnings("unchecked")
-    public GenericDaoImpl() {
+    public GenericDaoImpl(RowMapper<T> rowMapper) {
+
+        this.rowMapper = rowMapper;
 
         this.genericType = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
@@ -41,7 +46,7 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
         }
     }
 
-    private String getTableName(String className){
+    private String getTableName(String className) {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, className);
     }
 
@@ -49,8 +54,7 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
     public T get(PK id) {
         String sql = "SELECT * FROM " + tableName + " WHERE id = ?";
 
-        return jdbcTemplate.queryForObject(sql, new Object[]{id},
-                new BeanPropertyRowMapper<>(genericType));
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
     }
 
     @Override

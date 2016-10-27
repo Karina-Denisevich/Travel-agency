@@ -23,6 +23,10 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
     @Inject
     private JdbcTemplate jdbcTemplate;
 
+    public UserDaoImpl(){
+        super(new UserWithRoleMapper(new RoleMapper()));
+    }
+
     @Override
     public Long insert(User entity) {
 

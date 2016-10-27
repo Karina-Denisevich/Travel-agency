@@ -2,6 +2,7 @@ package com.github.karina_denisevich.travel_agency.daodb.impl;
 
 import com.github.karina_denisevich.travel_agency.daodb.GenericDaoImpl;
 import com.github.karina_denisevich.travel_agency.daodb.TourDao;
+import com.github.karina_denisevich.travel_agency.daodb.mapper.TourMapper;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,10 @@ public class TourDaoImpl extends GenericDaoImpl<Tour, Long> implements TourDao {
 
     @Inject
     JdbcTemplate jdbcTemplate;
+
+    public TourDaoImpl(){
+        super(new TourMapper());
+    }
 
     @Override
     public Long insert(Tour entity) {

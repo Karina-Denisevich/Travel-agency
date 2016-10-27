@@ -23,7 +23,7 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
     @Inject
     private JdbcTemplate jdbcTemplate;
 
-    public UserDaoImpl(){
+    public UserDaoImpl() {
         super(new UserWithRoleMapper(new RoleMapper()));
     }
 
@@ -60,25 +60,6 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
 
         jdbcTemplate.update(sql, entity.getEmail(),
                 entity.getPassword(), entity.getRole().getId());
-    }
-
-    @Override
-    public void delete(Long id) {
-
-        final String sql = "DELETE FROM user WHERE id = ?";
-
-        jdbcTemplate.update(sql, id);
-    }
-
-    @Override
-    public List<User> getAll() {
-
-        final String sql = "SELECT * FROM user";
-
-        List<User> users = jdbcTemplate.query(sql,
-                new BeanPropertyRowMapper<>(User.class));
-
-        return users;
     }
 
     @Override
@@ -122,5 +103,4 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
                 new Object[]{id},
                 new UserWithRoleMapper(new RoleMapper()));
     }
-
 }

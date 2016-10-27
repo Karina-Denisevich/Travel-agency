@@ -31,16 +31,6 @@ public class TourDaoImpl extends GenericDaoImpl<Tour, Long> implements TourDao {
     }
 
     @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
-    public List<Tour> getAll() {
-        return null;
-    }
-
-    @Override
     public void insertBatch(List<Tour> tours) {
     }
 }

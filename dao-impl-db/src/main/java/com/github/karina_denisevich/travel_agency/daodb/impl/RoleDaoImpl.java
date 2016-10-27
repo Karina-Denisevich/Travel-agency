@@ -33,16 +33,6 @@ public class RoleDaoImpl extends GenericDaoImpl<Role, Long> implements RoleDao {
     }
 
     @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
-    public List<Role> getAll() {
-        return null;
-    }
-
-    @Override
     public Role getByType(Role.RoleEnum roleEnum) {
         String sql = "SELECT * FROM role WHERE type = ?";
 

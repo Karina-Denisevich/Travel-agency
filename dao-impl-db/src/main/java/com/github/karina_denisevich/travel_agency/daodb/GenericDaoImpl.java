@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.io.Serializable;
@@ -54,7 +55,8 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
     public T get(PK id) {
         String sql = "SELECT * FROM " + tableName + " WHERE id = ?";
 
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
+        return jdbcTemplate.queryForObject(sql, new Object[]{id},
+                new BeanPropertyRowMapper<>(genericType));
     }
 
     @Override
@@ -69,15 +71,22 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
 
     @Override
     public void delete(PK id) {
+        final String sql = "DELETE FROM " + tableName + " WHERE id = ?";
 
+        jdbcTemplate.update(sql, id);
     }
 
     @Override
     public List<T> getAll() {
-        return null;
+
+        final String sql = "SELECT * FROM " + tableName;
+
+        return jdbcTemplate.query(sql,
+                new BeanPropertyRowMapper<>(genericType));
     }
 
     @Override
+    @Transactional
     public void insertBatch(List<T> tList) {
 
     }

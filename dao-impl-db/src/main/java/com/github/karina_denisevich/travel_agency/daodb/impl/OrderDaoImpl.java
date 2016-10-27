@@ -31,16 +31,6 @@ public class OrderDaoImpl extends GenericDaoImpl<Order, Long> implements OrderDa
     }
 
     @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
-    public List<Order> getAll() {
-        return null;
-    }
-
-    @Override
     public void insertBatch(List<Order> orders) {
     }
 }

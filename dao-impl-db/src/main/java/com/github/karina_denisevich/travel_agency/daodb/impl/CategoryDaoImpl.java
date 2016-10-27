@@ -32,16 +32,6 @@ public class CategoryDaoImpl extends GenericDaoImpl<Category, Long> implements C
     }
 
     @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
-    public List<Category> getAll() {
-        return null;
-    }
-
-    @Override
     public void insertBatch(List<Category> categories) {
 
     }

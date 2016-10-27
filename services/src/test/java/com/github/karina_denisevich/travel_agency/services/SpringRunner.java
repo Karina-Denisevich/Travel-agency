@@ -44,7 +44,7 @@ public class SpringRunner {
     public void getAllTest() {
         List<User> userList = userService.getAll();
 
-        Assert.assertNotNull("user' list should not be null", userList);
+        Assert.assertNotNull("users' list should not be null", userList);
     }
 
     @Test

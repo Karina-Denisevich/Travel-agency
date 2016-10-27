@@ -2,6 +2,8 @@ package com.github.karina_denisevich.travel_agency.datamodel;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTable;
 
+import java.util.List;
+
 @DbTable(name = "category")
 public class Category extends AbstractModel {
 
@@ -16,6 +18,7 @@ public class Category extends AbstractModel {
     }
 
     private Category type;
+    private List<Tour> tourList;
 
     public Category getCategory() {
         return type;
@@ -23,6 +26,14 @@ public class Category extends AbstractModel {
 
     public void setCategory(Category type) {
         this.type = type;
+    }
+
+    public List<Tour> getTourList() {
+        return tourList;
+    }
+
+    public void setTourList(List<Tour> tourList) {
+        this.tourList = tourList;
     }
 
     @Override

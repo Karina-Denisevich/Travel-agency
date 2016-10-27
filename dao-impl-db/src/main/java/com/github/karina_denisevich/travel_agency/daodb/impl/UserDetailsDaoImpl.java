@@ -17,7 +17,7 @@ public class UserDetailsDaoImpl extends GenericDaoImpl<UserDetails, Long>
     @Inject
     JdbcTemplate jdbcTemplate;
 
-    public UserDetailsDaoImpl(){
+    public UserDetailsDaoImpl() {
         super(new UserDetailsMapper());
     }
 
@@ -29,16 +29,6 @@ public class UserDetailsDaoImpl extends GenericDaoImpl<UserDetails, Long>
     @Override
     public void update(UserDetails entity) {
 
-    }
-
-    @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
-    public List<UserDetails> getAll() {
-        return null;
     }
 
     @Override

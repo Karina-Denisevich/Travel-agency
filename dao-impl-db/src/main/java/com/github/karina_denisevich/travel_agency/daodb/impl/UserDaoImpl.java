@@ -4,6 +4,7 @@ import com.github.karina_denisevich.travel_agency.daodb.UserDao;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.RoleMapper;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.UserWithRoleMapper;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.UserUnmapper;
+import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -65,5 +66,14 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
         return jdbcTemplate.queryForObject(sql,
                 new Object[]{id},
                 new UserWithRoleMapper(new RoleMapper()));
+    }
+
+    @Override
+    public List<User> getByRole(Role role) {
+
+        final String sql = "SELECT * FROM user WHERE role_id = ?";
+
+        return jdbcTemplate.query(sql, new Object[]{role.getId()},
+                new BeanPropertyRowMapper<>(User.class));
     }
 }

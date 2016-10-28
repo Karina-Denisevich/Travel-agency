@@ -7,6 +7,7 @@ import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import com.github.karina_denisevich.travel_agency.services.TourService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -23,6 +24,7 @@ public class TourServiceImpl implements TourService {
     @Inject
     Tour2CategoryDao tour2CategoryDao;
 
+    @Transactional
     @Override
     public Long save(Tour tour) {
 

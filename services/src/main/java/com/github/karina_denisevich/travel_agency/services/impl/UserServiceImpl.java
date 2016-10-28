@@ -6,6 +6,7 @@ import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -19,6 +20,7 @@ public class UserServiceImpl implements UserService {
     @Inject
     RoleDao roleDao;
 
+    @Transactional
     @Override
     public Long save(User user) {
         user.setRole(getUserRole(user));

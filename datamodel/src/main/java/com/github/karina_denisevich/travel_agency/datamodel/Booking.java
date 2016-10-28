@@ -4,13 +4,13 @@ import com.github.karina_denisevich.travel_agency.annotation.DbTable;
 
 import java.util.Date;
 
-@DbTable(name = "order")
-public class Order extends AbstractModel {
+@DbTable(name = "booking")
+public class Booking extends AbstractModel {
 
     private Date orderDate;
     private Boolean isConfirmed;
-    private Long userId;
-    private Long tourId;
+    private User user;
+    private Tour tour;
 
     public Date getOrderDate() {
         return orderDate;
@@ -28,29 +28,27 @@ public class Order extends AbstractModel {
         isConfirmed = confirmed;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Long getTourId() {
-        return tourId;
+    public Tour getTour() {
+        return tour;
     }
 
-    public void setTourId(Long tourId) {
-        this.tourId = tourId;
+    public void setTour(Tour tour) {
+        this.tour = tour;
     }
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "Booking{" +
                 "orderDate=" + orderDate +
                 ", isConfirmed=" + isConfirmed +
-                ", userId=" + userId +
-                ", tourId=" + tourId +
                 '}';
     }
 }

@@ -30,7 +30,7 @@ CREATE TABLE `category` (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `order` (
+CREATE TABLE `booking` (
   `id`         BIGINT  NOT NULL AUTO_INCREMENT,
   `order_date` DATE    NOT NULL,
   `confirmed`  TINYINT NOT NULL DEFAULT '0',
@@ -58,11 +58,11 @@ CREATE TABLE `tour_2_category` (
 ALTER TABLE `user`
   ADD CONSTRAINT `user_fk0` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
 
-ALTER TABLE `order`
-  ADD CONSTRAINT `order_fk0` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+ALTER TABLE `booking`
+  ADD CONSTRAINT `booking_fk0` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
-ALTER TABLE `order`
-  ADD CONSTRAINT `order_fk1` FOREIGN KEY (`tour_id`) REFERENCES `tour` (`id`);
+ALTER TABLE `booking`
+  ADD CONSTRAINT `booking_fk1` FOREIGN KEY (`tour_id`) REFERENCES `tour` (`id`);
 
 ALTER TABLE `user_details`
   ADD CONSTRAINT `user_details_fk0` FOREIGN KEY (`id`) REFERENCES `user` (`id`);

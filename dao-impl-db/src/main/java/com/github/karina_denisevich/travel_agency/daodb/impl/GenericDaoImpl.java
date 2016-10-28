@@ -34,8 +34,8 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
 
         this.rowUnmapper = rowUnmapper;
 
-        this.genericType = (Class<T>) ((ParameterizedType) getClass()
-                .getGenericSuperclass()).getActualTypeArguments()[0];
+        this.genericType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
+                .getActualTypeArguments()[0];
 
         if (genericType.isAnnotationPresent(DbTable.class)) {
             Annotation annotation = genericType.getAnnotation(DbTable.class);

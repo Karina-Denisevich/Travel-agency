@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveAll(List<User> users) {
-        for(User user: users){
+        for (User user : users) {
             user.setRole(getUserRole(user));
         }
         userDao.insertBatch(users);
@@ -43,13 +43,11 @@ public class UserServiceImpl implements UserService {
 
     private Role getUserRole(User user) {
         Role role = user.getRole();
-        if (user.getRole() == null) {
-            // role.setType(Role.RoleEnum.ROLE_USER);
-            //или
-            role = roleDao.getByType(Role.RoleEnum.valueOf("ROLE_USER"));
-            user.setRole(role);
+        if (role == null) {
+            return roleDao.getByType(Role.RoleEnum.valueOf("ROLE_USER"));
+        } else if (role.getId() == null) {
+            return roleDao.getByType(Role.RoleEnum.valueOf("ROLE_USER"));
         }
-//TODO: что делать с ролью. в сервисе доставать из бд(по id Или по строке) или в  дао прямо в запрос вставлять
         return role;
     }
 

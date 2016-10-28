@@ -64,7 +64,7 @@ public class UserTest {
     //@Ignore
     public void insertTest() {
         User user = new User();
-        user.setEmail("testik");
+        user.setEmail("asdfghjdjks");
         user.setPassword("11ff81111");
 
         Long id = userService.save(user);

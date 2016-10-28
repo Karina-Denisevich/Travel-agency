@@ -33,8 +33,8 @@ public class TourTest {
         tour.setCategoryList(categories);
         tour.setDescription("Some tour");
         tour.setIsHot(false);
-        tour.setPrice(1000.0);
-        tour.setTitle("Beach tour");
+        tour.setPrice(800.0);
+        tour.setTitle("Beach2 tour");
 
         Long pk = tourService.save(tour);
         Assert.assertNotNull(pk);

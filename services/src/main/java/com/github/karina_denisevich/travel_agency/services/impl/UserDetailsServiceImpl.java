@@ -1,9 +1,11 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
+import com.github.karina_denisevich.travel_agency.daodb.UserDao;
 import com.github.karina_denisevich.travel_agency.daodb.UserDetailsDao;
 import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
 import com.github.karina_denisevich.travel_agency.services.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -14,8 +16,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Inject
     UserDetailsDao userDetailsDao;
 
+    @Inject
+    UserDao userDao;
+
+    @Transactional
     @Override
     public Long save(UserDetails userDetails) {
+        if (userDetails.getUser().getId() == null) {
+            userDetails.setUser(userDao.getByEmail(userDetails.getUser().getEmail()));
+        }
         if (userDetails.getDiscount() == null) {
             userDetails.setDiscount(0.0);
         }

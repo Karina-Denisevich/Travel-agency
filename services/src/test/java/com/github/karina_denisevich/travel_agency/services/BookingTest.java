@@ -26,11 +26,11 @@ public class BookingTest {
         User user = new User();
         Tour tour = new Tour();
 
-        user.setEmail("mmm");
-        tour.setTitle("Beach tour");
+        user.setEmail("t");
+        tour.setTitle("Beach2 tour");
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString = "2010-10-06";
+        String dateInString = "2011-12-06";
         try {
             booking.setOrderDate(sdf.parse(dateInString));
         } catch (ParseException e) {

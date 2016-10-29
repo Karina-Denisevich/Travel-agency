@@ -26,29 +26,41 @@ public class UserDetailsTest {
     public void insertTest() {
         UserDetails userDetails = new UserDetails();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString = "1980-10-08";
+        String dateInString = "1992-10-18";
         try {
             userDetails.setbDate(sdf.parse(dateInString));
         } catch (ParseException e) {
             throw new IllegalArgumentException();
         }
-        userDetails.setPhone("+375292222222");
-        userDetails.setFirstName("Name2");
-        userDetails.setLastName("LName2");
+        userDetails.setPhone("+375292442222");
+        userDetails.setFirstName("Name4");
+        userDetails.setLastName("LName4");
         User user = new User();
-        user.setEmail("updated");
+        user.setId(104L); //setEmail();
         userDetails.setUser(user);
 
         Long descId = userDetailsService.save(userDetails);
 
         Assert.assertNotNull(descId);
-        Assert.assertEquals(userService.getByEmail("updated").getId(), descId);
+        Assert.assertEquals(userService.get(104L).getId(), descId);
     }
 
     @Test
-    public void userDetailsTest() {
-        UserDetails userDetails = userDetailsService.get(40L);
+    public void updateTest() {
+        UserDetails userDetails = new UserDetails();
+        userDetails.setId(40L);
+        userDetails.setFirstName("f");
+        userDetails.setLastName("l");
+        userDetails.setPhone("+375290000000");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateInString = "1985-11-08";
+        try {
+            userDetails.setbDate(sdf.parse(dateInString));
+        } catch (ParseException e) {
+            throw new IllegalArgumentException();
+        }
+        userDetailsService.save(userDetails);
 
-        Assert.assertEquals("n", userDetails.getFirstName());
+        Assert.assertEquals(userDetails.getFirstName(), userDetailsService.get(40L).getFirstName());
     }
 }

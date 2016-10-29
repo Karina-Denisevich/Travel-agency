@@ -38,6 +38,8 @@ public class TourServiceImpl implements TourService {
             tour2CategoryDao.insertBatch(tour);
             return id;
         } else {
+            tour2CategoryDao.deleteByTourId(tour.getId());
+            tour2CategoryDao.insertBatch(tour);
             tourDao.update(tour);
             return tour.getId();
         }

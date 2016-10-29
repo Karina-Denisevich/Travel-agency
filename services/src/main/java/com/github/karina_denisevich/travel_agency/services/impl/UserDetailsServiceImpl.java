@@ -22,13 +22,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional
     @Override
     public Long save(UserDetails userDetails) {
-        if (userDetails.getUser().getId() == null) {
-            userDetails.setUser(userDao.getByEmail(userDetails.getUser().getEmail()));
-        }
         if (userDetails.getDiscount() == null) {
             userDetails.setDiscount(0.0);
         }
         if (userDetails.getId() == null) {
+            if (userDetails.getUser().getId() == null) {
+                userDetails.setId(userDao.getByEmail(userDetails.getUser().getEmail()).getId());
+            }else{
+                userDetails.setId(userDetails.getUser().getId());
+            }
             return userDetailsDao.insert(userDetails);
         } else {
             userDetailsDao.update(userDetails);

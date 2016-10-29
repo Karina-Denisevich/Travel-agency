@@ -6,6 +6,7 @@ import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -27,7 +28,7 @@ public class BookingTest {
         Tour tour = new Tour();
 
         user.setEmail("t");
-        tour.setTitle("Beach2 tour");
+        tour.setTitle("Beach tour");
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateInString = "2011-12-06";

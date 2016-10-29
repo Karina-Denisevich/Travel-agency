@@ -16,7 +16,7 @@ public class UserDetailsUnmapper implements RowUnmapper<UserDetails> {
         map.put("bdate", userDetails.getbDate());
         map.put("phone", userDetails.getPhone());
         map.put("skype", userDetails.getSkype());
-        map.put("id", userDetails.getUser().getId());
+        map.put("id", userDetails.getId());
 
         return map;
     }

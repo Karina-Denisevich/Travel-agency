@@ -2,6 +2,7 @@ package com.github.karina_denisevich.travel_agency.services;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -20,6 +21,17 @@ public class RoleTest {
     public void insert(){
         Role role = new Role();
         role.setType(Role.RoleEnum.ROLE_ANONYMOUS);
+        Long pk = roleService.save(role);
+
+        Assert.assertNotNull(pk);
+    }
+
+    @Test
+    @Ignore
+    public void updateTest(){
+        Role role = new Role();
+        role.setId(1L);
+        role.setType(Role.RoleEnum.ROLE_ADMIN);
         Long pk = roleService.save(role);
 
         Assert.assertNotNull(pk);

@@ -38,4 +38,11 @@ public class Tour2CategoryDaoImpl implements Tour2CategoryDao{
             }
         });
     }
+
+    @Override
+    public void deleteByTourId(Long id) {
+        final String sql = "DELETE FROM tour_2_category WHERE tour_id = ?";
+
+        jdbcTemplate.update(sql, id);
+    }
 }

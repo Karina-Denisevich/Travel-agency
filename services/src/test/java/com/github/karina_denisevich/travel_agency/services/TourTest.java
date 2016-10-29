@@ -39,4 +39,26 @@ public class TourTest {
         Long pk = tourService.save(tour);
         Assert.assertNotNull(pk);
     }
+
+    @Test
+    public void updateTest(){
+        Tour tour = new Tour();
+        Category category = new Category();
+        category.setType(Category.CategoryEnum.SHOP_TOUR);
+        Category category1 = new Category();
+        category1.setType(Category.CategoryEnum.OTHER_TOUR);
+        List<Category> categories = new ArrayList<>();
+        categories.add(category);
+        categories.add(category1);
+
+        tour.setId(4L);
+        tour.setCategoryList(categories);
+        tour.setDescription("Updated tour");
+        tour.setIsHot(false);
+        tour.setPrice(800.0);
+        tour.setTitle("Shop tour");
+
+        Long pk = tourService.save(tour);
+        Assert.assertNotNull(pk);
+    }
 }

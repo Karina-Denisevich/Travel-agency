@@ -1,6 +1,7 @@
 package com.github.karina_denisevich.travel_agency.services;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
+import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -30,6 +31,16 @@ public class CategoryTest {
 
         Assert.assertNotNull(pk1);
         Assert.assertNotNull(pk2);
+    }
+
+    @Test
+    public void updateTest(){
+        Category category = new Category();
+        category.setId(4L);
+        category.setType(Category.CategoryEnum.SAFARI_TOUR);
+        Long pk = categoryService.save(category);
+
+        Assert.assertNotNull(pk);
     }
 
     @Test

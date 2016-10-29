@@ -33,7 +33,7 @@ public class UserTest {
     public void updateTest(){
         User user = new User();
         user.setId(40L);
-        user.setEmail("TESTUPDATE");
+        user.setEmail("NewName");
         user.setPassword("111111");
         userService.save(user);
     }

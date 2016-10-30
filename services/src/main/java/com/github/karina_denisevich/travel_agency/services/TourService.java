@@ -15,4 +15,6 @@ public interface TourService {
     List<Tour> getAll();
 
     void delete(Long id);
+
+    Tour getByTitle(String title);
 }

@@ -5,6 +5,7 @@ import com.github.karina_denisevich.travel_agency.daodb.Tour2CategoryDao;
 import com.github.karina_denisevich.travel_agency.daodb.TourDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
+import com.github.karina_denisevich.travel_agency.services.CategoryService;
 import com.github.karina_denisevich.travel_agency.services.TourService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,7 @@ public class TourServiceImpl implements TourService {
     TourDao tourDao;
 
     @Inject
-    CategoryDao categoryDao;
+    CategoryService categoryService;
 
     @Inject
     Tour2CategoryDao tour2CategoryDao;
@@ -30,7 +31,7 @@ public class TourServiceImpl implements TourService {
 
         List<Category> categories = tour.getCategoryList();
         categories.stream().filter(category -> category.getId() == null).forEach(category ->
-                categories.set(categories.indexOf(category), categoryDao.getByType(category.getType())));
+                categories.set(categories.indexOf(category), categoryService.getByType(category.getType())));
 
         if (tour.getId() == null) {
             Long id = tourDao.insert(tour);
@@ -63,5 +64,10 @@ public class TourServiceImpl implements TourService {
     @Override
     public void delete(Long id) {
 
+    }
+
+    @Override
+    public Tour getByTitle(String title) {
+        return tourDao.getByTitle(title);
     }
 }

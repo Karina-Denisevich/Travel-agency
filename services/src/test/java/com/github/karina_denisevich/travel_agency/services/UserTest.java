@@ -56,6 +56,7 @@ public class UserTest {
     @Test
     @Ignore
     public void deleteTest() {
+        
         userService.delete(id);
     }
 
@@ -64,7 +65,7 @@ public class UserTest {
     //@Ignore
     public void insertTest() {
         User user = new User();
-        user.setEmail("asdfghjdjks");
+        user.setEmail("e1mal@");
         user.setPassword("11ff81111");
 
         Long id = userService.save(user);
@@ -74,7 +75,7 @@ public class UserTest {
         User userFromDb = userService.get(id);
 
         Assert.assertEquals(user.getEmail(), userFromDb.getEmail());
-        userService.delete(id);
+       // userService.delete(id);
     }
 
     @Test

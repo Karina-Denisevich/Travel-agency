@@ -1,10 +1,10 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
 import com.github.karina_denisevich.travel_agency.daodb.BookingDao;
-import com.github.karina_denisevich.travel_agency.daodb.TourDao;
-import com.github.karina_denisevich.travel_agency.daodb.UserDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Booking;
 import com.github.karina_denisevich.travel_agency.services.BookingService;
+import com.github.karina_denisevich.travel_agency.services.TourService;
+import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +18,10 @@ public class BookingServiceImpl implements BookingService {
     BookingDao bookingDao;
 
     @Inject
-    UserDao userDao;
+    UserService userService;
 
     @Inject
-    TourDao tourDao;
+    TourService tourService;
 
     @Transactional
     @Override
@@ -31,10 +31,10 @@ public class BookingServiceImpl implements BookingService {
             booking.setConfirmed(false);
         }
         if (booking.getUser().getId() == null) {
-            booking.setUser(userDao.getByEmail(booking.getUser().getEmail()));
+            booking.setUser(userService.getByEmail(booking.getUser().getEmail()));
         }
         if (booking.getTour().getId() == null) {
-            booking.setTour(tourDao.getByTitle(booking.getTour().getTitle()));
+            booking.setTour(tourService.getByTitle(booking.getTour().getTitle()));
         }
 
         if (booking.getId() == null) {
@@ -62,6 +62,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void delete(Long id) {
-
+        bookingDao.delete(id);
     }
 }

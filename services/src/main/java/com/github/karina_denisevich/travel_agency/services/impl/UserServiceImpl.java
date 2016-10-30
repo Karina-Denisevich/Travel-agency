@@ -1,9 +1,10 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.RoleDao;
 import com.github.karina_denisevich.travel_agency.daodb.UserDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
+import com.github.karina_denisevich.travel_agency.services.BookingService;
+import com.github.karina_denisevich.travel_agency.services.RoleService;
 import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,10 @@ public class UserServiceImpl implements UserService {
     UserDao userDao;
 
     @Inject
-    RoleDao roleDao;
+    RoleService roleService;
+
+    @Inject
+    BookingService bookingService;
 
     @Transactional
     @Override
@@ -44,9 +48,9 @@ public class UserServiceImpl implements UserService {
     private Role getUserRole(User user) {
         Role role = user.getRole();
         if (role == null) {
-            return roleDao.getByType(Role.RoleEnum.valueOf("ROLE_USER"));
+            return roleService.getByType(Role.RoleEnum.valueOf("ROLE_USER"));
         } else if (role.getId() == null) {
-            return roleDao.getByType(Role.RoleEnum.valueOf("ROLE_USER"));
+            return roleService.getByType(Role.RoleEnum.valueOf("ROLE_USER"));
         }
         return role;
     }
@@ -61,8 +65,12 @@ public class UserServiceImpl implements UserService {
         return userDao.getAll();
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
+
+
+
         userDao.delete(id);
     }
 

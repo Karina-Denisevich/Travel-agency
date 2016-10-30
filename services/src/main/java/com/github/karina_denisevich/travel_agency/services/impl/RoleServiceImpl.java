@@ -3,7 +3,6 @@ package com.github.karina_denisevich.travel_agency.services.impl;
 import com.github.karina_denisevich.travel_agency.daodb.RoleDao;
 import com.github.karina_denisevich.travel_agency.daodb.UserDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
-import com.github.karina_denisevich.travel_agency.datamodel.User;
 import com.github.karina_denisevich.travel_agency.services.RoleService;
 import org.springframework.stereotype.Service;
 
@@ -48,5 +47,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void delete(Long id) {
 
+    }
+
+    @Override
+    public Role getByType(Role.RoleEnum type) {
+        return roleDao.getByType(type);
     }
 }

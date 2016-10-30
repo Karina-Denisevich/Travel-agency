@@ -6,7 +6,6 @@ import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,7 +18,7 @@ import java.text.SimpleDateFormat;
 public class BookingTest {
 
     @Inject
-    BookingService orderService;
+    BookingService bookingService;
 
     @Test
     public void insertTest(){
@@ -41,7 +40,33 @@ public class BookingTest {
         booking.setUser(user);
         booking.setTour(tour);
 
-        Long id = orderService.save(booking);
+        Long id = bookingService.save(booking);
+
+        Assert.assertNotNull(id);
+    }
+
+    @Test
+    public void updateTest(){
+        Booking booking = new Booking();
+        User user = new User();
+        Tour tour = new Tour();
+
+        user.setEmail("nnn");
+        tour.setTitle("Shop tour");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateInString = "2011-12-06";
+        try {
+            booking.setOrderDate(sdf.parse(dateInString));
+        } catch (ParseException e) {
+            throw new IllegalArgumentException();
+        }
+
+        booking.setId(3L);
+        booking.setUser(user);
+        booking.setTour(tour);
+
+        Long id = bookingService.save(booking);
 
         Assert.assertNotNull(id);
     }

@@ -15,4 +15,6 @@ public interface RoleService {
     List<Role> getAll();
 
     void delete(Long id);
+
+    Role getByType(Role.RoleEnum type);
 }

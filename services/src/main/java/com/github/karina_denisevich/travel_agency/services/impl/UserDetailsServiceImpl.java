@@ -4,6 +4,7 @@ import com.github.karina_denisevich.travel_agency.daodb.UserDao;
 import com.github.karina_denisevich.travel_agency.daodb.UserDetailsDao;
 import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
 import com.github.karina_denisevich.travel_agency.services.UserDetailsService;
+import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +18,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     UserDetailsDao userDetailsDao;
 
     @Inject
-    UserDao userDao;
+    UserService userService;
 
     @Transactional
     @Override
@@ -27,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         if (userDetails.getId() == null) {
             if (userDetails.getUser().getId() == null) {
-                userDetails.setId(userDao.getByEmail(userDetails.getUser().getEmail()).getId());
+                userDetails.setId(userService.getByEmail(userDetails.getUser().getEmail()).getId());
             }else{
                 userDetails.setId(userDetails.getUser().getId());
             }

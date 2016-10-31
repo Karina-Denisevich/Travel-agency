@@ -1,6 +1,6 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.Tour2CategoryDao;
+import com.github.karina_denisevich.travel_agency.daodb.TourToCategoryDao;
 import com.github.karina_denisevich.travel_agency.daodb.TourDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
@@ -26,7 +26,7 @@ public class TourServiceImpl implements TourService {
     BookingService bookingService;
 
     @Inject
-    Tour2CategoryDao tour2CategoryDao;
+    TourToCategoryDao tourToCategoryDao;
 
     @Transactional
     @Override
@@ -39,11 +39,11 @@ public class TourServiceImpl implements TourService {
         if (tour.getId() == null) {
             Long id = tourDao.insert(tour);
             tour.setId(id);
-            tour2CategoryDao.insertBatch(tour);
+            tourToCategoryDao.insertTourWithCategories(tour);
             return id;
         } else {
-            tour2CategoryDao.deleteByTourId(tour.getId());
-            tour2CategoryDao.insertBatch(tour);
+            tourToCategoryDao.deleteByTourId(tour.getId());
+            tourToCategoryDao.insertTourWithCategories(tour);
             tourDao.update(tour);
             return tour.getId();
         }
@@ -51,7 +51,7 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public void saveAll(List<Tour> tours) {
-
+        tours.forEach(this::save);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class TourServiceImpl implements TourService {
     @Override
     public void delete(Long id) {
         bookingService.deleteByTourId(id);
-        tour2CategoryDao.deleteByTourId(id);
+        tourToCategoryDao.deleteByTourId(id);
         tourDao.delete(id);
     }
 

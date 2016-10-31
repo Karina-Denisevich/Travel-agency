@@ -33,7 +33,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void saveAll(List<Role> roles) {
-
+        roles.forEach(this::save);
     }
 
     @Override

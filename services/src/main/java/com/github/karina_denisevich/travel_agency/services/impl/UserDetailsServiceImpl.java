@@ -28,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (userDetails.getId() == null) {
             if (userDetails.getUser().getId() == null) {
                 userDetails.setId(userService.getByEmail(userDetails.getUser().getEmail()).getId());
-            }else{
+            } else {
                 userDetails.setId(userDetails.getUser().getId());
             }
             return userDetailsDao.insert(userDetails);
@@ -40,7 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public void saveAll(List<UserDetails> userDetailsList) {
-
+        userDetailsList.forEach(this::save);
     }
 
     @Override

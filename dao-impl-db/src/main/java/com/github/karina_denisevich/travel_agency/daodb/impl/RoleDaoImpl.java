@@ -1,5 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
+import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daodb.RoleDao;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.RoleUnmapper;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
@@ -16,18 +17,18 @@ public class RoleDaoImpl extends GenericDaoImpl<Role, Long> implements RoleDao {
     @Inject
     JdbcTemplate jdbcTemplate;
 
-    public RoleDaoImpl(){
+    private final String tableName;
+
+    public RoleDaoImpl() {
         super(new RoleUnmapper());
+        this.tableName = new DbTableAnalyzer().getDbTableName(Role.class);
     }
 
     @Override
     public Role getByType(Role.RoleEnum roleEnum) {
-        String sql = "SELECT * FROM role WHERE type = ?";
+        String sql = "SELECT * FROM " + tableName + " WHERE type = ?";
 
         return jdbcTemplate.queryForObject(sql, new Object[]{roleEnum.toString()},
                 new BeanPropertyRowMapper<>(Role.class));
     }
-
-    @Override
-    public void insertBatch(List<Role> roles) {}
 }

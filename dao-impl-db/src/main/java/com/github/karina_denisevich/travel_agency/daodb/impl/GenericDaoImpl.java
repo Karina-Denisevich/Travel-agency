@@ -107,10 +107,4 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
         return jdbcTemplate.query(sql,
                 new BeanPropertyRowMapper<>(genericType));
     }
-
-    @Override
-    @Transactional
-    public void insertBatch(List<T> tList) {
-
-    }
 }

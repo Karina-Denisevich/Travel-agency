@@ -1,6 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.Tour2CategoryDao;
+import com.github.karina_denisevich.travel_agency.daodb.TourToCategoryDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class Tour2CategoryDaoImpl implements Tour2CategoryDao {
+public class TourToCategoryDaoImpl implements TourToCategoryDao {
 
     @Inject
     JdbcTemplate jdbcTemplate;
@@ -21,7 +21,7 @@ public class Tour2CategoryDaoImpl implements Tour2CategoryDao {
     private final String tableName = "tour_2_category";
 
     @Override
-    public void insertBatch(Tour tour) {
+    public void insertTourWithCategories(Tour tour) {
 
         final String sql = "INSERT INTO " + tableName + " (tour_id, category_id)" +
                 " VALUES (?, ?)";

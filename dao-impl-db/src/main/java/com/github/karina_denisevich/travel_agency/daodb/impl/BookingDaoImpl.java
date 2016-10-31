@@ -25,10 +25,6 @@ public class BookingDaoImpl extends GenericDaoImpl<Booking, Long> implements Boo
     }
 
     @Override
-    public void insertBatch(List<Booking> bookings) {
-    }
-
-    @Override
     public void deleteByUserId(Long id) {
         final String sql = "DELETE FROM " + tableName + " WHERE user_id = ?";
 

@@ -8,7 +8,7 @@ public interface BookingService {
 
     Long save(Booking booking);
 
-    void saveAll(List<Booking> bookings);
+    void saveAll(List<Booking> bookingList);
 
     Booking get(Long id);
 

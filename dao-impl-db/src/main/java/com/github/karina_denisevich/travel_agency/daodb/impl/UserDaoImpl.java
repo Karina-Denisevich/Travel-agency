@@ -34,7 +34,7 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
     }
 
     @Override
-    public void insertBatch(List<User> entityList) {
+    public void insertBatch(List<User> userList) {
 
         final String sql = "INSERT INTO " + tableName + " (email, password, role_id)" +
                 " VALUES (?, ?, ?)";
@@ -42,14 +42,14 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
 
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                User user = entityList.get(i);
+                User user = userList.get(i);
                 ps.setString(1, user.getEmail());
                 ps.setString(2, user.getPassword());
                 ps.setLong(3, user.getRole().getId());
             }
 
             public int getBatchSize() {
-                return entityList.size();
+                return userList.size();
             }
         });
     }

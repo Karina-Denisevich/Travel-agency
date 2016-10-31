@@ -3,7 +3,6 @@ package com.github.karina_denisevich.travel_agency.services.impl;
 import com.github.karina_denisevich.travel_agency.daodb.UserDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
-import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
 import com.github.karina_denisevich.travel_agency.services.BookingService;
 import com.github.karina_denisevich.travel_agency.services.RoleService;
 import com.github.karina_denisevich.travel_agency.services.UserDetailsService;

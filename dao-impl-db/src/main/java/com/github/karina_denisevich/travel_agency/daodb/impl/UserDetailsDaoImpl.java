@@ -19,9 +19,4 @@ public class UserDetailsDaoImpl extends GenericDaoImpl<UserDetails, Long>
     public UserDetailsDaoImpl() {
         super(new UserDetailsUnmapper());
     }
-
-    @Override
-    public void insertBatch(List<UserDetails> userDetailses) {
-
-    }
 }

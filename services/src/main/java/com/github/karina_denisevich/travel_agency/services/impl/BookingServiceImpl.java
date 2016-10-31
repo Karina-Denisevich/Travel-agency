@@ -46,13 +46,12 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void saveAll(List<Booking> categories) {
-
+    public void saveAll(List<Booking> bookingList) {
+        bookingList.forEach(this::save);
     }
 
     @Override
     public Booking get(Long id) {
-
         return bookingDao.get(id);
     }
 

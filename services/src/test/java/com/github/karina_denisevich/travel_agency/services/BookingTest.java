@@ -37,7 +37,7 @@ public class BookingTest {
     }
 
     @Test
-    public void insertTest(){
+    public void insertTest() {
         Booking booking = new Booking();
         User user = new User();
         Tour tour = new Tour();
@@ -62,7 +62,7 @@ public class BookingTest {
     }
 
     @Test
-    public void updateTest(){
+    public void updateTest() {
         Booking booking = new Booking();
         User user = new User();
         Tour tour = new Tour();

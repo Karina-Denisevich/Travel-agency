@@ -14,6 +14,4 @@ public interface GenericDao<T, PK extends Serializable> {
     void delete(PK id);
 
     List<T> getAll();
-
-    void insertBatch(List<T> tList);
 }

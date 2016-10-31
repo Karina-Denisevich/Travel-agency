@@ -25,7 +25,7 @@ public class TourTest {
         Category category = new Category();
         category.setType(Category.CategoryEnum.OTHER_TOUR);
         Category category1 = new Category();
-        category1.setType(Category.CategoryEnum.BEACH_TOUR);
+        category1.setType(Category.CategoryEnum.BUS_TOUR);
         List<Category> categories = new ArrayList<>();
         categories.add(category);
         categories.add(category1);
@@ -60,5 +60,10 @@ public class TourTest {
 
         Long pk = tourService.save(tour);
         Assert.assertNotNull(pk);
+    }
+
+    @Test
+    public void deleteTest(){
+        tourService.delete(5L);
     }
 }

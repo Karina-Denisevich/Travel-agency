@@ -26,7 +26,7 @@ public class BookingTest {
         User user = new User();
         Tour tour = new Tour();
 
-        user.setEmail("t");
+        user.setEmail("toDelete");
         tour.setTitle("Beach tour");
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

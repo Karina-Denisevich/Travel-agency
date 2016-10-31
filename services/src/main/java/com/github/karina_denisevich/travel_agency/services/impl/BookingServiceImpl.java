@@ -64,4 +64,14 @@ public class BookingServiceImpl implements BookingService {
     public void delete(Long id) {
         bookingDao.delete(id);
     }
+
+    @Override
+    public void deleteByUserId(Long id) {
+        bookingDao.deleteByUserId(id);
+    }
+
+    @Override
+    public void deleteByTourId(Long id) {
+        bookingDao.deleteByTourId(id);
+    }
 }

@@ -1,10 +1,10 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.CategoryDao;
 import com.github.karina_denisevich.travel_agency.daodb.Tour2CategoryDao;
 import com.github.karina_denisevich.travel_agency.daodb.TourDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
+import com.github.karina_denisevich.travel_agency.services.BookingService;
 import com.github.karina_denisevich.travel_agency.services.CategoryService;
 import com.github.karina_denisevich.travel_agency.services.TourService;
 import org.springframework.stereotype.Service;
@@ -21,6 +21,9 @@ public class TourServiceImpl implements TourService {
 
     @Inject
     CategoryService categoryService;
+
+    @Inject
+    BookingService bookingService;
 
     @Inject
     Tour2CategoryDao tour2CategoryDao;
@@ -61,9 +64,12 @@ public class TourServiceImpl implements TourService {
         return null;
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
-
+        bookingService.deleteByTourId(id);
+        tour2CategoryDao.deleteByTourId(id);
+        tourDao.delete(id);
     }
 
     @Override

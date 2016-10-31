@@ -13,15 +13,17 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class Tour2CategoryDaoImpl implements Tour2CategoryDao{
+public class Tour2CategoryDaoImpl implements Tour2CategoryDao {
 
     @Inject
     JdbcTemplate jdbcTemplate;
 
+    private final String tableName = "tour_2_category";
+
     @Override
     public void insertBatch(Tour tour) {
 
-        final String sql = "INSERT INTO tour_2_category (tour_id, category_id)" +
+        final String sql = "INSERT INTO " + tableName + " (tour_id, category_id)" +
                 " VALUES (?, ?)";
         List<Category> categories = tour.getCategoryList();
 
@@ -41,7 +43,14 @@ public class Tour2CategoryDaoImpl implements Tour2CategoryDao{
 
     @Override
     public void deleteByTourId(Long id) {
-        final String sql = "DELETE FROM tour_2_category WHERE tour_id = ?";
+        final String sql = "DELETE FROM " + tableName + " WHERE tour_id = ?";
+
+        jdbcTemplate.update(sql, id);
+    }
+
+    @Override
+    public void deleteByCategoryId(Long id) {
+        final String sql = "DELETE FROM " + tableName + " WHERE category_id = ?";
 
         jdbcTemplate.update(sql, id);
     }

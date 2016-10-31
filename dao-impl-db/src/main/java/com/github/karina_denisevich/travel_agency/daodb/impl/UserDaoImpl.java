@@ -1,5 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
+import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daodb.UserDao;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.RoleMapper;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.UserWithRoleMapper;
@@ -16,20 +17,26 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+
 @Repository
 public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
 
     @Inject
     private JdbcTemplate jdbcTemplate;
 
+    private final String tableName;
+    private final String roleTableName;
+
     public UserDaoImpl() {
         super(new UserUnmapper());
+        this.tableName = new DbTableAnalyzer().getDbTableName(User.class);
+        this.roleTableName = new DbTableAnalyzer().getDbTableName(Role.class);
     }
 
     @Override
     public void insertBatch(List<User> entityList) {
 
-        final String sql = "INSERT INTO user (email, password, role_id)" +
+        final String sql = "INSERT INTO " + tableName + " (email, password, role_id)" +
                 " VALUES (?, ?, ?)";
 
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
@@ -50,7 +57,7 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
     @Override
     public User getByEmail(String email) {
 
-        final String sql = "SELECT * FROM user WHERE email = ?";
+        final String sql = "SELECT * FROM " + tableName + " WHERE email = ?";
 
         return jdbcTemplate.queryForObject(sql, new Object[]{email},
                 new BeanPropertyRowMapper<>(User.class));
@@ -59,8 +66,8 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
     @Override
     public User getWithRole(Long id) {
 
-        final String sql = "SELECT * FROM user u "
-                + "LEFT JOIN role r ON u.role_id=r.id "
+        final String sql = "SELECT * FROM " + tableName + " u "
+                + "LEFT JOIN " + roleTableName + " r ON u.role_id=r.id "
                 + "WHERE u.id = ?";
 
         return jdbcTemplate.queryForObject(sql,
@@ -71,7 +78,7 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
     @Override
     public List<User> getByRole(Role role) {
 
-        final String sql = "SELECT * FROM user WHERE role_id = ?";
+        final String sql = "SELECT * FROM " + tableName + " WHERE role_id = ?";
 
         return jdbcTemplate.query(sql, new Object[]{role.getId()},
                 new BeanPropertyRowMapper<>(User.class));

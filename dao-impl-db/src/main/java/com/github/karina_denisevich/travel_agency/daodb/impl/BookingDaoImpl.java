@@ -1,5 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
+import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daodb.BookingDao;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.BookingUnmapper;
 import com.github.karina_denisevich.travel_agency.datamodel.Booking;
@@ -15,8 +16,12 @@ public class BookingDaoImpl extends GenericDaoImpl<Booking, Long> implements Boo
     @Inject
     JdbcTemplate jdbcTemplate;
 
-    public BookingDaoImpl(){
+    private final String tableName;
+
+    public BookingDaoImpl() {
+
         super(new BookingUnmapper());
+        this.tableName = new DbTableAnalyzer().getDbTableName(Booking.class);
     }
 
     @Override
@@ -25,13 +30,15 @@ public class BookingDaoImpl extends GenericDaoImpl<Booking, Long> implements Boo
 
     @Override
     public void deleteByUserId(Long id) {
-        final String sql = "DELETE FROM tour WHERE id = ?";
+        final String sql = "DELETE FROM " + tableName + " WHERE user_id = ?";
 
         jdbcTemplate.update(sql, id);
     }
 
     @Override
     public void deleteByTourId(Long id) {
+        final String sql = "DELETE FROM " + tableName + " WHERE tour_id = ?";
 
+        jdbcTemplate.update(sql, id);
     }
 }

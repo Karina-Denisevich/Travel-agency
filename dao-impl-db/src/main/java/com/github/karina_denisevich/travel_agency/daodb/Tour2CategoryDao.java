@@ -7,4 +7,6 @@ public interface Tour2CategoryDao {
     void insertBatch(Tour tour);
 
     void deleteByTourId(Long id);
+
+    void deleteByCategoryId(Long id);
 }

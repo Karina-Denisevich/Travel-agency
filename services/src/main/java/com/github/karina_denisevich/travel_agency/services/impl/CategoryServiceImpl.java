@@ -2,9 +2,11 @@ package com.github.karina_denisevich.travel_agency.services.impl;
 
 
 import com.github.karina_denisevich.travel_agency.daodb.CategoryDao;
+import com.github.karina_denisevich.travel_agency.daodb.Tour2CategoryDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.services.CategoryService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -14,6 +16,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Inject
     CategoryDao categoryDao;
+
+    @Inject
+    Tour2CategoryDao tour2CategoryDao;
 
     @Override
     public Long save(Category category) {
@@ -40,9 +45,11 @@ public class CategoryServiceImpl implements CategoryService {
         return null;
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
-
+        tour2CategoryDao.deleteByCategoryId(id);
+        categoryDao.delete(id);
     }
 
     @Override

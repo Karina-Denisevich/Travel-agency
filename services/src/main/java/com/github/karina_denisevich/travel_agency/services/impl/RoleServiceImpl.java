@@ -3,8 +3,11 @@ package com.github.karina_denisevich.travel_agency.services.impl;
 import com.github.karina_denisevich.travel_agency.daodb.RoleDao;
 import com.github.karina_denisevich.travel_agency.daodb.UserDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
+import com.github.karina_denisevich.travel_agency.datamodel.User;
 import com.github.karina_denisevich.travel_agency.services.RoleService;
+import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -16,7 +19,7 @@ public class RoleServiceImpl implements RoleService {
     RoleDao roleDao;
 
     @Inject
-    UserDao userDao;
+    UserService userService;
 
     @Override
     public Long save(Role role) {
@@ -44,9 +47,15 @@ public class RoleServiceImpl implements RoleService {
         return null;
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
-
+        Role role = new Role();
+        role.setId(id);
+        for (User user : userService.getByRole(role)) {
+            userService.delete(user.getId());
+        }
+        roleDao.delete(id);
     }
 
     @Override

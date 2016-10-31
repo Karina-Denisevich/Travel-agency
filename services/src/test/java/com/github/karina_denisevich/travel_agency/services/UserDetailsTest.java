@@ -33,16 +33,17 @@ public class UserDetailsTest {
             throw new IllegalArgumentException();
         }
         userDetails.setPhone("+375292442222");
-        userDetails.setFirstName("Name4");
+        userDetails.setFirstName("Name9");
         userDetails.setLastName("LName4");
         User user = new User();
-        user.setId(104L); //setEmail();
+        Long id = 192L;
+        user.setId(id); //setEmail();
         userDetails.setUser(user);
 
         Long descId = userDetailsService.save(userDetails);
 
         Assert.assertNotNull(descId);
-        Assert.assertEquals(userService.get(104L).getId(), descId);
+        Assert.assertEquals(userService.get(id).getId(), descId);
     }
 
     @Test
@@ -62,5 +63,11 @@ public class UserDetailsTest {
         userDetailsService.save(userDetails);
 
         Assert.assertEquals(userDetails.getFirstName(), userDetailsService.get(40L).getFirstName());
+    }
+
+    @Test
+    public void deleteTest(){
+
+        userDetailsService.delete(155L);
     }
 }

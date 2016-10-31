@@ -56,6 +56,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public void delete(Long id) {
-
+        userDetailsDao.delete(id);
     }
 }

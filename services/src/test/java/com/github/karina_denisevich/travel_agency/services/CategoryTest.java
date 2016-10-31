@@ -50,4 +50,9 @@ public class CategoryTest {
         System.out.println(category);
         Assert.assertEquals(Category.CategoryEnum.OTHER_TOUR, category.getType());
     }
+
+    @Test
+    public void deleteTest(){
+        categoryService.delete(1L);
+    }
 }

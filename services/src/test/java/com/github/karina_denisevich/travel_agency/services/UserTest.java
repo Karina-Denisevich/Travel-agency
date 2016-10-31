@@ -1,5 +1,6 @@
 package com.github.karina_denisevich.travel_agency.services;
 
+import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
 import org.junit.*;
@@ -56,7 +57,7 @@ public class UserTest {
     @Test
     @Ignore
     public void deleteTest() {
-        
+        Long id = 49L;
         userService.delete(id);
     }
 
@@ -65,8 +66,8 @@ public class UserTest {
     //@Ignore
     public void insertTest() {
         User user = new User();
-        user.setEmail("e1mal@");
-        user.setPassword("11ff81111");
+        user.setEmail("DELETE");
+        user.setPassword("11");
 
         Long id = userService.save(user);
 

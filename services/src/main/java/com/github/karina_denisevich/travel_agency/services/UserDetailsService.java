@@ -8,7 +8,7 @@ public interface UserDetailsService {
 
     Long save(UserDetails userDetails);
 
-    void saveAll(List<UserDetails> userDetailses);
+    void saveAll(List<UserDetails> userDetailsList);
 
     UserDetails get(Long id);
 

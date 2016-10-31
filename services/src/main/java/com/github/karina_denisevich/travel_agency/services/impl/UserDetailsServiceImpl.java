@@ -1,6 +1,5 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.UserDao;
 import com.github.karina_denisevich.travel_agency.daodb.UserDetailsDao;
 import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
 import com.github.karina_denisevich.travel_agency.services.UserDetailsService;
@@ -40,7 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public void saveAll(List<UserDetails> userDetailses) {
+    public void saveAll(List<UserDetails> userDetailsList) {
 
     }
 
@@ -51,7 +50,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public List<UserDetails> getAll() {
-        return null;
+
+        return userDetailsDao.getAll();
     }
 
     @Override

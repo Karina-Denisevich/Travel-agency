@@ -1,7 +1,6 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
 import com.github.karina_denisevich.travel_agency.daodb.RoleDao;
-import com.github.karina_denisevich.travel_agency.daodb.UserDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import com.github.karina_denisevich.travel_agency.services.RoleService;
@@ -39,12 +38,14 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role get(Long id) {
-        return null;
+
+        return roleDao.get(id);
     }
 
     @Override
     public List<Role> getAll() {
-        return null;
+
+        return roleDao.getAll();
     }
 
     @Transactional

@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:service-context.xml")
@@ -21,6 +22,21 @@ public class UserDetailsTest {
 
     @Inject
     UserService userService;
+
+    @Test
+    public void getByIdTest() {
+        Long id = 104L;
+        UserDetails userDetails = userDetailsService.get(id);
+
+        Assert.assertNotNull("userDetails for id=" + id + " should not be null", userDetails);
+        Assert.assertEquals(id, userDetails.getId());
+    }
+
+    @Test
+    public void getAllTest() {
+        List<UserDetails> userDetailsList = userDetailsService.getAll();
+        Assert.assertNotNull("user details list should not be null", userDetailsList);
+    }
 
     @Test
     public void insertTest() {

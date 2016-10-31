@@ -56,12 +56,14 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public Tour get(Long id) {
-        return null;
+
+        return tourDao.get(id);
     }
 
     @Override
     public List<Tour> getAll() {
-        return null;
+
+        return tourDao.getAll();
     }
 
     @Transactional

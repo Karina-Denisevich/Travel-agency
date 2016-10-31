@@ -40,8 +40,8 @@ public class UserTest {
     }
 
     @Test
-    @Ignore
     public void getByIdTest() {
+        Long id = 155L;
         User user = userService.get(id);
 
         Assert.assertNotNull("user for id=" + id + " should not be null", user);

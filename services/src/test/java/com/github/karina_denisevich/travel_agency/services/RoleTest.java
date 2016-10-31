@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:service-context.xml")
@@ -17,6 +18,21 @@ public class RoleTest {
 
     @Inject
     RoleService roleService;
+
+    @Test
+    public void getByIdTest() {
+        Long id = 1L;
+        Role role = roleService.get(id);
+
+        Assert.assertNotNull("role for id=" + id + " should not be null", role);
+        Assert.assertEquals(id, role.getId());
+    }
+
+    @Test
+    public void getAllTest() {
+        List<Role> roleList = roleService.getAll();
+        Assert.assertNotNull("roles' list should not be null", roleList);
+    }
 
     @Test
     public void insert(){

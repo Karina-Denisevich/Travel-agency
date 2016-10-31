@@ -20,6 +20,21 @@ public class TourTest {
     TourService tourService;
 
     @Test
+    public void getByIdTest() {
+        Long id = 4L;
+        Tour tour = tourService.get(id);
+
+        Assert.assertNotNull("tour for id=" + id + " should not be null", tour);
+        Assert.assertEquals(id, tour.getId());
+    }
+
+    @Test
+    public void getAllTest() {
+        List<Tour> tourList = tourService.getAll();
+        Assert.assertNotNull("tours' list should not be null", tourList);
+    }
+
+    @Test
     public void insertTest(){
         Tour tour = new Tour();
         Category category = new Category();

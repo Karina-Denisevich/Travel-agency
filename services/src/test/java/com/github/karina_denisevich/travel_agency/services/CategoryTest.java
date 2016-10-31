@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:service-context.xml")
@@ -19,8 +20,23 @@ public class CategoryTest {
     CategoryService categoryService;
 
     @Test
+    public void getByIdTest() {
+        Long id = 2L;
+        Category category = categoryService.get(id);
+
+        Assert.assertNotNull("category for id=" + id + " should not be null", category);
+        Assert.assertEquals(id, category.getId());
+    }
+
+    @Test
+    public void getAllTest() {
+        List<Category> categoryList = categoryService.getAll();
+        Assert.assertNotNull("categories' list should not be null", categoryList);
+    }
+
+    @Test
     @Ignore
-    public void insertTest(){
+    public void insertTest() {
         Category category1 = new Category();
         category1.setType(Category.CategoryEnum.SHOP_TOUR);
         Category category2 = new Category();
@@ -34,7 +50,7 @@ public class CategoryTest {
     }
 
     @Test
-    public void updateTest(){
+    public void updateTest() {
         Category category = new Category();
         category.setId(4L);
         category.setType(Category.CategoryEnum.SAFARI_TOUR);
@@ -45,14 +61,14 @@ public class CategoryTest {
 
     @Test
     @Ignore
-    public void getByType(){
+    public void getByType() {
         Category category = categoryService.getByType(Category.CategoryEnum.OTHER_TOUR);
         System.out.println(category);
         Assert.assertEquals(Category.CategoryEnum.OTHER_TOUR, category.getType());
     }
 
     @Test
-    public void deleteTest(){
+    public void deleteTest() {
         categoryService.delete(1L);
     }
 }

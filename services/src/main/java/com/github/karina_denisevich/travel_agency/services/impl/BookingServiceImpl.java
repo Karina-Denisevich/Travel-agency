@@ -52,12 +52,13 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking get(Long id) {
-        return null;
+
+        return bookingDao.get(id);
     }
 
     @Override
     public List<Booking> getAll() {
-        return null;
+        return bookingDao.getAll();
     }
 
     @Override

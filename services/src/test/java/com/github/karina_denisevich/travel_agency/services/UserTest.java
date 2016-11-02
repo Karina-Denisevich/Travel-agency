@@ -1,9 +1,9 @@
 package com.github.karina_denisevich.travel_agency.services;
 
-import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
-import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -66,7 +66,7 @@ public class UserTest {
     //@Ignore
     public void insertTest() {
         User user = new User();
-        user.setEmail("DELETE");
+        user.setEmail("User3");
         user.setPassword("11");
 
         Long id = userService.save(user);

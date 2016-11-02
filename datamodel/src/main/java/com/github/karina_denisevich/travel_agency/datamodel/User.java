@@ -1,6 +1,7 @@
 package com.github.karina_denisevich.travel_agency.datamodel;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @DbTable(name = "user")
 public class User extends AbstractModel {
@@ -31,7 +32,7 @@ public class User extends AbstractModel {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = new BCryptPasswordEncoder().encode(password);
     }
 
     public UserDetails getUserDetails() {

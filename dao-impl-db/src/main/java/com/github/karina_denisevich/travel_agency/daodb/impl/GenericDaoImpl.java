@@ -1,19 +1,15 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
-import com.github.karina_denisevich.travel_agency.annotation.DbTable;
 import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daodb.GenericDao;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.RowUnmapper;
-import com.google.common.base.CaseFormat;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +45,12 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
                 new BeanPropertyRowMapper<>(genericType));
     }
 
+    /**
+     * Methods work both for auto-generated keys, and for not.
+     *
+     * @param entity
+     * @return primary key for table
+     */
     @Override
     @SuppressWarnings("unchecked")
     public PK insert(T entity) {

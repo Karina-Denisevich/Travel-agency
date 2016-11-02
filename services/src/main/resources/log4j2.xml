@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <RollingFile name="RollingFile" fileName="logs/app.log"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <!--It is necessary to change access in Gmail and set password before using-->
+        <SMTP name="Mail" subject="Error Log"
+              smtpProtocol="smtps"
+              smtpPort="465"
+              smtpHost="smtp.gmail.com"
+              from="denisevichks97@gmail.com"
+              to="denisevichks97@gmail.com"
+              smtpUsername="denisevichks97@gmail.com"
+              smtpPassword=""
+              bufferSize="50">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </SMTP>
+
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+        </Root>
+
+        <Logger level="info" name="com.github.karina_denisevich.travel_agency"
+                additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+            <!--<AppenderRef ref="Mail"/>-->
+        </Logger>
+
+    </Loggers>
+
+</Configuration>

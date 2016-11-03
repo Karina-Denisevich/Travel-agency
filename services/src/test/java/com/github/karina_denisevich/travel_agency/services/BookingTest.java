@@ -42,11 +42,11 @@ public class BookingTest {
         User user = new User();
         Tour tour = new Tour();
 
-        user.setEmail("toDelete");
-        tour.setTitle("Beach tour");
+        user.setId(104L);
+        tour.setTitle("Shop tour");
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString = "2011-12-06";
+        String dateInString = "2001-11-06";
         try {
             booking.setOrderDate(sdf.parse(dateInString));
         } catch (ParseException e) {
@@ -85,5 +85,12 @@ public class BookingTest {
         Long id = bookingService.save(booking);
 
         Assert.assertNotNull(id);
+    }
+
+    @Test
+    public void getOrdersByUserIdTest() {
+        Long userId = 104L;
+        List<Booking> bookingList = bookingService.getAllByUserId(userId);
+
     }
 }

@@ -35,7 +35,6 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
 
     @Override
     public void insertBatch(List<User> userList) {
-
         final String sql = "INSERT INTO " + tableName + " (email, password, role_id)" +
                 " VALUES (?, ?, ?)";
 
@@ -56,7 +55,6 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
 
     @Override
     public User getByEmail(String email) {
-
         final String sql = "SELECT * FROM " + tableName + " WHERE email = ?";
 
         return jdbcTemplate.queryForObject(sql, new Object[]{email},
@@ -65,19 +63,16 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
 
     @Override
     public User getWithRole(Long id) {
-
         final String sql = "SELECT * FROM " + tableName + " u "
                 + "LEFT JOIN " + roleTableName + " r ON u.role_id=r.id "
                 + "WHERE u.id = ?";
 
-        return jdbcTemplate.queryForObject(sql,
-                new Object[]{id},
+        return jdbcTemplate.queryForObject(sql, new Object[]{id},
                 new UserWithRoleMapper(new RoleMapper()));
     }
 
     @Override
     public List<User> getByRole(Role role) {
-
         final String sql = "SELECT * FROM " + tableName + " WHERE role_id = ?";
 
         return jdbcTemplate.query(sql, new Object[]{role.getId()},

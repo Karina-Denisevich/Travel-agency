@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,7 +20,6 @@ public class UserTest {
     @Inject
     UserService userService;
 
-
     Long id;
 
     //@Before
@@ -27,16 +27,25 @@ public class UserTest {
         User user = new User();
         user.setEmail("TEST");
         user.setPassword("111111");
-        id = userService.save(user);
+        try {
+            id = userService.save(user);
+        } catch (DuplicateKeyException e) {
+            id = -1L;
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
-    public void updateTest(){
+    public void updateTest() {
         User user = new User();
         user.setId(40L);
         user.setEmail("NewName");
         user.setPassword("111111");
-        userService.save(user);
+        try {
+            id = userService.save(user);
+        } catch (DuplicateKeyException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
@@ -66,17 +75,21 @@ public class UserTest {
     //@Ignore
     public void insertTest() {
         User user = new User();
-        user.setEmail("User3");
+
+        //validate email before
+        user.setEmail("mmm");
         user.setPassword("11");
 
-        Long id = userService.save(user);
-
+        Long id = null;
+        try {
+            id = userService.save(user);
+        } catch (DuplicateKeyException e) {
+            System.out.println(e.getCause().getMessage());
+        }
         Assert.assertNotNull(id);
-
         User userFromDb = userService.get(id);
-
         Assert.assertEquals(user.getEmail(), userFromDb.getEmail());
-       // userService.delete(id);
+        // userService.delete(id);
     }
 
     @Test
@@ -97,7 +110,7 @@ public class UserTest {
         userService.saveAll(userList);
     }
 
-   // @Test
+    @Test
     public void getWithRoleTest() {
         User user = userService.getWithRole(id);
         Assert.assertNotNull("user for id=" + id + " should not be null", user);
@@ -105,7 +118,12 @@ public class UserTest {
         Assert.assertEquals(id, user.getId());
     }
 
-   // @After
+    @Test
+    public void getWithBookingsTest(){
+
+    }
+
+    // @After
     public void executeAfter() {
         userService.delete(id);
     }

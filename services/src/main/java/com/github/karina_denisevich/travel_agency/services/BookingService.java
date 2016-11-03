@@ -19,4 +19,6 @@ public interface BookingService {
     void deleteByUserId(Long id);
 
     void deleteByTourId(Long id);
+
+    List<Booking> getAllByUserId(Long userId);
 }

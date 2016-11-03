@@ -1,7 +1,10 @@
 package com.github.karina_denisevich.travel_agency.datamodel;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTable;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.List;
 
 @DbTable(name = "user")
 public class User extends AbstractModel {
@@ -10,6 +13,7 @@ public class User extends AbstractModel {
     private String password;
     private Role role;
     private UserDetails userDetails;
+    private List<Booking> bookingList;
 
     public Role getRole() {
         return role;
@@ -41,6 +45,14 @@ public class User extends AbstractModel {
 
     public void setUserDetails(UserDetails userDetails) {
         this.userDetails = userDetails;
+    }
+
+    public List<Booking> getBookingList() {
+        return bookingList;
+    }
+
+    public void setBookingList(List<Booking> bookingList) {
+        this.bookingList = bookingList;
     }
 
     @Override

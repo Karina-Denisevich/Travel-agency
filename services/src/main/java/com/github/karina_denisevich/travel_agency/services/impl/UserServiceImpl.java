@@ -7,14 +7,12 @@ import com.github.karina_denisevich.travel_agency.services.BookingService;
 import com.github.karina_denisevich.travel_agency.services.RoleService;
 import com.github.karina_denisevich.travel_agency.services.UserDetailsService;
 import com.github.karina_denisevich.travel_agency.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 
 @Service
@@ -42,11 +40,8 @@ public class UserServiceImpl implements UserService {
 
         if (user.getId() == null) {
             Long id = userDao.insert(user);
-            if (id == null) {
-                LOGGER.error("User with email={} does't created.", user.getEmail());
-            } else {
-                LOGGER.info("User created. Id={}, email={}.", id, user.getEmail());
-            }
+            LOGGER.info("User is created. Id={}, email={}.", id, user.getEmail());
+
             return id;
         } else {
             userDao.update(user);
@@ -61,12 +56,23 @@ public class UserServiceImpl implements UserService {
             user.setRole(getUserRole(user));
         }
         userDao.insertBatch(users);
+        LOGGER.info("{} users added.", users.size());
     }
 
+    /**
+     * If user has no role, then returns ROLE_USER by default,
+     * if user has role without id, then returns the same role, but with id,
+     * in any other case returns role from parameters.
+     *
+     * @param user User, whose role will be returned
+     * @return user's role
+     */
     private Role getUserRole(User user) {
         Role role = user.getRole();
-        if (role == null || role.getId() == null) {
-            return roleService.getByType(Role.RoleEnum.valueOf("ROLE_USER"));
+        if (role == null) {
+            role = roleService.getByType(Role.RoleEnum.valueOf("ROLE_USER"));
+        } else if (role.getId() == null) {
+            role = roleService.getByType(role.getType());
         }
         return role;
     }

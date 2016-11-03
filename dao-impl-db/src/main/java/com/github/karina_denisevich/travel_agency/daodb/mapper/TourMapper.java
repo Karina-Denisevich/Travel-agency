@@ -10,6 +10,14 @@ public class TourMapper implements RowMapper<Tour> {
 
     @Override
     public Tour mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return null;
+        Tour tour = new Tour();
+        tour.setId(rs.getLong("id"));
+        tour.setTitle(rs.getString("title"));
+        tour.setIsHot(rs.getBoolean("hot"));
+        tour.setPhotoLink(rs.getString("photo_link"));
+        tour.setPrice(rs.getDouble("price"));
+        tour.setDescription(rs.getString("description"));
+
+        return tour;
     }
 }

@@ -5,6 +5,7 @@ import com.github.karina_denisevich.travel_agency.datamodel.Booking;
 import com.github.karina_denisevich.travel_agency.services.BookingService;
 import com.github.karina_denisevich.travel_agency.services.TourService;
 import com.github.karina_denisevich.travel_agency.services.UserService;
+import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,15 +27,12 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     @Override
     public Long save(Booking booking) {
+        Validate.notNull(booking.getUser(), "User should not be null");
+        Validate.notNull(booking.getTour(), "Tour should not be null");
+        Validate.notNull(booking.getOrderDate(), "Date should not be null");
 
         if (booking.getConfirmed() == null) {
             booking.setConfirmed(false);
-        }
-        if (booking.getUser().getId() == null) {
-            booking.setUser(userService.getByEmail(booking.getUser().getEmail()));
-        }
-        if (booking.getTour().getId() == null) {
-            booking.setTour(tourService.getByTitle(booking.getTour().getTitle()));
         }
 
         if (booking.getId() == null) {

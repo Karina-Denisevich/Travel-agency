@@ -49,10 +49,10 @@ public class UserDetailsTest {
             throw new IllegalArgumentException();
         }
         userDetails.setPhone("+375292442222");
-        userDetails.setFirstName("Name9");
-        userDetails.setLastName("LName4");
+        userDetails.setFirstName("Name10");
+        userDetails.setLastName("LName5");
         User user = new User();
-        Long id = 192L;
+        Long id = 155L;
         user.setId(id); //setEmail();
         userDetails.setUser(user);
 

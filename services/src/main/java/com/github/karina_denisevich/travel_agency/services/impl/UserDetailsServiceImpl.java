@@ -4,6 +4,7 @@ import com.github.karina_denisevich.travel_agency.daodb.UserDetailsDao;
 import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
 import com.github.karina_denisevich.travel_agency.services.UserDetailsService;
 import com.github.karina_denisevich.travel_agency.services.UserService;
+import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional
     @Override
     public Long save(UserDetails userDetails) {
+        Validate.notEmpty(userDetails.getFirstName(), "First name should not be empty.");
+        Validate.notEmpty(userDetails.getLastName(), "Last name should not be empty.");
+
         if (userDetails.getDiscount() == null) {
             userDetails.setDiscount(0.0);
         }

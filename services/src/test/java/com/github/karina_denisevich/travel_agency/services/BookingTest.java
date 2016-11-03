@@ -43,7 +43,7 @@ public class BookingTest {
         Tour tour = new Tour();
 
         user.setId(104L);
-        tour.setTitle("Shop tour");
+        tour.setId(4L);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateInString = "2001-11-06";

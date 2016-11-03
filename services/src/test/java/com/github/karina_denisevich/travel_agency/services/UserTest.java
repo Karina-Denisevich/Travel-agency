@@ -112,6 +112,7 @@ public class UserTest {
 
     @Test
     public void getWithRoleTest() {
+        Long id = 155L;
         User user = userService.getWithRole(id);
         Assert.assertNotNull("user for id=" + id + " should not be null", user);
         Assert.assertNotNull("role for id=" + id + " should not be null", user.getRole());

@@ -7,6 +7,7 @@ import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import com.github.karina_denisevich.travel_agency.services.BookingService;
 import com.github.karina_denisevich.travel_agency.services.CategoryService;
 import com.github.karina_denisevich.travel_agency.services.TourService;
+import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,14 @@ public class TourServiceImpl implements TourService {
     @Transactional
     @Override
     public Long save(Tour tour) {
-
+        Validate.notEmpty(tour.getTitle(), "Title should not be empty.");
+        Validate.notNull(tour.getPrice(), "Price should not be null.");
+        if (tour.getPrice() < 0.0) {
+            throw new IllegalArgumentException("Price should be greater than zero.");
+        }
+        if (tour.getIsHot() == null) {
+            tour.setIsHot(false);
+        }
         List<Category> categories = tour.getCategoryList();
         categories.stream().filter(category -> category.getId() == null).forEach(category ->
                 categories.set(categories.indexOf(category), categoryService.getByType(category.getType())));

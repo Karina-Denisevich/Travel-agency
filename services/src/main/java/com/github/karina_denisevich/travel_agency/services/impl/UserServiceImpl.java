@@ -7,6 +7,7 @@ import com.github.karina_denisevich.travel_agency.services.BookingService;
 import com.github.karina_denisevich.travel_agency.services.RoleService;
 import com.github.karina_denisevich.travel_agency.services.UserDetailsService;
 import com.github.karina_denisevich.travel_agency.services.UserService;
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,9 @@ public class UserServiceImpl implements UserService {
     public Long save(User user) {
         user.setRole(getUserRole(user));
 
+        Validate.notEmpty(user.getEmail(), "Email should not be empty.");
+        Validate.notEmpty(user.getPassword(), "Password should not be empty.");
+
         if (user.getId() == null) {
             Long id = userDao.insert(user);
             LOGGER.info("User is created. Id={}, email={}.", id, user.getEmail());
@@ -53,6 +57,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveAll(List<User> users) {
         for (User user : users) {
+            Validate.notEmpty(user.getEmail(), "Email should not be empty.");
+            Validate.notEmpty(user.getPassword(), "Password should not be empty.");
             user.setRole(getUserRole(user));
         }
         userDao.insertBatch(users);

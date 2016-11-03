@@ -49,7 +49,7 @@ public class TourTest {
         tour.setDescription("Some tour");
         tour.setIsHot(false);
         tour.setPrice(800.0);
-        tour.setTitle("Beach2 tour");
+        tour.setTitle("Beach3 tour");
 
         Long pk = tourService.save(tour);
         Assert.assertNotNull(pk);

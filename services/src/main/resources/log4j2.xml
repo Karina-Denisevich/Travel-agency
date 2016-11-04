@@ -45,11 +45,9 @@
         <Logger level="info" name="com.github.karina_denisevich.travel_agency"
                 additivity="false">
             <AppenderRef ref="Console"/>
-            <!--<AppenderRef ref="RollingFile"/>-->
+            <AppenderRef ref="RollingFile"/>
             <!--<AppenderRef ref="databaseAppender"/>-->
             <!--<AppenderRef ref="Mail"/>-->
         </Logger>
-
     </Loggers>
-
 </Configuration>

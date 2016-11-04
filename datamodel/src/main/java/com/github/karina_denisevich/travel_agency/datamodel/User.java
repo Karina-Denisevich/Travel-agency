@@ -36,7 +36,7 @@ public class User extends AbstractModel {
     }
 
     public void setPassword(String password) {
-        this.password = new BCryptPasswordEncoder().encode(password);
+        this.password = password;
     }
 
     public UserDetails getUserDetails() {

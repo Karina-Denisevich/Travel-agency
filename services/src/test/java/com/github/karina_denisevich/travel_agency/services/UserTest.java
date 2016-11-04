@@ -77,8 +77,8 @@ public class UserTest {
         User user = new User();
 
         //validate email before
-        user.setEmail("mmm");
-        user.setPassword("11");
+        user.setEmail("Ivan@gmail.com");
+        user.setPassword("1111");
 
         Long id = null;
         try {

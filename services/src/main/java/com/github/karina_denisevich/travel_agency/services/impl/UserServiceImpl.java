@@ -10,6 +10,7 @@ import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,15 +38,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Long save(User user) {
-        user.setRole(getUserRole(user));
-
-        Validate.notEmpty(user.getEmail(), "Email should not be empty.");
-        Validate.notEmpty(user.getPassword(), "Password should not be empty.");
+        beforeInsert(user);
 
         if (user.getId() == null) {
             Long id = userDao.insert(user);
             LOGGER.info("User is created. Id={}, email={}.", id, user.getEmail());
-
             return id;
         } else {
             userDao.update(user);
@@ -56,13 +53,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveAll(List<User> users) {
-        for (User user : users) {
-            Validate.notEmpty(user.getEmail(), "Email should not be empty.");
-            Validate.notEmpty(user.getPassword(), "Password should not be empty.");
-            user.setRole(getUserRole(user));
-        }
+        users.forEach(this::beforeInsert);
         userDao.insertBatch(users);
         LOGGER.info("{} users added.", users.size());
+    }
+
+    private void beforeInsert(User user) {
+        Validate.notEmpty(user.getEmail(), "Email should not be empty.");
+        Validate.notEmpty(user.getPassword(), "Password should not be empty.");
+        user.setRole(getUserRole(user));
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
     }
 
     /**

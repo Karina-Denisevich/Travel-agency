@@ -37,7 +37,7 @@ public class RoleTest {
     @Test
     public void insert(){
         Role role = new Role();
-        role.setType(Role.RoleEnum.ROLE_ANONYMOUS);
+        role.setType(Role.RoleEnum.ROLE_USER);
         Long pk = roleService.save(role);
 
         Assert.assertNotNull(pk);
@@ -56,6 +56,7 @@ public class RoleTest {
 
     @Test
     public void deleteTest(){
-        roleService.delete(6L);
+
+        roleService.delete(3L);
     }
 }

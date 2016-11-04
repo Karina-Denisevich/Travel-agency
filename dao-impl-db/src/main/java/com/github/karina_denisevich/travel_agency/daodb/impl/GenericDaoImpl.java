@@ -103,7 +103,6 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
 
     @Override
     public List<T> getAll() {
-
         final String sql = "SELECT * FROM " + tableName;
 
         return jdbcTemplate.query(sql,

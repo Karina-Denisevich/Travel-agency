@@ -23,7 +23,7 @@ public class BookingTest {
 
     @Test
     public void getByIdTest() {
-        Long id = 6L;
+        Long id = 2L;
         Booking booking = bookingService.get(id);
 
         Assert.assertNotNull("booking for id=" + id + " should not be null", booking);
@@ -42,8 +42,8 @@ public class BookingTest {
         User user = new User();
         Tour tour = new Tour();
 
-        user.setId(1L);
-        tour.setId(1L);
+        user.setId(3L);
+        tour.setId(2L);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateInString = "2001-11-06";
@@ -63,13 +63,13 @@ public class BookingTest {
 
     @Test
     public void updateTest() {
-        Booking booking = new Booking();
         User user = new User();
+        user.setId(2L);
+
         Tour tour = new Tour();
+        tour.setId(2L);
 
-        user.setEmail("nnn");
-        tour.setTitle("Shop tour");
-
+        Booking booking = new Booking();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateInString = "2011-12-06";
         try {
@@ -77,8 +77,7 @@ public class BookingTest {
         } catch (ParseException e) {
             throw new IllegalArgumentException();
         }
-
-        booking.setId(3L);
+        booking.setId(2L);
         booking.setUser(user);
         booking.setTour(tour);
 
@@ -89,8 +88,7 @@ public class BookingTest {
 
     @Test
     public void getOrdersByUserIdTest() {
-        Long userId = 104L;
+        Long userId = 2L;
         List<Booking> bookingList = bookingService.getAllByUserId(userId);
-
     }
 }

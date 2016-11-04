@@ -1,5 +1,6 @@
 package com.github.karina_denisevich.travel_agency.services;
 
+import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -38,7 +39,7 @@ public class UserTest {
     @Test
     public void updateTest() {
         User user = new User();
-        user.setId(40L);
+        user.setId(3L);
         user.setEmail("NewName");
         user.setPassword("111111");
         try {
@@ -50,7 +51,7 @@ public class UserTest {
 
     @Test
     public void getByIdTest() {
-        Long id = 155L;
+        Long id = 2L;
         User user = userService.get(id);
 
         Assert.assertNotNull("user for id=" + id + " should not be null", user);
@@ -64,15 +65,6 @@ public class UserTest {
     }
 
     @Test
-    @Ignore
-    public void deleteTest() {
-        Long id = 49L;
-        userService.delete(id);
-    }
-
-
-    @Test
-    //@Ignore
     public void insertTest() {
         User user = new User();
 
@@ -89,19 +81,21 @@ public class UserTest {
         Assert.assertNotNull(id);
         User userFromDb = userService.get(id);
         Assert.assertEquals(user.getEmail(), userFromDb.getEmail());
-        // userService.delete(id);
+         //userService.delete(id);
     }
 
     @Test
-    @Ignore
     public void insertBatchTest() {
         List<User> userList = new ArrayList<>();
         User user = new User();
-        user.setEmail("mmm");
+        user.setEmail("Kate@mail.ru");
         user.setPassword("111111");
+        Role role = new Role();
+        role.setType(Role.RoleEnum.ROLE_ADMIN);
+        user.setRole(role);
 
         User user1 = new User();
-        user1.setEmail("nnn");
+        user1.setEmail("Yl@mail.ru");
         user1.setPassword("111111dd");
 
         userList.add(user);
@@ -112,7 +106,7 @@ public class UserTest {
 
     @Test
     public void getWithRoleTest() {
-        Long id = 155L;
+        Long id = 2L;
         User user = userService.getWithRole(id);
         Assert.assertNotNull("user for id=" + id + " should not be null", user);
         Assert.assertNotNull("role for id=" + id + " should not be null", user.getRole());
@@ -120,8 +114,14 @@ public class UserTest {
     }
 
     @Test
-    public void getWithBookingsTest(){
+    public void deleteTest() {
+        Long id = 5L;
+        userService.delete(id);
+    }
 
+    @Test
+    public void getWithBookingsTest(){
+        //TODO
     }
 
     // @After

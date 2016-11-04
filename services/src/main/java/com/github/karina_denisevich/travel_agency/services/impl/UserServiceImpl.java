@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Transactional
     @Override
     public void saveAll(List<User> users) {
         users.forEach(this::beforeInsert);
@@ -137,11 +138,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getByRole(Role role) {
         List<User> userList = userDao.getByRole(role);
-        if (userList.size() > 0) {
-            LOGGER.info("{} users was found with role={}", userList.size(), role.getType());
-        } else {
-            LOGGER.info("There was no user with role={}", role.getType());
-        }
+        LOGGER.info("{} users was found with role={}", userList.size(), role.getType());
         return userList;
     }
 }

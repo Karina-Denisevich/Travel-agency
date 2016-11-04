@@ -25,7 +25,7 @@ public class UserDetailsTest {
 
     @Test
     public void getByIdTest() {
-        Long id = 104L;
+        Long id = 2L;
         UserDetails userDetails = userDetailsService.get(id);
 
         Assert.assertNotNull("userDetails for id=" + id + " should not be null", userDetails);
@@ -52,8 +52,8 @@ public class UserDetailsTest {
         userDetails.setFirstName("Ivan");
         userDetails.setLastName("Ivanov");
         User user = new User();
-        Long id = 1L;
-        user.setId(id); //setEmail();
+        Long id = 3L;
+        user.setId(id);
         userDetails.setUser(user);
 
         Long descId = userDetailsService.save(userDetails);
@@ -64,8 +64,9 @@ public class UserDetailsTest {
 
     @Test
     public void updateTest() {
+        Long id = 2L;
         UserDetails userDetails = new UserDetails();
-        userDetails.setId(40L);
+        userDetails.setId(id);
         userDetails.setFirstName("f");
         userDetails.setLastName("l");
         userDetails.setPhone("+375290000000");
@@ -78,12 +79,11 @@ public class UserDetailsTest {
         }
         userDetailsService.save(userDetails);
 
-        Assert.assertEquals(userDetails.getFirstName(), userDetailsService.get(40L).getFirstName());
+        Assert.assertEquals(userDetails.getFirstName(), userDetailsService.get(id).getFirstName());
     }
 
     @Test
     public void deleteTest(){
-
-        userDetailsService.delete(155L);
+        userDetailsService.delete(3L);
     }
 }

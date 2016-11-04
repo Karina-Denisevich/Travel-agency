@@ -1,7 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daodb.mapper;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
-import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

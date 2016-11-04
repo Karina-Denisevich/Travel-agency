@@ -37,9 +37,9 @@ public class CategoryTest {
     @Test
     public void insertTest() {
         Category category1 = new Category();
-        category1.setType(Category.CategoryEnum.OTHER_TOUR);
+        category1.setType(Category.CategoryEnum.BUS_TOUR);
         Category category2 = new Category();
-        category2.setType(Category.CategoryEnum.SAFARI_TOUR);
+        category2.setType(Category.CategoryEnum.BEACH_TOUR);
 
         Long pk1 = categoryService.save(category1);
         Long pk2 = categoryService.save(category2);
@@ -51,15 +51,14 @@ public class CategoryTest {
     @Test
     public void updateTest() {
         Category category = new Category();
-        category.setId(4L);
-        category.setType(Category.CategoryEnum.SAFARI_TOUR);
+        category.setId(2L);
+        category.setType(Category.CategoryEnum.SHOP_TOUR);
         Long pk = categoryService.save(category);
 
         Assert.assertNotNull(pk);
     }
 
     @Test
-    @Ignore
     public void getByType() {
         Category category = categoryService.getByType(Category.CategoryEnum.OTHER_TOUR);
         System.out.println(category);
@@ -68,6 +67,6 @@ public class CategoryTest {
 
     @Test
     public void deleteTest() {
-        categoryService.delete(1L);
+        categoryService.delete(3L);
     }
 }

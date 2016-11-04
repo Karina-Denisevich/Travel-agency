@@ -30,11 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             userDetails.setDiscount(0.0);
         }
         if (userDetails.getId() == null) {
-            if (userDetails.getUser().getId() == null) {
-                userDetails.setId(userService.getByEmail(userDetails.getUser().getEmail()).getId());
-            } else {
-                userDetails.setId(userDetails.getUser().getId());
-            }
+            userDetails.setId(userDetails.getUser().getId());
             return userDetailsDao.insert(userDetails);
         } else {
             userDetailsDao.update(userDetails);
@@ -54,7 +50,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public List<UserDetails> getAll() {
-
         return userDetailsDao.getAll();
     }
 

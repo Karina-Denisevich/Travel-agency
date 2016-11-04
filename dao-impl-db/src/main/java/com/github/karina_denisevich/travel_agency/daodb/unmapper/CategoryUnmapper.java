@@ -10,7 +10,7 @@ public class CategoryUnmapper implements RowUnmapper<Category> {
     @Override
     public Map<String, Object> mapColumns(Category category) {
         Map<String, Object> map = new LinkedHashMap<>();
-        map.put("type", category.getType());
+        map.put("type", category.getType().toString());
         if (category.getId() != null) {
             map.put("id", category.getId());
         }

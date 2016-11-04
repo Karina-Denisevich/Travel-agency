@@ -21,7 +21,7 @@ public class TourTest {
 
     @Test
     public void getByIdTest() {
-        Long id = 4L;
+        Long id = 1L;
         Tour tour = tourService.get(id);
 
         Assert.assertNotNull("tour for id=" + id + " should not be null", tour);
@@ -66,7 +66,7 @@ public class TourTest {
         categories.add(category);
         categories.add(category1);
 
-        tour.setId(4L);
+        tour.setId(1L);
         tour.setCategoryList(categories);
         tour.setDescription("Updated tour");
         tour.setIsHot(false);
@@ -79,6 +79,6 @@ public class TourTest {
 
     @Test
     public void deleteTest(){
-        tourService.delete(5L);
+        tourService.delete(2L);
     }
 }

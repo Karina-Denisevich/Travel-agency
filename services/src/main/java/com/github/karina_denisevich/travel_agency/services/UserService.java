@@ -2,8 +2,6 @@ package com.github.karina_denisevich.travel_agency.services;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
-import org.springframework.dao.DuplicateKeyException;
 
 import java.util.List;
 

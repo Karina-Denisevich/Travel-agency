@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -44,7 +43,6 @@ public class RoleTest {
     }
 
     @Test
-    @Ignore
     public void updateTest(){
         Role role = new Role();
         role.setId(1L);

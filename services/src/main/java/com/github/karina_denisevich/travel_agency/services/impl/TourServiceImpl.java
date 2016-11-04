@@ -32,18 +32,7 @@ public class TourServiceImpl implements TourService {
     @Transactional
     @Override
     public Long save(Tour tour) {
-        Validate.notEmpty(tour.getTitle(), "Title should not be empty.");
-        Validate.notNull(tour.getPrice(), "Price should not be null.");
-        if (tour.getPrice() < 0.0) {
-            throw new IllegalArgumentException("Price should be greater than zero.");
-        }
-        if (tour.getIsHot() == null) {
-            tour.setIsHot(false);
-        }
-        List<Category> categories = tour.getCategoryList();
-        categories.stream().filter(category -> category.getId() == null).forEach(category ->
-                categories.set(categories.indexOf(category), categoryService.getByType(category.getType())));
-
+        beforeSave(tour);
         if (tour.getId() == null) {
             Long id = tourDao.insert(tour);
             tour.setId(id);
@@ -57,6 +46,21 @@ public class TourServiceImpl implements TourService {
         }
     }
 
+    private void beforeSave(Tour tour) {
+        Validate.notEmpty(tour.getTitle(), "Title should not be empty.");
+        Validate.notNull(tour.getPrice(), "Price should not be null.");
+        if (tour.getPrice() < 0.0) {
+            throw new IllegalArgumentException("Price should be greater than zero.");
+        }
+        if (tour.getIsHot() == null) {
+            tour.setIsHot(false);
+        }
+        List<Category> categories = tour.getCategoryList();
+        categories.stream().filter(category -> category.getId() == null).forEach(category ->
+                categories.set(categories.indexOf(category), categoryService.getByType(category.getType())));
+
+    }
+
     @Override
     public void saveAll(List<Tour> tours) {
         tours.forEach(this::save);
@@ -64,13 +68,11 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public Tour get(Long id) {
-
         return tourDao.get(id);
     }
 
     @Override
     public List<Tour> getAll() {
-
         return tourDao.getAll();
     }
 

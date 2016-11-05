@@ -119,11 +119,6 @@ public class UserTest {
         userService.delete(id);
     }
 
-    @Test
-    public void getWithBookingsTest(){
-        //TODO
-    }
-
     // @After
     public void executeAfter() {
         userService.delete(id);

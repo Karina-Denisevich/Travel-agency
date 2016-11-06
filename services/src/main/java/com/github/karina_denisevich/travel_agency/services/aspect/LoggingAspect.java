@@ -1,10 +1,10 @@
 package com.github.karina_denisevich.travel_agency.services.aspect;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -15,9 +15,8 @@ public class LoggingAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
-    @Around(value = "execution( * com.github.karina_denisevich.travel_agency.services.*.*(..))",
-            argNames = "joinPoint")
-    public Object logTheMethod(ProceedingJoinPoint joinPoint) throws Throwable {
+    @Before(value = "execution( * com.github.karina_denisevich.travel_agency.services.*.*(..))")
+    public void logBeforeMethod(JoinPoint joinPoint) {
         StringBuilder logMessage = new StringBuilder();
 
         logMessage.append("Beginning of ").append(joinPoint.getTarget().getClass().getName())
@@ -34,13 +33,19 @@ public class LoggingAspect {
         }
         logMessage.append(")");
         logger.info(logMessage.toString());
+    }
 
-        Object o = joinPoint.proceed();
+    @AfterReturning(pointcut = "execution( * com.github.karina_denisevich.travel_agency.services.*.*(..))",
+            returning = "result")
+    public void logAfterReturning(JoinPoint joinPoint, Object result) {
+        StringBuilder logMessage = new StringBuilder();
 
-        logMessage.append(" returned : ").append(o.toString());
+        logMessage.append(joinPoint.getTarget().getClass().getName()).append("."); //class name
+        logMessage.append(joinPoint.getSignature().getName());//method name
+        logMessage.append("(");
+
+        logMessage.append(" returned : ").append(result.toString());
         logger.info(logMessage.toString());
-
-        return o;
     }
 
     @AfterThrowing(pointcut = "execution( * com.github.karina_denisevich.travel_agency.services.*.*(..))",

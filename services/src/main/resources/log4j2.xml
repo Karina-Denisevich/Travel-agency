@@ -42,7 +42,7 @@
             <AppenderRef ref="Console"/>
         </Root>
 
-        <Logger level="warn" name="com.github.karina_denisevich.travel_agency.services.aspect"
+        <Logger level="info" name="com.github.karina_denisevich.travel_agency.services"
                 additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="RollingFile"/>

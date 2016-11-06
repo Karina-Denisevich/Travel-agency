@@ -69,7 +69,7 @@ public class UserTest {
         User user = new User();
 
         //validate email before
-        user.setEmail("774dfssdasha@gmaildd.com");
+        user.setEmail("blabla@gmaildd.com");
         user.setPassword("1111");
 
         Long id = null;
@@ -115,7 +115,7 @@ public class UserTest {
 
     @Test
     public void deleteTest() {
-        Long id = 12L;
+        Long id = 13L;
         userService.delete(id);
     }
 

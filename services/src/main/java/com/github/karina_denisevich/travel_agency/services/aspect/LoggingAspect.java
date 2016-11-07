@@ -43,7 +43,7 @@ public class LoggingAspect {
         logMessage.append(joinPoint.getTarget().getClass().getName()).append("."); //class name
         logMessage.append(joinPoint.getSignature().getName());//method name
 
-        logMessage.append(". Returned : ").append(result);
+        logMessage.append("; Returned : ").append(result);
         logger.info(logMessage.toString());
     }
 

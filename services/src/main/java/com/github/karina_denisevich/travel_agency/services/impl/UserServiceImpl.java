@@ -105,6 +105,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getByRole(Role role) {
+        if (role.getId() == null) {
+            role = roleService.getByType(role.getType());
+        }
         return userDao.getByRole(role);
     }
 }

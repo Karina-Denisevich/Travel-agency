@@ -16,7 +16,6 @@ public class UserUnmapper implements RowUnmapper<User> {
         if (user.getId() != null) {
             map.put("id", user.getId());
         }
-
         return map;
     }
 }

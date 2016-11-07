@@ -14,7 +14,6 @@ public class CategoryUnmapper implements RowUnmapper<Category> {
         if (category.getId() != null) {
             map.put("id", category.getId());
         }
-
         return map;
     }
 }

@@ -2,7 +2,9 @@ package com.github.karina_denisevich.travel_agency.services;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,9 +21,33 @@ public class TourTest {
     @Inject
     TourService tourService;
 
+    private Long id;
+    private String title;
+
+    @Before
+    public void insertTest() {
+        Tour tour = new Tour();
+        Category category = new Category();
+        category.setType(Category.CategoryEnum.OTHER_TOUR);
+        Category category1 = new Category();
+        category1.setType(Category.CategoryEnum.BEACH_TOUR);
+        List<Category> categories = new ArrayList<>();
+        categories.add(category);
+        categories.add(category1);
+
+        tour.setCategoryList(categories);
+        tour.setDescription("Some tour");
+        tour.setIsHot(false);
+        tour.setPrice(800.0);
+        tour.setTitle("Test tour");
+        title = tour.getTitle();
+
+        id = tourService.save(tour);
+        Assert.assertNotNull(id);
+    }
+
     @Test
     public void getByIdTest() {
-        Long id = 1L;
         Tour tour = tourService.get(id);
 
         Assert.assertNotNull("tour for id=" + id + " should not be null", tour);
@@ -35,28 +61,7 @@ public class TourTest {
     }
 
     @Test
-    public void insertTest(){
-        Tour tour = new Tour();
-        Category category = new Category();
-        category.setType(Category.CategoryEnum.OTHER_TOUR);
-        Category category1 = new Category();
-        category1.setType(Category.CategoryEnum.BUS_TOUR);
-        List<Category> categories = new ArrayList<>();
-        categories.add(category);
-        categories.add(category1);
-
-        tour.setCategoryList(categories);
-        tour.setDescription("Some tour");
-        tour.setIsHot(false);
-        tour.setPrice(800.0);
-        tour.setTitle("Beach3 tour");
-
-        Long pk = tourService.save(tour);
-        Assert.assertNotNull(pk);
-    }
-
-    @Test
-    public void updateTest(){
+    public void updateTest() {
         Tour tour = new Tour();
         Category category = new Category();
         category.setType(Category.CategoryEnum.SHOP_TOUR);
@@ -66,19 +71,25 @@ public class TourTest {
         categories.add(category);
         categories.add(category1);
 
-        tour.setId(1L);
+        tour.setId(id);
         tour.setCategoryList(categories);
         tour.setDescription("Updated tour");
         tour.setIsHot(false);
         tour.setPrice(800.0);
         tour.setTitle("Shop tour");
 
-        Long pk = tourService.save(tour);
-        Assert.assertNotNull(pk);
+        tourService.save(tour);
+        Assert.assertEquals("Shop tour", tourService.get(id).getTitle());
     }
 
     @Test
-    public void deleteTest(){
-        tourService.delete(2L);
+    public void getByTitleTest() {
+        List<Tour> tourList = tourService.getByTitle(title);
+        Assert.assertEquals(title, tourList.get(0).getTitle());
+    }
+
+    @After
+    public void deleteTest() {
+        tourService.delete(id);
     }
 }

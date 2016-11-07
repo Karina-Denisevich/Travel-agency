@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -56,9 +57,14 @@ public class TourServiceImpl implements TourService {
             tour.setIsHot(false);
         }
         List<Category> categories = tour.getCategoryList();
-        categories.stream().filter(category -> category.getId() == null).forEach(category ->
-                categories.set(categories.indexOf(category), categoryService.getByType(category.getType())));
-
+        if (categories != null) {
+            categories.stream().filter(category -> category.getId() == null).forEach(category ->
+                    categories.set(categories.indexOf(category), categoryService.getByType(category.getType())));
+        } else {
+            List<Category> categoryOther = new ArrayList<>();
+            categoryOther.add(categoryService.getByType(Category.CategoryEnum.OTHER_TOUR));
+            tour.setCategoryList(categoryOther);
+        }
     }
 
     @Override
@@ -85,7 +91,7 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public Tour getByTitle(String title) {
+    public List<Tour> getByTitle(String title) {
         return tourDao.getByTitle(title);
     }
 }

@@ -1,9 +1,9 @@
 package com.github.karina_denisevich.travel_agency.services;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
-import com.github.karina_denisevich.travel_agency.datamodel.Role;
+import org.junit.After;
 import org.junit.Assert;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,9 +19,20 @@ public class CategoryTest {
     @Inject
     CategoryService categoryService;
 
+    private Long id;
+
+    @Before
+    public void insertTest() {
+        Category category1 = new Category();
+        category1.setType(Category.CategoryEnum.ESCOURTED_TOUR);
+
+        id = categoryService.save(category1);
+
+        Assert.assertNotNull(id);
+    }
+
     @Test
     public void getByIdTest() {
-        Long id = 2L;
         Category category = categoryService.get(id);
 
         Assert.assertNotNull("category for id=" + id + " should not be null", category);
@@ -35,38 +46,24 @@ public class CategoryTest {
     }
 
     @Test
-    public void insertTest() {
-        Category category1 = new Category();
-        category1.setType(Category.CategoryEnum.BUS_TOUR);
-        Category category2 = new Category();
-        category2.setType(Category.CategoryEnum.BEACH_TOUR);
-
-        Long pk1 = categoryService.save(category1);
-        Long pk2 = categoryService.save(category2);
-
-        Assert.assertNotNull(pk1);
-        Assert.assertNotNull(pk2);
-    }
-
-    @Test
     public void updateTest() {
         Category category = new Category();
-        category.setId(2L);
-        category.setType(Category.CategoryEnum.SHOP_TOUR);
+        category.setId(id);
+        category.setType(Category.CategoryEnum.RAIL_TOUR);
         Long pk = categoryService.save(category);
 
-        Assert.assertNotNull(pk);
+        Assert.assertEquals(id, pk);
     }
 
     @Test
     public void getByType() {
-        Category category = categoryService.getByType(Category.CategoryEnum.OTHER_TOUR);
+        Category category = categoryService.getByType(Category.CategoryEnum.ESCOURTED_TOUR);
         System.out.println(category);
-        Assert.assertEquals(Category.CategoryEnum.OTHER_TOUR, category.getType());
+        Assert.assertEquals(Category.CategoryEnum.ESCOURTED_TOUR, category.getType());
     }
 
-    @Test
+    @After
     public void deleteTest() {
-        categoryService.delete(3L);
+        categoryService.delete(id);
     }
 }

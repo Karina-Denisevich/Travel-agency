@@ -4,7 +4,6 @@ import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daodb.TourDao;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.TourUnmapper;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
-import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -26,10 +25,10 @@ public class TourDaoImpl extends GenericDaoImpl<Tour, Long> implements TourDao {
     }
 
     @Override
-    public Tour getByTitle(String title) {
+    public List<Tour> getByTitle(String title) {
         final String sql = "SELECT * FROM " + tableName + " WHERE title = ?";
 
-        return jdbcTemplate.queryForObject(sql, new Object[]{title},
+        return jdbcTemplate.query(sql, new Object[]{title},
                 new BeanPropertyRowMapper<>(Tour.class));
     }
 }

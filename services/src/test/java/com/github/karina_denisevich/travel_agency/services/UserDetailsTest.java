@@ -2,7 +2,9 @@ package com.github.karina_denisevich.travel_agency.services;
 
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,9 +25,37 @@ public class UserDetailsTest {
     @Inject
     UserService userService;
 
+    private Long id;
+
+    @Before
+    public void executeBeforeTest() {
+        User user = new User();
+        user.setEmail("Details");
+        user.setPassword("11");
+        id = userService.save(user);
+        user.setId(id);
+
+        UserDetails userDetails = new UserDetails();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateInString = "1992-10-18";
+        try {
+            userDetails.setbDate(sdf.parse(dateInString));
+        } catch (ParseException e) {
+            throw new IllegalArgumentException();
+        }
+        userDetails.setPhone("+375292442222");
+        userDetails.setFirstName("Ivan");
+        userDetails.setLastName("Ivanov");
+        userDetails.setUser(user);
+
+        Long descId = userDetailsService.save(userDetails);
+
+        Assert.assertNotNull(descId);
+        Assert.assertEquals(userService.get(id).getId(), descId);
+    }
+
     @Test
     public void getByIdTest() {
-        Long id = 2L;
         UserDetails userDetails = userDetailsService.get(id);
 
         Assert.assertNotNull("userDetails for id=" + id + " should not be null", userDetails);
@@ -39,36 +69,11 @@ public class UserDetailsTest {
     }
 
     @Test
-    public void insertTest() {
-        UserDetails userDetails = new UserDetails();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString = "1992-10-18";
-        try {
-            userDetails.setbDate(sdf.parse(dateInString));
-        } catch (ParseException e) {
-            throw new IllegalArgumentException();
-        }
-        userDetails.setPhone("+375292442222");
-        userDetails.setFirstName("Ivan");
-        userDetails.setLastName("Ivanov");
-        User user = new User();
-        Long id = 3L;
-        user.setId(id);
-        userDetails.setUser(user);
-
-        Long descId = userDetailsService.save(userDetails);
-
-        Assert.assertNotNull(descId);
-        Assert.assertEquals(userService.get(id).getId(), descId);
-    }
-
-    @Test
     public void updateTest() {
-        Long id = 2L;
         UserDetails userDetails = new UserDetails();
         userDetails.setId(id);
-        userDetails.setFirstName("f");
-        userDetails.setLastName("l");
+        userDetails.setFirstName("firs");
+        userDetails.setLastName("last");
         userDetails.setPhone("+375290000000");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateInString = "1985-11-08";
@@ -82,8 +87,8 @@ public class UserDetailsTest {
         Assert.assertEquals(userDetails.getFirstName(), userDetailsService.get(id).getFirstName());
     }
 
-    @Test
-    public void deleteTest(){
-        userDetailsService.delete(3L);
+    @After
+    public void deleteTest() {
+        userService.delete(id);
     }
 }

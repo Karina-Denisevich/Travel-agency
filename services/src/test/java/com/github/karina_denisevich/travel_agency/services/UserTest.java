@@ -2,9 +2,7 @@ package com.github.karina_denisevich.travel_agency.services;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,17 +19,18 @@ public class UserTest {
     @Inject
     UserService userService;
 
-    Long id;
+    private Long id;
+    private String email;
 
-    //@Before
+    @Before
     public void executeBeforeEachTest() {
         User user = new User();
         user.setEmail("TEST");
-        user.setPassword("111111");
+        email = user.getEmail();
+        user.setPassword("1111");
         try {
             id = userService.save(user);
         } catch (DuplicateKeyException e) {
-            id = -1L;
             System.out.println(e.getMessage());
         }
     }
@@ -39,19 +38,16 @@ public class UserTest {
     @Test
     public void updateTest() {
         User user = new User();
-        user.setId(3L);
-        user.setEmail("NewName");
-        user.setPassword("111111");
-        try {
-            id = userService.save(user);
-        } catch (DuplicateKeyException e) {
-            System.out.println(e.getMessage());
-        }
+        user.setId(id);
+        user.setEmail("Updated");
+        user.setPassword("2222");
+        id = userService.save(user);
+
+        Assert.assertEquals(user, userService.get(id));
     }
 
     @Test
     public void getByIdTest() {
-        Long id = 2L;
         User user = userService.get(id);
 
         Assert.assertNotNull("user for id=" + id + " should not be null", user);
@@ -65,6 +61,7 @@ public class UserTest {
     }
 
     @Test
+    @Ignore
     public void insertTest() {
         User user = new User();
 
@@ -81,10 +78,11 @@ public class UserTest {
         Assert.assertNotNull(id);
         User userFromDb = userService.get(id);
         Assert.assertEquals(user.getEmail(), userFromDb.getEmail());
-         //userService.delete(id);
+        //userService.delete(id);
     }
 
     @Test
+    @Ignore
     public void insertBatchTest() {
         List<User> userList = new ArrayList<>();
         User user = new User();
@@ -95,18 +93,19 @@ public class UserTest {
         user.setRole(role);
 
         User user1 = new User();
-        user1.setEmail("Yl@mail.ru");
+        user1.setEmail("Yan@mail.ru");
         user1.setPassword("111111dd");
 
         userList.add(user);
         userList.add(user1);
 
         userService.saveAll(userList);
+
+        Assert.assertTrue("Size should be more than 1.", userService.getAll().size() >= 2);
     }
 
     @Test
     public void getWithRoleTest() {
-        Long id = 2L;
         User user = userService.getWithRole(id);
         Assert.assertNotNull("user for id=" + id + " should not be null", user);
         Assert.assertNotNull("role for id=" + id + " should not be null", user.getRole());
@@ -114,12 +113,29 @@ public class UserTest {
     }
 
     @Test
+    public void getByRoleTest() {
+        Role role = new Role();
+        role.setType(Role.RoleEnum.ROLE_USER);
+        List<User> userList = userService.getByRole(role);
+
+        Assert.assertTrue("Size should be grater than 0. ", userList.size() > 0);
+    }
+
+    @Test
+    public void getByEmailTest() {
+        User user = userService.getByEmail(email);
+
+        Assert.assertEquals(id, user.getId());
+    }
+
+    @Test
+    @Ignore
     public void deleteTest() {
         Long id = 13L;
         userService.delete(id);
     }
 
-    // @After
+    @After
     public void executeAfter() {
         userService.delete(id);
     }

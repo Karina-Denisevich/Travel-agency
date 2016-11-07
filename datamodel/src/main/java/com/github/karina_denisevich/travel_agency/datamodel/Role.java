@@ -7,7 +7,7 @@ import java.util.List;
 @DbTable(name = "role")
 public class Role extends AbstractModel {
 
-    public enum RoleEnum{
+    public enum RoleEnum {
         ROLE_ADMIN,
         ROLE_USER,
         ROLE_ANONYMOUS;

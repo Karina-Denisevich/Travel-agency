@@ -1,9 +1,7 @@
 package com.github.karina_denisevich.travel_agency.services;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -18,9 +16,19 @@ public class RoleTest {
     @Inject
     RoleService roleService;
 
+    private Long id;
+
+    @Before
+    public void insert() {
+        Role role = new Role();
+        role.setType(Role.RoleEnum.ROLE_ANONYMOUS);
+        id = roleService.save(role);
+
+        Assert.assertNotNull(id);
+    }
+
     @Test
     public void getByIdTest() {
-        Long id = 1L;
         Role role = roleService.get(id);
 
         Assert.assertNotNull("role for id=" + id + " should not be null", role);
@@ -34,27 +42,23 @@ public class RoleTest {
     }
 
     @Test
-    public void insert(){
+    public void updateTest() {
         Role role = new Role();
-        role.setType(Role.RoleEnum.ROLE_USER);
-        Long pk = roleService.save(role);
+        role.setId(id);
+        role.setType(Role.RoleEnum.ROLE_ANONYMOUS);
+        id = roleService.save(role);
 
-        Assert.assertNotNull(pk);
+        Assert.assertNotNull(id);
     }
 
     @Test
-    public void updateTest(){
-        Role role = new Role();
-        role.setId(1L);
-        role.setType(Role.RoleEnum.ROLE_ADMIN);
-        Long pk = roleService.save(role);
-
-        Assert.assertNotNull(pk);
+    public void getByTypeTest() {
+        Role role = roleService.getByType(Role.RoleEnum.ROLE_ANONYMOUS);
+        Assert.assertEquals(id, role.getId());
     }
 
-    @Test
-    public void deleteTest(){
-
-        roleService.delete(3L);
+    @After
+    public void deleteTest() {
+        roleService.delete(id);
     }
 }

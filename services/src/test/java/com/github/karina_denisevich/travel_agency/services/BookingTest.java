@@ -3,7 +3,9 @@ package com.github.karina_denisevich.travel_agency.services;
 import com.github.karina_denisevich.travel_agency.datamodel.Booking;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,9 +23,50 @@ public class BookingTest {
     @Inject
     BookingService bookingService;
 
+    @Inject
+    UserService userService;
+
+    @Inject
+    TourService tourService;
+
+    private Long id;
+    private Long userId;
+    private Long tourId;
+
+    @Before
+    public void insertTest() {
+        User user = new User();
+        user.setEmail("Booking@mail.ru");
+        user.setPassword("1");
+        userId = userService.save(user);
+        user.setId(userId);
+
+        Tour tour = new Tour();
+        tour.setTitle("BookingTitle");
+        tour.setPrice(100.0);
+        tourId = tourService.save(tour);
+        tour.setId(tourId);
+
+        Booking booking = new Booking();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateInString = "2004-11-06";
+        try {
+            booking.setOrderDate(sdf.parse(dateInString));
+        } catch (ParseException e) {
+            throw new IllegalArgumentException();
+        }
+
+        booking.setUser(user);
+        booking.setTour(tour);
+
+        id = bookingService.save(booking);
+
+        Assert.assertNotNull(id);
+    }
+
     @Test
     public void getByIdTest() {
-        Long id = 2L;
         Booking booking = bookingService.get(id);
 
         Assert.assertNotNull("booking for id=" + id + " should not be null", booking);
@@ -37,37 +80,12 @@ public class BookingTest {
     }
 
     @Test
-    public void insertTest() {
-        Booking booking = new Booking();
-        User user = new User();
-        Tour tour = new Tour();
-
-        user.setId(7L);
-        tour.setId(3L);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString = "2004-11-06";
-        try {
-            booking.setOrderDate(sdf.parse(dateInString));
-        } catch (ParseException e) {
-            throw new IllegalArgumentException();
-        }
-
-        booking.setUser(user);
-        booking.setTour(tour);
-
-        Long id = bookingService.save(booking);
-
-        Assert.assertNotNull(id);
-    }
-
-    @Test
     public void updateTest() {
         User user = new User();
-        user.setId(2L);
+        user.setId(userId);
 
         Tour tour = new Tour();
-        tour.setId(2L);
+        tour.setId(tourId);
 
         Booking booking = new Booking();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -77,7 +95,7 @@ public class BookingTest {
         } catch (ParseException e) {
             throw new IllegalArgumentException();
         }
-        booking.setId(2L);
+        booking.setId(id);
         booking.setUser(user);
         booking.setTour(tour);
 
@@ -87,17 +105,16 @@ public class BookingTest {
     }
 
     @Test
-    public void getOrdersByUserIdTest() {
-        Long userId = 2L;
-        List<Booking> bookingList = bookingService.getAllByUserId(userId);
-    }
-
-    @Test
-    public void getAllByUserIdTest(){
-        Long id = 7L;
-
+    public void getAllByUserIdTest() {
         List<Booking> bookingList = bookingService.getAllByUserId(id);
 
         Assert.assertNotNull(bookingList);
+    }
+
+    @After
+    public void delete() {
+        userService.delete(userId);
+        tourService.delete(tourId);
+        bookingService.delete(id);
     }
 }

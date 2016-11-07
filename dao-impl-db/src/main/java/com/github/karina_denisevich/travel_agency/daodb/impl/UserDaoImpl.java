@@ -17,7 +17,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-
 @Repository
 public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
 

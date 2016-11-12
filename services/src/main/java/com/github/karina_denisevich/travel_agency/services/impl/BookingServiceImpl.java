@@ -1,6 +1,6 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.BookingDao;
+import com.github.karina_denisevich.travel_agency.daoapi.BookingDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Booking;
 import com.github.karina_denisevich.travel_agency.services.BookingService;
 import com.github.karina_denisevich.travel_agency.services.TourService;
@@ -43,6 +43,7 @@ public class BookingServiceImpl implements BookingService {
         }
     }
 
+    @Transactional
     @Override
     public void saveAll(List<Booking> bookingList) {
         bookingList.forEach(this::save);

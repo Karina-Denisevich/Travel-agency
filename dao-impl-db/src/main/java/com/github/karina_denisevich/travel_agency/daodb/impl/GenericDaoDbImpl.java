@@ -1,7 +1,7 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
-import com.github.karina_denisevich.travel_agency.daodb.GenericDao;
+import com.github.karina_denisevich.travel_agency.daoapi.GenericDao;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.RowUnmapper;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public abstract class GenericDaoImpl<T, PK extends Serializable> implements GenericDao<T, PK> {
+public abstract class GenericDaoDbImpl<T, PK extends Serializable> implements GenericDao<T, PK> {
 
     @Inject
     private JdbcTemplate jdbcTemplate;
@@ -27,7 +27,7 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
     private final String tableName;
 
     @SuppressWarnings("unchecked")
-    public GenericDaoImpl(RowUnmapper<T> rowUnmapper) {
+    public GenericDaoDbImpl(RowUnmapper<T> rowUnmapper) {
 
         this.rowUnmapper = rowUnmapper;
 

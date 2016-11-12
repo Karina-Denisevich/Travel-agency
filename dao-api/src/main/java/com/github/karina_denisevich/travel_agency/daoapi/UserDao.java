@@ -1,4 +1,4 @@
-package com.github.karina_denisevich.travel_agency.daodb;
+package com.github.karina_denisevich.travel_agency.daoapi;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;

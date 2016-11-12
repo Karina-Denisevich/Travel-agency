@@ -1,7 +1,7 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.CategoryDao;
-import com.github.karina_denisevich.travel_agency.daodb.TourToCategoryDao;
+import com.github.karina_denisevich.travel_agency.daoapi.CategoryDao;
+import com.github.karina_denisevich.travel_agency.daoapi.TourToCategoryDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.services.CategoryService;
 import org.springframework.stereotype.Service;
@@ -29,6 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
+    @Transactional
     @Override
     public void saveAll(List<Category> categories) {
         categories.forEach(this::save);

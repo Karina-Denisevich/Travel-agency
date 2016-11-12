@@ -1,6 +1,6 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.UserDetailsDao;
+import com.github.karina_denisevich.travel_agency.daoapi.UserDetailsDao;
 import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
 import com.github.karina_denisevich.travel_agency.services.UserDetailsService;
 import com.github.karina_denisevich.travel_agency.services.UserService;
@@ -38,6 +38,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
     }
 
+    @Transactional
     @Override
     public void saveAll(List<UserDetails> userDetailsList) {
         userDetailsList.forEach(this::save);

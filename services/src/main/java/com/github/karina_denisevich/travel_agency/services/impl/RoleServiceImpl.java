@@ -1,6 +1,6 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.RoleDao;
+import com.github.karina_denisevich.travel_agency.daoapi.RoleDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import com.github.karina_denisevich.travel_agency.services.RoleService;
@@ -31,6 +31,7 @@ public class RoleServiceImpl implements RoleService {
         }
     }
 
+    @Transactional
     @Override
     public void saveAll(List<Role> roles) {
         roles.forEach(this::save);

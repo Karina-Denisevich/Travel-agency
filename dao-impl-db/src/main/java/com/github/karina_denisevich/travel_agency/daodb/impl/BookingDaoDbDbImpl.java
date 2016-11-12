@@ -1,7 +1,7 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
-import com.github.karina_denisevich.travel_agency.daodb.BookingDao;
+import com.github.karina_denisevich.travel_agency.daoapi.BookingDao;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.BookingWithToursMapper;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.TourMapper;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.BookingUnmapper;
@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Repository
-public class BookingDaoImpl extends GenericDaoImpl<Booking, Long> implements BookingDao {
+public class BookingDaoDbDbImpl extends GenericDaoDbImpl<Booking, Long> implements BookingDao {
 
     @Inject
     JdbcTemplate jdbcTemplate;
@@ -22,7 +22,7 @@ public class BookingDaoImpl extends GenericDaoImpl<Booking, Long> implements Boo
     private final String tableName;
     private final String tourTableName;
 
-    public BookingDaoImpl() {
+    public BookingDaoDbDbImpl() {
         super(new BookingUnmapper());
         this.tableName = new DbTableAnalyzer().getDbTableName(Booking.class);
         this.tourTableName = new DbTableAnalyzer().getDbTableName(Tour.class);

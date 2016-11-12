@@ -1,6 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.TourToCategoryDao;
+import com.github.karina_denisevich.travel_agency.daoapi.TourToCategoryDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;

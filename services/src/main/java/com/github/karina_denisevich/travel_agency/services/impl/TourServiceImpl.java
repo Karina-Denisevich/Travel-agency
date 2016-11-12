@@ -1,7 +1,7 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
-import com.github.karina_denisevich.travel_agency.daodb.TourToCategoryDao;
-import com.github.karina_denisevich.travel_agency.daodb.TourDao;
+import com.github.karina_denisevich.travel_agency.daoapi.TourToCategoryDao;
+import com.github.karina_denisevich.travel_agency.daoapi.TourDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import com.github.karina_denisevich.travel_agency.services.BookingService;
@@ -67,6 +67,7 @@ public class TourServiceImpl implements TourService {
         }
     }
 
+    @Transactional
     @Override
     public void saveAll(List<Tour> tours) {
         tours.forEach(this::save);

@@ -1,7 +1,7 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
-import com.github.karina_denisevich.travel_agency.daodb.UserDao;
+import com.github.karina_denisevich.travel_agency.daoapi.UserDao;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.RoleMapper;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.UserWithRoleMapper;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.UserUnmapper;
@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
+public class UserDaoDbImpl extends GenericDaoDbImpl<User, Long> implements UserDao {
 
     @Inject
     private JdbcTemplate jdbcTemplate;
@@ -26,7 +26,7 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao {
     private final String tableName;
     private final String roleTableName;
 
-    public UserDaoImpl() {
+    public UserDaoDbImpl() {
         super(new UserUnmapper());
         this.tableName = new DbTableAnalyzer().getDbTableName(User.class);
         this.roleTableName = new DbTableAnalyzer().getDbTableName(Role.class);

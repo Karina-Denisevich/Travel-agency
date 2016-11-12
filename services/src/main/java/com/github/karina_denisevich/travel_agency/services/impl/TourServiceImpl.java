@@ -37,7 +37,7 @@ public class TourServiceImpl implements TourService {
         if (tour.getId() == null) {
             Long id = tourDao.insert(tour);
             tour.setId(id);
-            tourToCategoryDao.insertTourWithCategories(tour);
+            //tourToCategoryDao.insertTourWithCategories(tour);
             return id;
         } else {
             tourToCategoryDao.deleteByTourId(tour.getId());

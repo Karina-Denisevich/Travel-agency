@@ -11,14 +11,14 @@ import org.springframework.stereotype.Repository;
 import javax.inject.Inject;
 
 @Repository
-public class CategoryDaoDbDbImpl extends GenericDaoDbImpl<Category, Long> implements CategoryDao {
+public class CategoryDaoDbImpl extends GenericDaoDbImpl<Category, Long> implements CategoryDao {
 
     @Inject
     JdbcTemplate jdbcTemplate;
 
     private final String tableName;
 
-    public CategoryDaoDbDbImpl() {
+    public CategoryDaoDbImpl() {
         super(new CategoryUnmapper());
         this.tableName = new DbTableAnalyzer().getDbTableName(Category.class);
     }

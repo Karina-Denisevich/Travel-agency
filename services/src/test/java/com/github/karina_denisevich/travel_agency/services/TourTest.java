@@ -24,7 +24,8 @@ public class TourTest {
     private Long id;
     private String title;
 
-    @Before
+   // @Before
+    @Test
     public void insertTest() {
         Tour tour = new Tour();
         Category category = new Category();
@@ -88,7 +89,7 @@ public class TourTest {
         Assert.assertEquals(title, tourList.get(0).getTitle());
     }
 
-    @After
+    //@After
     public void deleteTest() {
         tourService.delete(id);
     }

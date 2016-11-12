@@ -23,6 +23,7 @@ public class UserTest {
     private String email;
 
     @Before
+    // @Test
     public void executeBeforeEachTest() {
         User user = new User();
         user.setEmail("TEST");
@@ -61,7 +62,7 @@ public class UserTest {
     }
 
     @Test
-    @Ignore
+    //@Ignore
     public void insertTest() {
         User user = new User();
 
@@ -77,7 +78,7 @@ public class UserTest {
         }
         Assert.assertNotNull(id);
         User userFromDb = userService.get(id);
-        Assert.assertEquals(user.getEmail(), userFromDb.getEmail());
+        //Assert.assertEquals(user.getEmail(), userFromDb.getEmail());
         //userService.delete(id);
     }
 
@@ -135,7 +136,7 @@ public class UserTest {
         userService.delete(id);
     }
 
-    @After
+    // @After
     public void executeAfter() {
         userService.delete(id);
     }

@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class TourToCategoryDaoImpl implements TourToCategoryDao {
+public class TourToCategoryDaoDbImpl implements TourToCategoryDao {
 
     @Inject
     JdbcTemplate jdbcTemplate;

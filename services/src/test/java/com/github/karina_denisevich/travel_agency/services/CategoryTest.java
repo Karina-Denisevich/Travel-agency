@@ -21,12 +21,13 @@ public class CategoryTest {
 
     private Long id;
 
-    @Before
+    //@Before
+    @Test
     public void insertTest() {
-        Category category1 = new Category();
-        category1.setType(Category.CategoryEnum.ESCOURTED_TOUR);
+        Category category = new Category();
+        category.setType(Category.CategoryEnum.BEACH_TOUR);
 
-        id = categoryService.save(category1);
+        id = categoryService.save(category);
 
         Assert.assertNotNull(id);
     }
@@ -62,7 +63,7 @@ public class CategoryTest {
         Assert.assertEquals(Category.CategoryEnum.ESCOURTED_TOUR, category.getType());
     }
 
-    @After
+   // @After
     public void deleteTest() {
         categoryService.delete(id);
     }

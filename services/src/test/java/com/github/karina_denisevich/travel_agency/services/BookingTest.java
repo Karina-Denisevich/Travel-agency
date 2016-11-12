@@ -33,7 +33,8 @@ public class BookingTest {
     private Long userId;
     private Long tourId;
 
-    @Before
+    //@Before
+    @Test
     public void insertTest() {
         User user = new User();
         user.setEmail("Booking@mail.ru");

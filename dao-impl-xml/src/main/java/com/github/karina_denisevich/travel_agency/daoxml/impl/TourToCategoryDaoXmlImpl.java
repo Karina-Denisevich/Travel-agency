@@ -30,7 +30,7 @@ public class TourToCategoryDaoXmlImpl implements TourToCategoryDao {
     private void initialize() throws IOException {
         xstreamTour = new XStream();
         xstreamTour.alias(rootNameTour, Tour.class);
-        xstreamTour.alias(categoryListName, Category.class);
+        xstreamTour.alias("category", Category.class);
 
         fileTour = new File(basePath + "\\" + rootNameTour + ".xml");
         fileTour.getParentFile().mkdirs();
@@ -42,15 +42,6 @@ public class TourToCategoryDaoXmlImpl implements TourToCategoryDao {
 
     @Override
     public void insertTourWithCategories(Tour tour) {
-        List<Tour> tourList = readCollection();
-
-        for (Tour tour1 : tourList) {
-            if (tour1.getId().equals(tour.getId())) {
-                xstreamTour.addImplicitCollection(Category.class, "categoryList", Tour.class);
-                break;
-            }
-        }
-        writeCollection(tourList);
     }
 
     @Override

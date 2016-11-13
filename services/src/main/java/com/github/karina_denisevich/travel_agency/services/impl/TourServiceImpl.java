@@ -56,6 +56,7 @@ public class TourServiceImpl implements TourService {
         if (tour.getIsHot() == null) {
             tour.setIsHot(false);
         }
+
         List<Category> categories = tour.getCategoryList();
         if (categories != null) {
             categories.stream().filter(category -> category.getId() == null).forEach(category ->

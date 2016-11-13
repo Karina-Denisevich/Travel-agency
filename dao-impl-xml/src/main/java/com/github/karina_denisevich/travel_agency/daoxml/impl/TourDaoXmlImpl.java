@@ -2,7 +2,9 @@ package com.github.karina_denisevich.travel_agency.daoxml.impl;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daoapi.TourDao;
+import com.github.karina_denisevich.travel_agency.daoxml.impl.converter.TourConverter;
 import com.github.karina_denisevich.travel_agency.datamodel.Booking;
+import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import com.thoughtworks.xstream.XStream;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +34,9 @@ public class TourDaoXmlImpl implements TourDao {
         // TODO refactoring: use classname instead of hardcoded filename
         xstream = new XStream();
         xstream.alias(rootName, Tour.class);
+        xstream.registerConverter(new TourConverter());
+//        xstream.alias("category", Category.class);
+//        xstream.addImplicitCollection(Tour.class, "categoryList");
 
         file = new File(basePath + "\\" + rootName + ".xml");
         file.getParentFile().mkdirs();

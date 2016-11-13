@@ -66,7 +66,16 @@ public class CategoryDaoXmlImpl implements CategoryDao {
 
     @Override
     public Category getByType(Category.CategoryEnum type) {
-        return null;
+        List<Category> categoryList = readCollection();
+
+        // TODO: don't iterate whole collection
+        for (Category category : categoryList) {
+            if (category.getType().equals(type)) {
+                return category;
+            }
+        }
+        //TODO: change type of excep
+        throw new RuntimeException();
     }
 
     @Override
@@ -81,7 +90,8 @@ public class CategoryDaoXmlImpl implements CategoryDao {
 
     @Override
     public List<Category> getAll() {
-        return null;
+
+        throw new UnsupportedOperationException();
     }
 
     private List<Category> readCollection() {

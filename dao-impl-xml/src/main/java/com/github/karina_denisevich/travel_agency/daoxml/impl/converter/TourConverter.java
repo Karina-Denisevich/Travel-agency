@@ -1,7 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daoxml.impl.converter;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
-import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
@@ -10,28 +9,35 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import java.lang.reflect.Field;
 import java.util.Objects;
 
-public class TourConverter implements Converter {
+public class TourConverter implements GenericConverter<Tour> {
 
     @Override
     public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
         Tour tour = (Tour) source;
 
+        writer.startNode("id");
+        writer.setValue(tour.getId().toString());
+        writer.endNode();
+
         for (Field field : tour.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            Object value = null;
-            try {
-                value = field.get(tour);
-            } catch (IllegalAccessException e) {
-                //never happens
-            }
-            if (!Objects.equals(field.getName(), "categoryList")) {
+            Object value = getValue(field, tour);
+            if (value != null && !Objects.equals(field.getName(), "categoryList")) {
                 writer.startNode(field.getName());
-                if (value != null) {
-                    writer.setValue(value.toString());
-                }
+                writer.setValue(value.toString());
                 writer.endNode();
             }
         }
+    }
+
+    private Object getValue(Field field, Tour tour) {
+        field.setAccessible(true);
+        Object value = null;
+        try {
+            value = field.get(tour);
+        } catch (IllegalAccessException e) {
+            //never happens
+        }
+        return value;
     }
 
     @Override
@@ -42,6 +48,7 @@ public class TourConverter implements Converter {
     @Override
     public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
         Tour tour = new Tour();
+
         while (reader.hasMoreChildren()) {
             reader.moveDown();
             String nodeName = reader.getNodeName();

@@ -22,8 +22,8 @@ public class UserTest {
     private Long id;
     private String email;
 
-    @Before
-    // @Test
+   // @Before
+     @Test
     public void executeBeforeEachTest() {
         User user = new User();
         user.setEmail("TEST");

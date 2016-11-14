@@ -23,12 +23,10 @@ public class UserDaoDbImpl extends GenericDaoDbImpl<User, Long> implements UserD
     @Inject
     private JdbcTemplate jdbcTemplate;
 
-    private final String tableName;
     private final String roleTableName;
 
     public UserDaoDbImpl() {
         super(new UserUnmapper());
-        this.tableName = new DbTableAnalyzer().getDbTableName(User.class);
         this.roleTableName = new DbTableAnalyzer().getDbTableName(Role.class);
     }
 

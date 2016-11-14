@@ -19,12 +19,10 @@ public class BookingDaoDbImpl extends GenericDaoDbImpl<Booking, Long> implements
     @Inject
     JdbcTemplate jdbcTemplate;
 
-    private final String tableName;
     private final String tourTableName;
 
     public BookingDaoDbImpl() {
         super(new BookingUnmapper());
-        this.tableName = new DbTableAnalyzer().getDbTableName(Booking.class);
         this.tourTableName = new DbTableAnalyzer().getDbTableName(Tour.class);
     }
 

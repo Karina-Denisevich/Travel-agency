@@ -24,7 +24,7 @@ public abstract class GenericDaoDbImpl<T, PK extends Serializable> implements Ge
 
     private final RowUnmapper<T> rowUnmapper;
 
-    private final String tableName;
+    protected final String tableName;
 
     @SuppressWarnings("unchecked")
     public GenericDaoDbImpl(RowUnmapper<T> rowUnmapper) {

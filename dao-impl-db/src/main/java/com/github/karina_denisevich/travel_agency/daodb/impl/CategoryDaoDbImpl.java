@@ -1,6 +1,5 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
-import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daoapi.CategoryDao;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.CategoryUnmapper;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
@@ -16,11 +15,8 @@ public class CategoryDaoDbImpl extends GenericDaoDbImpl<Category, Long> implemen
     @Inject
     JdbcTemplate jdbcTemplate;
 
-    private final String tableName;
-
     public CategoryDaoDbImpl() {
         super(new CategoryUnmapper());
-        this.tableName = new DbTableAnalyzer().getDbTableName(Category.class);
     }
 
     @Override

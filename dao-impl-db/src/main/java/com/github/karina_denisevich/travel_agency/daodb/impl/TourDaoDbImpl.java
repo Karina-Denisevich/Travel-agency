@@ -1,6 +1,5 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
-import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daoapi.TourDao;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.TourUnmapper;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
@@ -17,11 +16,8 @@ public class TourDaoDbImpl extends GenericDaoDbImpl<Tour, Long> implements TourD
     @Inject
     JdbcTemplate jdbcTemplate;
 
-    private final String tableName;
-
     public TourDaoDbImpl() {
         super(new TourUnmapper());
-        this.tableName = new DbTableAnalyzer().getDbTableName(Tour.class);
     }
 
     @Override

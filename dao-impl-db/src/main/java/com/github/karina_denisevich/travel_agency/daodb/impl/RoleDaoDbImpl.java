@@ -1,6 +1,5 @@
 package com.github.karina_denisevich.travel_agency.daodb.impl;
 
-import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daoapi.RoleDao;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.RoleUnmapper;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
@@ -16,11 +15,9 @@ public class RoleDaoDbImpl extends GenericDaoDbImpl<Role, Long> implements RoleD
     @Inject
     JdbcTemplate jdbcTemplate;
 
-    private final String tableName;
 
     public RoleDaoDbImpl() {
         super(new RoleUnmapper());
-        this.tableName = new DbTableAnalyzer().getDbTableName(Role.class);
     }
 
     @Override

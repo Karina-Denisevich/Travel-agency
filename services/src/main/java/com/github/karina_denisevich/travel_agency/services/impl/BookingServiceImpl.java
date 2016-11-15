@@ -27,19 +27,23 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     @Override
     public Long save(Booking booking) {
-        Validate.notNull(booking.getUser(), "User should not be null");
-        Validate.notNull(booking.getTour(), "Tour should not be null");
-        Validate.notNull(booking.getOrderDate(), "Date should not be null");
-
-        if (booking.getConfirmed() == null) {
-            booking.setConfirmed(false);
-        }
+        beforeSave(booking);
 
         if (booking.getId() == null) {
             return bookingDao.insert(booking);
         } else {
             bookingDao.update(booking);
             return booking.getId();
+        }
+    }
+
+    private void beforeSave(Booking booking) {
+        Validate.notNull(booking.getUser(), "User should not be null");
+        Validate.notNull(booking.getTour(), "Tour should not be null");
+        Validate.notNull(booking.getOrderDate(), "Date should not be null");
+
+        if (booking.getConfirmed() == null) {
+            booking.setConfirmed(false);
         }
     }
 

@@ -67,8 +67,14 @@ public class UserTest {
         User user = new User();
 
         //validate email before
-        user.setEmail("b88ddssdla@gmaildd.com");
+        user.setEmail("user@gmail.com");
         user.setPassword("1111");
+
+        Role role = new Role();
+        role.setId(1L);
+        role.setType(Role.RoleEnum.ROLE_ADMIN);
+
+        user.setRole(role);
 
         Long id = null;
         try {
@@ -77,7 +83,7 @@ public class UserTest {
             System.out.println(e.getCause().getMessage());
         }
         Assert.assertNotNull(id);
-        User userFromDb = userService.get(id);
+       // User userFromDb = userService.get(id);
         //Assert.assertEquals(user.getEmail(), userFromDb.getEmail());
         //userService.delete(id);
     }

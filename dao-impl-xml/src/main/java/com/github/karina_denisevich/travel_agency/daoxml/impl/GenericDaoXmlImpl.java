@@ -66,12 +66,15 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
     @Override
     public PK insert(T entity) {
         List<T> entityList = readCollection();
-        Long id = getNextId(entityList);
+        Long id;
+        if (entity.getId() == null) {
+            id = getNextId(entityList);
+            entity.setId(id);
+        } else {
+            id = entity.getId();
+        }
 
         entityList.add(entity);
-
-        entity.setId(id);
-
         writeCollection(entityList);
 
         return (PK) id;

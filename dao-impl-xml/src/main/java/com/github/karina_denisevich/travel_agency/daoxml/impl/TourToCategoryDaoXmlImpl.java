@@ -1,6 +1,7 @@
 package com.github.karina_denisevich.travel_agency.daoxml.impl;
 
 import com.github.karina_denisevich.travel_agency.daoapi.TourToCategoryDao;
+import com.github.karina_denisevich.travel_agency.daoxml.impl.model.TourToCategory;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import com.thoughtworks.xstream.XStream;
@@ -18,10 +19,9 @@ import java.util.List;
 @Repository
 public class TourToCategoryDaoXmlImpl implements TourToCategoryDao {
 
-    private final String rootNameTour = "tour";
-    private final String categoryListName = "categoryList";
+    private final String rootName = "tour_to_category";
     private XStream xstreamTour;
-    private File fileTour;
+    private File tourToCategory;
 
     @Value("${basePath}")
     private String basePath;
@@ -29,19 +29,36 @@ public class TourToCategoryDaoXmlImpl implements TourToCategoryDao {
     @PostConstruct
     private void initialize() throws IOException {
         xstreamTour = new XStream();
-        xstreamTour.alias(rootNameTour, Tour.class);
-        xstreamTour.alias("category", Category.class);
+        xstreamTour.alias(rootName, TourToCategory.class);
 
-        fileTour = new File(basePath + "\\" + rootNameTour + ".xml");
-        fileTour.getParentFile().mkdirs();
-        if (!fileTour.exists()) {
+        tourToCategory = new File(basePath + "\\" + rootName + ".xml");
+        tourToCategory.getParentFile().mkdirs();
+        if (!tourToCategory.exists()) {
             xstreamTour.toXML(new ArrayList<>(), new FileOutputStream(
-                    fileTour));
+                    tourToCategory));
         }
     }
 
     @Override
     public void insertTourWithCategories(Tour tour) {
+        List<TourToCategory> entityList = readCollection();
+
+        entityList.addAll(getListForTour(tour));
+
+        writeCollection(entityList);
+    }
+
+    private List<TourToCategory> getListForTour(Tour tour) {
+        List<TourToCategory> tourToCategoryList = new ArrayList<>();
+
+        for (Category category : tour.getCategoryList()) {
+            TourToCategory tourToCategory = new TourToCategory();
+            tourToCategory.setTour(tour);
+            tourToCategory.setCategory(category);
+            tourToCategoryList.add(tourToCategory);
+        }
+
+        return tourToCategoryList;
     }
 
     @Override
@@ -54,21 +71,17 @@ public class TourToCategoryDaoXmlImpl implements TourToCategoryDao {
 
     }
 
-    private List<Tour> readCollection() {
+    @SuppressWarnings("unchecked")
+    private List<TourToCategory> readCollection() {
 
-        return (List<Tour>) xstreamTour.fromXML(fileTour);
+        return (List<TourToCategory>) xstreamTour.fromXML(tourToCategory);
     }
 
-    private void writeCollection(List<Tour> newList) {
+    private void writeCollection(List<TourToCategory> newList) {
         try {
-            xstreamTour.toXML(newList, new FileOutputStream(fileTour));
+            xstreamTour.toXML(newList, new FileOutputStream(tourToCategory));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);// TODO custom exception
         }
-    }
-
-    private long getNextId(List<Tour> tourList) {
-        return tourList.isEmpty() ? 1L : tourList.get(
-                tourList.size() - 1).getId() + 1;
     }
 }

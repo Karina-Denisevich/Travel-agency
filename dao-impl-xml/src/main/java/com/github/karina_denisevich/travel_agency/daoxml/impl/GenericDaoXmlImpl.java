@@ -2,10 +2,7 @@ package com.github.karina_denisevich.travel_agency.daoxml.impl;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daoapi.GenericDao;
-import com.github.karina_denisevich.travel_agency.daoxml.impl.converter.GenericConverter;
-import com.github.karina_denisevich.travel_agency.daoxml.impl.converter.TourConverter;
 import com.github.karina_denisevich.travel_agency.datamodel.AbstractModel;
-import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import com.thoughtworks.xstream.XStream;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -22,7 +19,7 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
 
     private final Class<T> genericType;
     private final String rootName;
-    private final GenericConverter<T> genericConverter;
+    // private final GenericConverter<T> genericConverter;
 
     private XStream xstream;
     private File file;
@@ -35,8 +32,6 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
         xstream = new XStream();
         xstream.alias(rootName, genericType);
         //xstream.registerConverter(genericConverter);
-//        xstream.alias("category", Category.class);
-//        xstream.addImplicitCollection(Tour.class, "categoryList");
 
         file = new File(basePath + "\\" + rootName + ".xml");
         file.getParentFile().mkdirs();
@@ -47,8 +42,8 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
     }
 
     @SuppressWarnings("unchecked")
-    public GenericDaoXmlImpl(GenericConverter<T> genericConverter) {
-        this.genericConverter = genericConverter;
+    public GenericDaoXmlImpl() {
+        // this.genericConverter = genericConverter;
 
         this.genericType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
                 .getActualTypeArguments()[0];
@@ -58,7 +53,14 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
 
     @Override
     public T get(PK id) {
+        List<T> entityList = readCollection();
 
+        for (T entity : entityList) {
+            if (entity.getId().equals(id)) {
+                return entity;
+            }
+        }
+        //TODO: Add exception
         return null;
     }
 

@@ -22,7 +22,7 @@ public class RoleTest {
     @Test
     public void insert() {
         Role role = new Role();
-        role.setType(Role.RoleEnum.ROLE_ADMIN);
+        role.setType(Role.RoleEnum.ROLE_USER);
         id = roleService.save(role);
 
         Assert.assertNotNull(id);

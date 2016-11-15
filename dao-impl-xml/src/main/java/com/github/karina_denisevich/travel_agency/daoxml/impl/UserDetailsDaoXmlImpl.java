@@ -7,17 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class UserDetailsDaoXmlImpl implements UserDetailsDao {
-
-    @Override
-    public UserDetails get(Long id) {
-        return null;
-    }
-
-    @Override
-    public Long insert(UserDetails entity) {
-        return null;
-    }
+public class UserDetailsDaoXmlImpl extends GenericDaoXmlImpl<UserDetails, Long> implements UserDetailsDao {
 
     @Override
     public void update(UserDetails entity) {

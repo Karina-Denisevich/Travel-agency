@@ -34,7 +34,7 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
     private void initialize() throws IOException {
         xstream = new XStream();
         xstream.alias(rootName, genericType);
-        xstream.registerConverter(genericConverter);
+        //xstream.registerConverter(genericConverter);
 //        xstream.alias("category", Category.class);
 //        xstream.addImplicitCollection(Tour.class, "categoryList");
 

@@ -13,7 +13,7 @@ public class UserDetails extends AbstractModel {
     private Date bDate;
     private String phone;
     private String skype;
-    private User user;
+    private transient User user;
 
     public String getFirstName() {
         return firstName;

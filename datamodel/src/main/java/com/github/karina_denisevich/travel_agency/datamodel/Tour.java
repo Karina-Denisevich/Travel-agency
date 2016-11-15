@@ -12,7 +12,7 @@ public class Tour extends AbstractModel {
     private Boolean isHot;
     private Double price;
     private String description;
-    private List<Category> categoryList;
+    private transient List<Category> categoryList;
 
 
     public String getTitle() {

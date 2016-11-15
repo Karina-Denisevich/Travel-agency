@@ -12,8 +12,8 @@ public class User extends AbstractModel {
     private String email;
     private String password;
     private Role role;
-    private UserDetails userDetails;
-    private List<Booking> bookingList;
+    private transient UserDetails userDetails;
+    private transient List<Booking> bookingList;
 
     public Role getRole() {
         return role;

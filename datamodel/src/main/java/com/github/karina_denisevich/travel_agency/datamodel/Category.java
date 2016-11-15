@@ -18,7 +18,7 @@ public class Category extends AbstractModel {
     }
 
     private CategoryEnum type;
-    private List<Tour> tourList;
+    private transient List<Tour> tourList;
 
     public CategoryEnum getType() {
         return type;

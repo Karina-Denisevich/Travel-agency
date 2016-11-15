@@ -14,7 +14,7 @@ public class Role extends AbstractModel {
     }
 
     private RoleEnum type;
-    private List<User> users;
+    private transient List<User> users;
 
     public List<User> getUsers() {
         return users;

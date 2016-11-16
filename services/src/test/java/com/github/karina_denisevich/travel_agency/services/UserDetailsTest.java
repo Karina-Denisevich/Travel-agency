@@ -27,12 +27,13 @@ public class UserDetailsTest {
 
     private Long id;
 
-  //  @Before
-    @Test
+    @Before
     public void executeBeforeTest() {
-        User user = userService.get(1L);
-        //id = userService.save(user);
-        //user.setId(id);
+        User user = new User();
+        user.setEmail("email");
+        user.setPassword("1111");
+        id = userService.save(user);
+        user.setId(id);
 
         UserDetails userDetails = new UserDetails();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -50,7 +51,7 @@ public class UserDetailsTest {
         Long descId = userDetailsService.save(userDetails);
 
         Assert.assertNotNull(descId);
-//        Assert.assertEquals(userService.get(id).getId(), descId);
+        Assert.assertEquals(userService.get(id).getId(), descId);
     }
 
     @Test
@@ -86,7 +87,7 @@ public class UserDetailsTest {
         Assert.assertEquals(userDetails.getFirstName(), userDetailsService.get(id).getFirstName());
     }
 
-   // @After
+    @After
     public void deleteTest() {
         userService.delete(id);
     }

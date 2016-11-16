@@ -5,13 +5,18 @@ import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class TourDaoXmlImpl extends GenericDaoXmlImpl<Tour, Long> implements TourDao {
 
     @Override
     public List<Tour> getByTitle(String title) {
-        return null;
+        List<Tour> entityList = readCollection();
+        List<Tour> toursByTitle = entityList.stream()
+                .filter(tour -> tour.getTitle().equals(title)).collect(Collectors.toList());
+
+        return toursByTitle;
     }
 
 }

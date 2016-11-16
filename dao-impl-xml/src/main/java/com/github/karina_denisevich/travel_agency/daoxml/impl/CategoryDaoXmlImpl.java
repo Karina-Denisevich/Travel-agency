@@ -13,13 +13,11 @@ public class CategoryDaoXmlImpl extends GenericDaoXmlImpl<Category, Long> implem
     public Category getByType(Category.CategoryEnum type) {
         List<Category> categoryList = readCollection();
 
-        // TODO: don't iterate whole collection
         for (Category category : categoryList) {
             if (category.getType().equals(type)) {
                 return category;
             }
         }
-        //TODO: change type of excep
-        throw new RuntimeException();
+        return null;
     }
 }

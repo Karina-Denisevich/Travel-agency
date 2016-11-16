@@ -13,12 +13,19 @@ public class UserDaoXmlImpl extends GenericDaoXmlImpl<User, Long> implements Use
 
     @Override
     public User getByEmail(String email) {
+        List<User> userList = readCollection();
+
+        for (User user : userList) {
+            if (user.getEmail().equals(email))
+                return user;
+        }
         return null;
+        //TODO: add exception
     }
 
     @Override
     public User getWithRole(Long id) {
-        return null;
+        return get(id);
     }
 
     @Override
@@ -31,6 +38,14 @@ public class UserDaoXmlImpl extends GenericDaoXmlImpl<User, Long> implements Use
 
     @Override
     public void insertBatch(List<User> userList) {
+        List<User> entityList = readCollection();
+        for (User user : userList) {
+            if (user.getId() == null) {
+                user.setId(getNextId(entityList));
+            }
+            entityList.add(user);
+        }
 
+        writeCollection(entityList);
     }
 }

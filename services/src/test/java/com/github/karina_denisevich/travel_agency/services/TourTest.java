@@ -2,10 +2,7 @@ package com.github.karina_denisevich.travel_agency.services;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -24,8 +21,8 @@ public class TourTest {
     private Long id;
     private String title;
 
-    // @Before
-    @Test
+    @Before
+   // @Test
     public void insertTest() {
         Tour tour = new Tour();
         Category category = new Category();
@@ -63,7 +60,6 @@ public class TourTest {
 
     @Test
     public void updateTest() {
-        Long id = 1L;
         Tour tour = new Tour();
         Category category = new Category();
         category.setType(Category.CategoryEnum.SHOP_TOUR);
@@ -90,7 +86,8 @@ public class TourTest {
         Assert.assertEquals(title, tourList.get(0).getTitle());
     }
 
-    //@After
+     @After
+    //@Test
     public void deleteTest() {
         tourService.delete(id);
     }

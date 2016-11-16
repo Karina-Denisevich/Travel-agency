@@ -22,8 +22,7 @@ public class UserTest {
     private Long id;
     private String email;
 
-    // @Before
-    @Test
+    @Before
     public void executeBeforeEachTest() {
         User user = new User();
         user.setEmail("TEST");
@@ -38,7 +37,6 @@ public class UserTest {
 
     @Test
     public void updateTest() {
-        Long id = 1L;
         User user = new User();
         user.setId(id);
         user.setEmail("Updated");
@@ -63,7 +61,7 @@ public class UserTest {
     }
 
     @Test
-    //@Ignore
+    @Ignore
     public void insertTest() {
         User user = new User();
 
@@ -84,20 +82,20 @@ public class UserTest {
             System.out.println(e.getCause().getMessage());
         }
         Assert.assertNotNull(id);
-        // User userFromDb = userService.get(id);
-        //Assert.assertEquals(user.getEmail(), userFromDb.getEmail());
-        //userService.delete(id);
+         User userFromDb = userService.get(id);
+        Assert.assertEquals(user.getEmail(), userFromDb.getEmail());
+        userService.delete(id);
     }
 
     @Test
-    @Ignore
+    //@Ignore
     public void insertBatchTest() {
         List<User> userList = new ArrayList<>();
         User user = new User();
         user.setEmail("Kate@mail.ru");
         user.setPassword("111111");
         Role role = new Role();
-        role.setType(Role.RoleEnum.ROLE_ADMIN);
+        role.setType(Role.RoleEnum.ROLE_USER);
         user.setRole(role);
 
         User user1 = new User();
@@ -137,12 +135,12 @@ public class UserTest {
     }
 
     @Test
+    @Ignore
     public void deleteTest() {
-        Long id = 5L;
         userService.delete(id);
     }
 
-    // @After
+    @After
     public void executeAfter() {
         userService.delete(id);
     }

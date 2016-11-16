@@ -35,8 +35,8 @@ public class BookingTest {
     private Long userId;
     private Long tourId;
 
-    //@Before
-    @Test
+    @Before
+    //@Test
     public void insertTest() {
         User user = new User();
         user.setEmail("Booking@mail.ru");
@@ -114,7 +114,7 @@ public class BookingTest {
         Assert.assertNotNull(bookingList);
     }
 
-   // @After
+    @After
     public void delete() {
         userService.delete(userId);
         tourService.delete(tourId);

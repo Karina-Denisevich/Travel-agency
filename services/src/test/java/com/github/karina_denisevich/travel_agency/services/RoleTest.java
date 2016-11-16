@@ -16,13 +16,13 @@ public class RoleTest {
     @Inject
     RoleService roleService;
 
-    private Long id = 1L;
+    private Long id;
 
-    //@Before
-    @Test
+    @Before
+    //@Test
     public void insert() {
         Role role = new Role();
-        role.setType(Role.RoleEnum.ROLE_USER);
+        role.setType(Role.RoleEnum.ROLE_ANONYMOUS);
         id = roleService.save(role);
 
         Assert.assertNotNull(id);
@@ -30,7 +30,6 @@ public class RoleTest {
 
     @Test
     public void getByIdTest() {
-        id = 1L;
         Role role = roleService.get(id);
 
         Assert.assertNotNull("role for id=" + id + " should not be null", role);
@@ -45,9 +44,10 @@ public class RoleTest {
 
     @Test
     public void updateTest() {
+        Long id = 1L;
         Role role = new Role();
         role.setId(id);
-        role.setType(Role.RoleEnum.ROLE_ANONYMOUS);
+        role.setType(Role.RoleEnum.ROLE_USER);
         id = roleService.save(role);
 
         Assert.assertNotNull(id);
@@ -59,9 +59,9 @@ public class RoleTest {
         Assert.assertEquals(id, role.getId());
     }
 
-    // @After
-    @Test
+    @After
+    //@Test
     public void deleteTest() {
-        roleService.delete(7L);
+        roleService.delete(id);
     }
 }

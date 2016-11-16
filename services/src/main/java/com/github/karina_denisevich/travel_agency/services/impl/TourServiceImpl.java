@@ -33,7 +33,7 @@ public class TourServiceImpl implements TourService {
     @Transactional
     @Override
     public Long save(Tour tour) {
-       // beforeSave(tour);
+        beforeSave(tour);
         if (tour.getId() == null) {
             Long id = tourDao.insert(tour);
             tour.setId(id);

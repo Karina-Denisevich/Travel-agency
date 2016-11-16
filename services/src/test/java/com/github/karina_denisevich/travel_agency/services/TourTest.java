@@ -24,7 +24,7 @@ public class TourTest {
     private Long id;
     private String title;
 
-   // @Before
+    // @Before
     @Test
     public void insertTest() {
         Tour tour = new Tour();
@@ -63,6 +63,7 @@ public class TourTest {
 
     @Test
     public void updateTest() {
+        Long id = 1L;
         Tour tour = new Tour();
         Category category = new Category();
         category.setType(Category.CategoryEnum.SHOP_TOUR);

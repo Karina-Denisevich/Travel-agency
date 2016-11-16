@@ -14,8 +14,4 @@ public class TourDaoXmlImpl extends GenericDaoXmlImpl<Tour, Long> implements Tou
         return null;
     }
 
-    @Override
-    public void update(Tour entity) {
-
-    }
 }

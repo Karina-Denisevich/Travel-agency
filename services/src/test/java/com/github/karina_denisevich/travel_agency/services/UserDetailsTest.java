@@ -30,11 +30,9 @@ public class UserDetailsTest {
   //  @Before
     @Test
     public void executeBeforeTest() {
-        User user = new User();
-        user.setEmail("Details");
-        user.setPassword("11");
-        id = userService.save(user);
-        user.setId(id);
+        User user = userService.get(1L);
+        //id = userService.save(user);
+        //user.setId(id);
 
         UserDetails userDetails = new UserDetails();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -73,7 +71,7 @@ public class UserDetailsTest {
     public void updateTest() {
         UserDetails userDetails = new UserDetails();
         userDetails.setId(id);
-        userDetails.setFirstName("firs");
+        userDetails.setFirstName("first");
         userDetails.setLastName("last");
         userDetails.setPhone("+375290000000");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

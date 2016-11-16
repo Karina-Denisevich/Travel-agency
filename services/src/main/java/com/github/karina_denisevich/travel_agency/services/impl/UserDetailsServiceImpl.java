@@ -29,6 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (userDetails.getDiscount() == null) {
             userDetails.setDiscount(0.0);
         }
+
         if (userDetails.getId() == null) {
             userDetails.setId(userDetails.getUser().getId());
             return userDetailsDao.insert(userDetails);

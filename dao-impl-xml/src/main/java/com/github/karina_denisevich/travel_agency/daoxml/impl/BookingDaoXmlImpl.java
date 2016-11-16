@@ -10,11 +10,6 @@ import java.util.List;
 public class BookingDaoXmlImpl extends GenericDaoXmlImpl<Booking, Long> implements BookingDao {
 
     @Override
-    public void update(Booking entity) {
-
-    }
-
-    @Override
     public void deleteByUserId(Long id) {
 
     }

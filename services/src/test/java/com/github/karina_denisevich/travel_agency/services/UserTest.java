@@ -22,8 +22,8 @@ public class UserTest {
     private Long id;
     private String email;
 
-   // @Before
-     @Test
+    // @Before
+    @Test
     public void executeBeforeEachTest() {
         User user = new User();
         user.setEmail("TEST");
@@ -38,6 +38,7 @@ public class UserTest {
 
     @Test
     public void updateTest() {
+        Long id = 1L;
         User user = new User();
         user.setId(id);
         user.setEmail("Updated");
@@ -83,7 +84,7 @@ public class UserTest {
             System.out.println(e.getCause().getMessage());
         }
         Assert.assertNotNull(id);
-       // User userFromDb = userService.get(id);
+        // User userFromDb = userService.get(id);
         //Assert.assertEquals(user.getEmail(), userFromDb.getEmail());
         //userService.delete(id);
     }

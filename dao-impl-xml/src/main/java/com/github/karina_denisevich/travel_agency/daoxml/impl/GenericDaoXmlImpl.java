@@ -84,7 +84,15 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
 
     @Override
     public void update(T entity) {
+        List<T> entityList = readCollection();
 
+        for (T t : entityList) {
+            if (t.getId().equals(entity.getId())) {
+                entityList.set(entityList.indexOf(t), entity);
+                break;
+            }
+        }
+        writeCollection(entityList);
     }
 
     @Override

@@ -22,9 +22,4 @@ public class CategoryDaoXmlImpl extends GenericDaoXmlImpl<Category, Long> implem
         //TODO: change type of excep
         throw new RuntimeException();
     }
-
-    @Override
-    public void update(Category entity) {
-
-    }
 }

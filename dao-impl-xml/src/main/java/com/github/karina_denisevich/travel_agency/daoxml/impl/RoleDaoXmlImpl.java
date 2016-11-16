@@ -20,15 +20,4 @@ public class RoleDaoXmlImpl extends GenericDaoXmlImpl<Role, Long> implements Rol
         }
         return null;
     }
-
-    @Override
-    public void update(Role entity) {
-//        List<Role> roleList = readCollection();
-//
-//        for (Role role : roleList) {
-//            if (role.getId().equals(entity.getId())) {
-//
-//            }
-//        }
-    }
 }

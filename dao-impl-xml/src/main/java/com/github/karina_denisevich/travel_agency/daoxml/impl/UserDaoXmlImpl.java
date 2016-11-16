@@ -12,11 +12,6 @@ import java.util.stream.Collectors;
 public class UserDaoXmlImpl extends GenericDaoXmlImpl<User, Long> implements UserDao {
 
     @Override
-    public void update(User entity) {
-
-    }
-
-    @Override
     public User getByEmail(String email) {
         return null;
     }

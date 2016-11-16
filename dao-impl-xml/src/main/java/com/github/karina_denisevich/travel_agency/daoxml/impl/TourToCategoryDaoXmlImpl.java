@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Repository
@@ -63,12 +64,30 @@ public class TourToCategoryDaoXmlImpl implements TourToCategoryDao {
 
     @Override
     public void deleteByTourId(Long id) {
+        List<TourToCategory> tourToCategoryList = readCollection();
 
+        Iterator iterator = tourToCategoryList.iterator();
+        while (iterator.hasNext()) {
+            TourToCategory tourToCategory = (TourToCategory) iterator.next();
+            if (tourToCategory.getTour().getId().equals(id)) {
+                iterator.remove();
+            }
+        }
+        writeCollection(tourToCategoryList);
     }
 
     @Override
     public void deleteByCategoryId(Long id) {
+        List<TourToCategory> tourToCategoryList = readCollection();
 
+        Iterator iterator = tourToCategoryList.iterator();
+        while (iterator.hasNext()) {
+            TourToCategory tourToCategory = (TourToCategory) iterator.next();
+            if (tourToCategory.getCategory().getId().equals(id)) {
+                iterator.remove();
+            }
+        }
+        writeCollection(tourToCategoryList);
     }
 
     @SuppressWarnings("unchecked")

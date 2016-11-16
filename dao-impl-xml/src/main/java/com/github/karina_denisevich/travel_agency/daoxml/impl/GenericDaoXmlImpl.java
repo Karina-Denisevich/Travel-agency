@@ -94,7 +94,7 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
 
     @Override
     public List<T> getAll() {
-        return null;
+        return readCollection();
     }
 
     @SuppressWarnings("unchecked")

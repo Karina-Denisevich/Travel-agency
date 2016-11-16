@@ -30,11 +30,6 @@ public class BookingDaoXmlImpl extends GenericDaoXmlImpl<Booking, Long> implemen
     }
 
     @Override
-    public List<Booking> getAll() {
-        return null;
-    }
-
-    @Override
     public List<Booking> getAllByUserId(Long userId) {
         return null;
     }

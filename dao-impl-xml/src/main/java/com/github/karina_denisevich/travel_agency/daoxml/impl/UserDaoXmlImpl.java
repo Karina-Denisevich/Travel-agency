@@ -22,11 +22,6 @@ public class UserDaoXmlImpl extends GenericDaoXmlImpl<User, Long> implements Use
     }
 
     @Override
-    public List<User> getAll() {
-        return null;
-    }
-
-    @Override
     public User getByEmail(String email) {
         return null;
     }

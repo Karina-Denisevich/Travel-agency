@@ -32,10 +32,4 @@ public class CategoryDaoXmlImpl extends GenericDaoXmlImpl<Category, Long> implem
     public void delete(Long id) {
 
     }
-
-    @Override
-    public List<Category> getAll() {
-
-        throw new UnsupportedOperationException();
-    }
 }

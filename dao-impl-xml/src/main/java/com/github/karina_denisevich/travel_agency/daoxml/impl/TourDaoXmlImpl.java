@@ -23,9 +23,4 @@ public class TourDaoXmlImpl extends GenericDaoXmlImpl<Tour, Long> implements Tou
     public void delete(Long id) {
 
     }
-
-    @Override
-    public List<Tour> getAll() {
-        return null;
-    }
 }

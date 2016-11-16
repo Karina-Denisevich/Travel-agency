@@ -18,9 +18,4 @@ public class UserDetailsDaoXmlImpl extends GenericDaoXmlImpl<UserDetails, Long> 
     public void delete(Long id) {
 
     }
-
-    @Override
-    public List<UserDetails> getAll() {
-        return null;
-    }
 }

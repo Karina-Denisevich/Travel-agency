@@ -45,9 +45,4 @@ public class RoleDaoXmlImpl extends GenericDaoXmlImpl<Role, Long> implements Rol
         }
         writeCollection(roleList);
     }
-
-    @Override
-    public List<Role> getAll() {
-        return null;
-    }
 }

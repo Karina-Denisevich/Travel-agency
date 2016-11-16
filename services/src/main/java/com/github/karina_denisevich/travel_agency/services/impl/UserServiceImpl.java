@@ -36,6 +36,9 @@ public class UserServiceImpl implements UserService {
         beforeInsert(user);
 
         if (user.getId() == null) {
+            if (userDao.getByEmail(user.getEmail()) != null) {
+                //TODO: add exc
+            }
             return userDao.insert(user);
         } else {
             userDao.update(user);

@@ -109,7 +109,7 @@ public class BookingTest {
 
     @Test
     public void getAllByUserIdTest() {
-        List<Booking> bookingList = bookingService.getAllByUserId(id);
+        List<Booking> bookingList = bookingService.getAllByUserId(-1L);
 
         Assert.assertNotNull(bookingList);
     }

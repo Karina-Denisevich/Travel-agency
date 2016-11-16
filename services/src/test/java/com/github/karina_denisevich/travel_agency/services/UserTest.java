@@ -82,7 +82,7 @@ public class UserTest {
             System.out.println(e.getCause().getMessage());
         }
         Assert.assertNotNull(id);
-         User userFromDb = userService.get(id);
+        User userFromDb = userService.get(id);
         Assert.assertEquals(user.getEmail(), userFromDb.getEmail());
         userService.delete(id);
     }
@@ -121,7 +121,7 @@ public class UserTest {
     @Test
     public void getByRoleTest() {
         Role role = new Role();
-        role.setType(Role.RoleEnum.ROLE_USER);
+        role.setType(Role.RoleEnum.ROLE_ADMIN);
         List<User> userList = userService.getByRole(role);
 
         Assert.assertTrue("Size should be grater than 0. ", userList.size() > 0);

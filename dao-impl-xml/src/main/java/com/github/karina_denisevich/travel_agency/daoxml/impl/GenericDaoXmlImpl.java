@@ -2,6 +2,7 @@ package com.github.karina_denisevich.travel_agency.daoxml.impl;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daoapi.GenericDao;
+import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.datamodel.AbstractModel;
 import com.thoughtworks.xstream.XStream;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,8 +61,7 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
                 return entity;
             }
         }
-        //TODO: Add exception
-        return null;
+        throw new EmptyResultException("There is no entity with id = " + id);
     }
 
     @SuppressWarnings("unchecked")

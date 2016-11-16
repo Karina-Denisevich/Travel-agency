@@ -20,11 +20,11 @@ public class UserDaoXmlImpl extends GenericDaoXmlImpl<User, Long> implements Use
                 return user;
         }
         return null;
-        //TODO: add exception
     }
 
     @Override
     public User getWithRole(Long id) {
+
         return get(id);
     }
 

@@ -2,7 +2,9 @@ package com.github.karina_denisevich.travel_agency.daodb.impl;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daoapi.GenericDao;
+import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.RowUnmapper;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -41,8 +43,12 @@ public abstract class GenericDaoDbImpl<T, PK extends Serializable> implements Ge
     public T get(PK id) {
         String sql = "SELECT * FROM " + tableName + " WHERE id = ?";
 
-        return jdbcTemplate.queryForObject(sql, new Object[]{id},
-                new BeanPropertyRowMapper<>(genericType));
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{id},
+                    new BeanPropertyRowMapper<>(genericType));
+        } catch (EmptyResultDataAccessException ex) {
+            throw new EmptyResultException("There is no entity with id = " + id);
+        }
     }
 
     /**

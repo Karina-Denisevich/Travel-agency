@@ -2,11 +2,13 @@ package com.github.karina_denisevich.travel_agency.daodb.impl;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daoapi.UserDao;
+import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.RoleMapper;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.UserWithRoleMapper;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.UserUnmapper;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -54,8 +56,12 @@ public class UserDaoDbImpl extends GenericDaoDbImpl<User, Long> implements UserD
     public User getByEmail(String email) {
         final String sql = "SELECT * FROM " + tableName + " WHERE email = ?";
 
-        return jdbcTemplate.queryForObject(sql, new Object[]{email},
-                new BeanPropertyRowMapper<>(User.class));
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{email},
+                    new BeanPropertyRowMapper<>(User.class));
+        } catch (EmptyResultDataAccessException ex) {
+            return null;
+        }
     }
 
     @Override
@@ -63,16 +69,23 @@ public class UserDaoDbImpl extends GenericDaoDbImpl<User, Long> implements UserD
         final String sql = "SELECT * FROM " + tableName + " u "
                 + "LEFT JOIN " + roleTableName + " r ON u.role_id=r.id "
                 + "WHERE u.id = ?";
-
-        return jdbcTemplate.queryForObject(sql, new Object[]{id},
-                new UserWithRoleMapper(new RoleMapper()));
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{id},
+                    new UserWithRoleMapper(new RoleMapper()));
+        } catch (EmptyResultDataAccessException ex) {
+            throw new EmptyResultException("There is no entity with id = " + id);
+        }
     }
 
     @Override
     public List<User> getByRole(Role role) {
         final String sql = "SELECT * FROM " + tableName + " WHERE role_id = ?";
 
-        return jdbcTemplate.query(sql, new Object[]{role.getId()},
-                new BeanPropertyRowMapper<>(User.class));
+        try {
+            return jdbcTemplate.query(sql, new Object[]{role.getId()},
+                    new BeanPropertyRowMapper<>(User.class));
+        } catch (EmptyResultDataAccessException ex) {
+            return null;
+        }
     }
 }

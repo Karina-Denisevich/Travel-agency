@@ -41,8 +41,10 @@ public class CachingAspect {
         Object result = cache.get(key);
         if (result == null) {
             result = point.proceed();
-            cache.put(key, result);
-            logger.info("Storing value " + result + " to cache");
+            if (result != null) {
+                cache.put(key, result);
+                logger.info("Storing value " + result + " to cache");
+            }
         } else {
             logger.info("Result '" + result + "' was found in cache");
         }

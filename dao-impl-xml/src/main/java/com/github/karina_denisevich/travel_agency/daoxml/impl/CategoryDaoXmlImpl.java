@@ -27,9 +27,4 @@ public class CategoryDaoXmlImpl extends GenericDaoXmlImpl<Category, Long> implem
     public void update(Category entity) {
 
     }
-
-    @Override
-    public void delete(Long id) {
-
-    }
 }

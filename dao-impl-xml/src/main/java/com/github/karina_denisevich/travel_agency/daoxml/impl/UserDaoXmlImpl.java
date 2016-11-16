@@ -17,11 +17,6 @@ public class UserDaoXmlImpl extends GenericDaoXmlImpl<User, Long> implements Use
     }
 
     @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
     public User getByEmail(String email) {
         return null;
     }

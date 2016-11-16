@@ -114,7 +114,7 @@ public class BookingTest {
         Assert.assertNotNull(bookingList);
     }
 
-    @After
+   // @After
     public void delete() {
         userService.delete(userId);
         tourService.delete(tourId);

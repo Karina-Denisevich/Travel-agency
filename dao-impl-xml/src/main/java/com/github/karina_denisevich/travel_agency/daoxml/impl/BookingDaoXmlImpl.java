@@ -20,11 +20,6 @@ public class BookingDaoXmlImpl extends GenericDaoXmlImpl<Booking, Long> implemen
     }
 
     @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
     public void deleteByTourId(Long id) {
 
     }

@@ -136,9 +136,8 @@ public class UserTest {
     }
 
     @Test
-    @Ignore
     public void deleteTest() {
-        Long id = 13L;
+        Long id = 5L;
         userService.delete(id);
     }
 

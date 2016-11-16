@@ -31,18 +31,4 @@ public class RoleDaoXmlImpl extends GenericDaoXmlImpl<Role, Long> implements Rol
 //            }
 //        }
     }
-
-    @Override
-    public void delete(Long id) {
-        List<Role> roleList = readCollection();
-
-        // TODO: don't iterate whole collection
-        for (Role role : roleList) {
-            if (role.getId().equals(id)) {
-                roleList.remove(role);
-                break;
-            }
-        }
-        writeCollection(roleList);
-    }
 }

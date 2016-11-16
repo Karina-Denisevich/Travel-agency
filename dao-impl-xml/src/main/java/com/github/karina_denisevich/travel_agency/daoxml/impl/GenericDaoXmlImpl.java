@@ -89,7 +89,15 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
 
     @Override
     public void delete(PK id) {
+        List<T> entityList = readCollection();
 
+        for (T entity : entityList) {
+            if (entity.getId().equals(id)) {
+                entityList.remove(entity);
+                break;
+            }
+        }
+        writeCollection(entityList);
     }
 
     @Override

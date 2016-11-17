@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,7 +34,11 @@ public class CachingAspect {
         keyBuff.append("(");
 
         for (Object arg : point.getArgs()) {
-            keyBuff.append(arg.getClass().getSimpleName()).append("=").append(arg).append(";");
+            if (arg != null) {
+                keyBuff.append(arg.getClass().getSimpleName()).append("=").append(arg).append(";");
+            } else {
+                keyBuff.append("null").append(";");
+            }
         }
         keyBuff.append(")");
         String key = keyBuff.toString();

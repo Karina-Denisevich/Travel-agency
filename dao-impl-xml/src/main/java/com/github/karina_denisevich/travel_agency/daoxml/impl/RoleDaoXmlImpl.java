@@ -1,6 +1,7 @@
 package com.github.karina_denisevich.travel_agency.daoxml.impl;
 
 import com.github.karina_denisevich.travel_agency.daoapi.RoleDao;
+import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import org.springframework.stereotype.Repository;
 
@@ -11,13 +12,13 @@ public class RoleDaoXmlImpl extends GenericDaoXmlImpl<Role, Long> implements Rol
 
     @Override
     public Role getByType(Role.RoleEnum roleEnum) {
-        List<Role> roleList = readCollection();
+        List<Role> roleList = xmlFileIOUtils.readCollection();
 
         for (Role role : roleList) {
             if (role.getType().equals(roleEnum)) {
                 return role;
             }
         }
-        return null;
+        throw new EmptyResultException("There is no role with type = " + roleEnum);
     }
 }

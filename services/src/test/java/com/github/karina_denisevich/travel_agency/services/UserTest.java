@@ -22,7 +22,7 @@ public class UserTest {
     private Long id;
     private String email;
 
-   // @Before
+    @Before
     public void executeBeforeEachTest() {
         User user = new User();
         user.setEmail("TEST");
@@ -61,7 +61,7 @@ public class UserTest {
     }
 
     @Test
-   // @Ignore
+    @Ignore
     public void insertTest() {
         User user = new User();
 
@@ -121,7 +121,7 @@ public class UserTest {
     @Test
     public void getByRoleTest() {
         Role role = new Role();
-        role.setType(Role.RoleEnum.ROLE_ADMIN);
+        role.setType(Role.RoleEnum.ROLE_USER);
         List<User> userList = userService.getByRole(role);
 
         Assert.assertTrue("Size should be grater than 0. ", userList.size() > 0);
@@ -140,7 +140,7 @@ public class UserTest {
         userService.delete(id);
     }
 
-    //@After
+    @After
     public void executeAfter() {
         userService.delete(id);
     }

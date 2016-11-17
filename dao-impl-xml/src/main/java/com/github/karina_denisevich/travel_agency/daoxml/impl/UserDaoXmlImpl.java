@@ -13,7 +13,7 @@ public class UserDaoXmlImpl extends GenericDaoXmlImpl<User, Long> implements Use
 
     @Override
     public User getByEmail(String email) {
-        List<User> userList = readCollection();
+        List<User> userList = xmlFileIOUtils.readCollection();
 
         for (User user : userList) {
             if (user.getEmail().equals(email))
@@ -30,7 +30,7 @@ public class UserDaoXmlImpl extends GenericDaoXmlImpl<User, Long> implements Use
 
     @Override
     public List<User> getByRole(Role role) {
-        List<User> userList = readCollection();
+        List<User> userList = xmlFileIOUtils.readCollection();
 
         return userList.stream().filter
                 (user -> user.getRole().getId().equals(role.getId())).collect(Collectors.toList());
@@ -38,14 +38,13 @@ public class UserDaoXmlImpl extends GenericDaoXmlImpl<User, Long> implements Use
 
     @Override
     public void insertBatch(List<User> userList) {
-        List<User> entityList = readCollection();
+        List<User> entityList = xmlFileIOUtils.readCollection();
         for (User user : userList) {
             if (user.getId() == null) {
                 user.setId(getNextId(entityList));
             }
             entityList.add(user);
         }
-
-        writeCollection(entityList);
+        xmlFileIOUtils.writeCollection(entityList);
     }
 }

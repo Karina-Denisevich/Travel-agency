@@ -12,11 +12,10 @@ public class TourDaoXmlImpl extends GenericDaoXmlImpl<Tour, Long> implements Tou
 
     @Override
     public List<Tour> getByTitle(String title) {
-        List<Tour> entityList = readCollection();
-        List<Tour> toursByTitle = entityList.stream()
-                .filter(tour -> tour.getTitle().equals(title)).collect(Collectors.toList());
+        List<Tour> entityList = xmlFileIOUtils.readCollection();
 
-        return toursByTitle;
+        return entityList.stream()
+                .filter(tour -> tour.getTitle().equals(title)).collect(Collectors.toList());
     }
 
 }

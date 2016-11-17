@@ -21,8 +21,8 @@ public class TourTest {
     private Long id;
     private String title;
 
-    @Before
-   // @Test
+   // @Before
+    @Test
     public void insertTest() {
         Tour tour = new Tour();
         Category category = new Category();
@@ -64,14 +64,14 @@ public class TourTest {
         Category category = new Category();
         category.setType(Category.CategoryEnum.SHOP_TOUR);
         Category category1 = new Category();
-        category1.setType(Category.CategoryEnum.OTHER_TOUR);
+        category1.setType(Category.CategoryEnum.BEACH_TOUR);
         List<Category> categories = new ArrayList<>();
         categories.add(category);
         categories.add(category1);
 
         tour.setId(id);
         tour.setCategoryList(categories);
-        tour.setDescription("Updated tour");
+        tour.setDescription("Updated11 tour");
         tour.setIsHot(false);
         tour.setPrice(800.0);
         tour.setTitle("Shop tour");
@@ -86,7 +86,7 @@ public class TourTest {
         Assert.assertEquals(title, tourList.get(0).getTitle());
     }
 
-     @After
+    // @After
     //@Test
     public void deleteTest() {
         tourService.delete(id);

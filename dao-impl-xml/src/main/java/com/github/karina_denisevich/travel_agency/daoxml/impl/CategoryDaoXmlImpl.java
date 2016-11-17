@@ -11,7 +11,7 @@ public class CategoryDaoXmlImpl extends GenericDaoXmlImpl<Category, Long> implem
 
     @Override
     public Category getByType(Category.CategoryEnum type) {
-        List<Category> categoryList = readCollection();
+        List<Category> categoryList = xmlFileIOUtils.readCollection();
 
         for (Category category : categoryList) {
             if (category.getType().equals(type)) {

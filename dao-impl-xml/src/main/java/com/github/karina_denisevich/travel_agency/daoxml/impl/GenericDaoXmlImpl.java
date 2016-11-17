@@ -4,17 +4,16 @@ import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daoapi.GenericDao;
 import com.github.karina_denisevich.travel_agency.daoapi.exception.DuplicateEntityException;
 import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
-import com.github.karina_denisevich.travel_agency.daoxml.exception.XmlFileNotFoundException;
+import com.github.karina_denisevich.travel_agency.daoxml.util.XmlFileIOUtils;
 import com.github.karina_denisevich.travel_agency.datamodel.AbstractModel;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
-import com.thoughtworks.xstream.XStream;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import java.io.*;
+import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -22,42 +21,29 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
         implements GenericDao<T, PK> {
 
     private final Class<T> genericType;
-    private final String rootName;
-    // private final GenericConverter<T> genericConverter;
 
-    private XStream xstream;
-    private File file;
+    protected XmlFileIOUtils<T> xmlFileIOUtils;
 
     @Value("${basePath}")
     private String basePath;
 
     @PostConstruct
     private void initialize() throws IOException {
-        xstream = new XStream();
-        xstream.alias(rootName, genericType);
-        //xstream.registerConverter(genericConverter);
 
-        file = new File(basePath + "\\" + rootName + ".xml");
-        file.getParentFile().mkdirs();
-        if (!file.exists()) {
-            xstream.toXML(new ArrayList<>(), new FileOutputStream(
-                    file));
-        }
+        String fileName = basePath.concat("\\")
+                .concat(new DbTableAnalyzer().getDbTableName(genericType)).concat(".xml");
+        xmlFileIOUtils = new XmlFileIOUtils<>(fileName, genericType);
     }
 
     @SuppressWarnings("unchecked")
     public GenericDaoXmlImpl() {
-        // this.genericConverter = genericConverter;
-
         this.genericType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
                 .getActualTypeArguments()[0];
-
-        this.rootName = new DbTableAnalyzer().getDbTableName(genericType);
     }
 
     @Override
     public T get(PK id) {
-        List<T> entityList = readCollection();
+        List<T> entityList = xmlFileIOUtils.readCollection();
 
         for (T entity : entityList) {
             if (entity.getId().equals(id)) {
@@ -70,7 +56,7 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
     @SuppressWarnings("unchecked")
     @Override
     public PK insert(T entity) {
-        List<T> entityList = readCollection();
+        List<T> entityList = xmlFileIOUtils.readCollection();
         checkDuplicateEmail(entity, entityList);
         Long id;
         if (entity.getId() == null) {
@@ -81,14 +67,14 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
         }
 
         entityList.add(entity);
-        writeCollection(entityList);
+        xmlFileIOUtils.writeCollection(entityList);
 
         return (PK) id;
     }
 
     @Override
     public void update(T entity) {
-        List<T> entityList = readCollection();
+        List<T> entityList = xmlFileIOUtils.readCollection();
 
         for (T t : entityList) {
             if (t.getId().equals(entity.getId())) {
@@ -96,12 +82,12 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
                 break;
             }
         }
-        writeCollection(entityList);
+        xmlFileIOUtils.writeCollection(entityList);
     }
 
     @Override
     public void delete(PK id) {
-        List<T> entityList = readCollection();
+        List<T> entityList = xmlFileIOUtils.readCollection();
 
         for (T entity : entityList) {
             if (entity.getId().equals(id)) {
@@ -109,48 +95,29 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
                 break;
             }
         }
-        writeCollection(entityList);
+        xmlFileIOUtils.writeCollection(entityList);
     }
 
     @Override
     public List<T> getAll() {
-        return readCollection();
+        return xmlFileIOUtils.readCollection();
     }
 
     @SuppressWarnings("unchecked")
     private void checkDuplicateEmail(T entity, List<T> entitiesFromXml) {
-        Class<T> genericType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
-                .getActualTypeArguments()[0];
-        User user;
         if (genericType.getSimpleName().equals("User")) {
-            user = (User) entity;
-        } else {
-            return;
-        }
-        for (User type : (List<User>) entitiesFromXml) {
-            if (type.getEmail().equals(user.getEmail())) {
-                throw new DuplicateEntityException("There is already user with email = " +
-                        user.getEmail());
+            User user = (User) entity;
+            for (User type : (List<User>) entitiesFromXml) {
+                if (type.getEmail().equals(user.getEmail())) {
+                    throw new DuplicateEntityException("There is already user with email = " +
+                            user.getEmail());
+                }
             }
         }
-
     }
 
-    @SuppressWarnings("unchecked")
-    protected List<T> readCollection() {
-        return (List<T>) xstream.fromXML(file);
-    }
-
-    protected void writeCollection(List<T> newList) {
-        try {
-            xstream.toXML(newList, new FileOutputStream(file));
-        } catch (FileNotFoundException e) {
-            throw new XmlFileNotFoundException("Some problems with creating xml file.");
-        }
-    }
-
-    protected Long getNextId(List<T> tourList) {
-        return tourList.isEmpty() ? 1L : tourList.get(
-                tourList.size() - 1).getId() + 1;
+    protected Long getNextId(List<T> entityList) {
+        return entityList.isEmpty() ? 1L : entityList.get(
+                entityList.size() - 1).getId() + 1;
     }
 }

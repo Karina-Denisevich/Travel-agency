@@ -13,14 +13,14 @@ public class BookingDaoXmlImpl extends GenericDaoXmlImpl<Booking, Long> implemen
 
     @Override
     public void deleteByUserId(Long id) {
-        List<Booking> bookingList = readCollection();
+        List<Booking> bookingList = xmlFileIOUtils.readCollection();
 
-        writeCollection(bookingList);
+        xmlFileIOUtils.writeCollection(bookingList);
     }
 
     @Override
     public void deleteByTourId(Long id) {
-        List<Booking> bookingList = readCollection();
+        List<Booking> bookingList = xmlFileIOUtils.readCollection();
 
         Iterator iterator = bookingList.iterator();
         while (iterator.hasNext()) {
@@ -29,12 +29,12 @@ public class BookingDaoXmlImpl extends GenericDaoXmlImpl<Booking, Long> implemen
                 iterator.remove();
             }
         }
-        writeCollection(bookingList);
+        xmlFileIOUtils.writeCollection(bookingList);
     }
 
     @Override
     public List<Booking> getAllByUserId(Long userId) {
-        List<Booking> bookingList = readCollection();
+        List<Booking> bookingList = xmlFileIOUtils.readCollection();
         return bookingList.stream()
                 .filter(booking -> booking.getUser().getId().equals(userId))
                 .collect(Collectors.toList());

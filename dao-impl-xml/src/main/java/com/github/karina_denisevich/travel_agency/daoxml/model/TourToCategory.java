@@ -1,4 +1,4 @@
-package com.github.karina_denisevich.travel_agency.daoxml.impl.model;
+package com.github.karina_denisevich.travel_agency.daoxml.model;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;

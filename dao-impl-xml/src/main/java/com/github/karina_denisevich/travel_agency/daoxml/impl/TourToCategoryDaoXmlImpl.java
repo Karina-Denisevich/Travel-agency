@@ -1,7 +1,7 @@
 package com.github.karina_denisevich.travel_agency.daoxml.impl;
 
 import com.github.karina_denisevich.travel_agency.daoapi.TourToCategoryDao;
-import com.github.karina_denisevich.travel_agency.daoxml.impl.model.TourToCategory;
+import com.github.karina_denisevich.travel_agency.daoxml.model.TourToCategory;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import com.thoughtworks.xstream.XStream;

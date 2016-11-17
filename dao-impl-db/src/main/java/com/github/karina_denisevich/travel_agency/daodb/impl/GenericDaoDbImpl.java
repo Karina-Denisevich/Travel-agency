@@ -2,8 +2,10 @@ package com.github.karina_denisevich.travel_agency.daodb.impl;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daoapi.GenericDao;
+import com.github.karina_denisevich.travel_agency.daoapi.exception.DuplicateEntityException;
 import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.RowUnmapper;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -72,7 +74,11 @@ public abstract class GenericDaoDbImpl<T, PK extends Serializable> implements Ge
             insertEntity = new SimpleJdbcInsert(jdbcTemplate)
                     .withTableName(tableName)
                     .usingGeneratedKeyColumns("id");
-            return (PK) insertEntity.executeAndReturnKey(map);
+            try {
+                return (PK) insertEntity.executeAndReturnKey(map);
+            } catch (DuplicateKeyException ex) {
+                throw new DuplicateEntityException(ex.getCause().getMessage());
+            }
         }
     }
 

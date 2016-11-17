@@ -2,8 +2,11 @@ package com.github.karina_denisevich.travel_agency.daoxml.impl;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daoapi.GenericDao;
+import com.github.karina_denisevich.travel_agency.daoapi.exception.DuplicateEntityException;
 import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
+import com.github.karina_denisevich.travel_agency.daoxml.exception.XmlFileNotFoundException;
 import com.github.karina_denisevich.travel_agency.datamodel.AbstractModel;
+import com.github.karina_denisevich.travel_agency.datamodel.User;
 import com.thoughtworks.xstream.XStream;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -68,6 +71,7 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
     @Override
     public PK insert(T entity) {
         List<T> entityList = readCollection();
+        checkDuplicateEmail(entity, entityList);
         Long id;
         if (entity.getId() == null) {
             id = getNextId(entityList);
@@ -114,6 +118,25 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
     }
 
     @SuppressWarnings("unchecked")
+    private void checkDuplicateEmail(T entity, List<T> entitiesFromXml) {
+        Class<T> genericType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
+                .getActualTypeArguments()[0];
+        User user;
+        if (genericType.getSimpleName().equals("User")) {
+            user = (User) entity;
+        } else {
+            return;
+        }
+        for (User type : (List<User>) entitiesFromXml) {
+            if (type.getEmail().equals(user.getEmail())) {
+                throw new DuplicateEntityException("There is already user with email = " +
+                        user.getEmail());
+            }
+        }
+
+    }
+
+    @SuppressWarnings("unchecked")
     protected List<T> readCollection() {
         return (List<T>) xstream.fromXML(file);
     }
@@ -122,7 +145,7 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
         try {
             xstream.toXML(newList, new FileOutputStream(file));
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);// TODO custom exception
+            throw new XmlFileNotFoundException("Some problems with creating xml file.");
         }
     }
 

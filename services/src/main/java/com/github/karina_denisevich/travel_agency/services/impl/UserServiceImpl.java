@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
      * in any other case returns role from parameters.
      *
      * @param user User, whose role will be returned
-     * @return user's role
+     * @return user'servlet role
      */
     private Role getUserRole(User user) {
         Role role = user.getRole();

@@ -1,4 +1,4 @@
-package com.github.karina_denisevich.travel_agency.servlets;
+package com.github.karina_denisevich.travel_agency.web.servlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;

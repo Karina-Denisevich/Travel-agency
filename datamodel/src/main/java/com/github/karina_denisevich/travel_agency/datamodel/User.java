@@ -1,8 +1,6 @@
 package com.github.karina_denisevich.travel_agency.datamodel;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTable;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 

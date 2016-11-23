@@ -8,11 +8,6 @@
     <display-name>myproject</display-name>
 
     <servlet>
-        <servlet-name>ServletExample</servlet-name>
-        <servlet-class>com.github.karina_denisevich.travel_agency.web.servlet.ServletExample</servlet-class>
-    </servlet>
-
-    <servlet>
         <servlet-name>HelloWeb</servlet-name>
         <servlet-class>
             org.springframework.web.servlet.DispatcherServlet
@@ -23,12 +18,6 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
-    <servlet-mapping>
-        <servlet-name>ServletExample</servlet-name>
-        <url-pattern>/serv</url-pattern>
-    </servlet-mapping>
-
 
     <servlet-mapping>
         <servlet-name>HelloWeb</servlet-name>

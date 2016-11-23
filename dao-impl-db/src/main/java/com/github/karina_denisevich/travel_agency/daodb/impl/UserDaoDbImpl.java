@@ -2,12 +2,14 @@ package com.github.karina_denisevich.travel_agency.daodb.impl;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daoapi.UserDao;
+import com.github.karina_denisevich.travel_agency.daoapi.exception.DuplicateEntityException;
 import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.RoleMapper;
 import com.github.karina_denisevich.travel_agency.daodb.mapper.UserWithRoleMapper;
 import com.github.karina_denisevich.travel_agency.daodb.unmapper.UserUnmapper;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -37,19 +39,22 @@ public class UserDaoDbImpl extends GenericDaoDbImpl<User, Long> implements UserD
         final String sql = "INSERT INTO " + tableName + " (email, password, role_id)" +
                 " VALUES (?, ?, ?)";
 
-        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+        try {
+            jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+                public void setValues(PreparedStatement ps, int i) throws SQLException {
+                    User user = userList.get(i);
+                    ps.setString(1, user.getEmail());
+                    ps.setString(2, user.getPassword());
+                    ps.setLong(3, user.getRole().getId());
+                }
 
-            public void setValues(PreparedStatement ps, int i) throws SQLException {
-                User user = userList.get(i);
-                ps.setString(1, user.getEmail());
-                ps.setString(2, user.getPassword());
-                ps.setLong(3, user.getRole().getId());
-            }
-
-            public int getBatchSize() {
-                return userList.size();
-            }
-        });
+                public int getBatchSize() {
+                    return userList.size();
+                }
+            });
+        } catch (DuplicateKeyException ex) {
+            throw new DuplicateEntityException(ex.getCause().getMessage());
+        }
     }
 
     @Override

@@ -40,6 +40,7 @@ public class UserDaoXmlImpl extends GenericDaoXmlImpl<User, Long> implements Use
     public void insertBatch(List<User> userList) {
         List<User> entityList = xmlFileIOUtils.readCollection();
         for (User user : userList) {
+            checkDuplicateEmail(user, entityList);
             if (user.getId() == null) {
                 user.setId(getNextId(entityList));
             }

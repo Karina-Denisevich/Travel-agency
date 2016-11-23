@@ -104,7 +104,7 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
     }
 
     @SuppressWarnings("unchecked")
-    private void checkDuplicateEmail(T entity, List<T> entitiesFromXml) {
+    protected void checkDuplicateEmail(T entity, List<T> entitiesFromXml) {
         if (genericType.getSimpleName().equals("User")) {
             User user = (User) entity;
             for (User type : (List<User>) entitiesFromXml) {

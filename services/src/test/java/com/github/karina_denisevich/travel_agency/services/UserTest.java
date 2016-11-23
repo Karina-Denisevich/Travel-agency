@@ -88,7 +88,7 @@ public class UserTest {
     }
 
     @Test
-    //@Ignore
+    @Ignore
     public void insertBatchTest() {
         List<User> userList = new ArrayList<>();
         User user = new User();

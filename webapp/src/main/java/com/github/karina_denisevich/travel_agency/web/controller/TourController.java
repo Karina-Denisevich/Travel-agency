@@ -1,9 +1,9 @@
 package com.github.karina_denisevich.travel_agency.web.controller;
 
-import com.github.karina_denisevich.travel_agency.datamodel.User;
-import com.github.karina_denisevich.travel_agency.services.UserService;
+import com.github.karina_denisevich.travel_agency.datamodel.Tour;
+import com.github.karina_denisevich.travel_agency.services.TourService;
 import com.github.karina_denisevich.travel_agency.web.converter.EntityToDto;
-import com.github.karina_denisevich.travel_agency.web.dto.UserDto;
+import com.github.karina_denisevich.travel_agency.web.dto.TourDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,17 +14,17 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Controller
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/tours")
+public class TourController {
 
     @Inject
-    private UserService userService;
+    private TourService tourService;
 
     @Inject
-    private EntityToDto<User, UserDto> converterToDto;
+    private EntityToDto<Tour, TourDto> converterToDto;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<UserDto>> getAll() {
-        return new ResponseEntity<>(converterToDto.convert(userService.getAll()), HttpStatus.OK);
+    public ResponseEntity<List<TourDto>> getAll() {
+        return new ResponseEntity<>(converterToDto.convert(tourService.getAll()), HttpStatus.OK);
     }
 }

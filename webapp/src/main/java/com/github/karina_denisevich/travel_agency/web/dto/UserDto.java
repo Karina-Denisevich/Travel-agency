@@ -2,11 +2,11 @@ package com.github.karina_denisevich.travel_agency.web.dto;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 
-public class UserDto extends AbstractDto{
+public class UserDto extends AbstractDto {
 
     private String email;
     private String password;
-    private Role role;
+    private Role role;  //TODO:
 
     public Role getRole() {
         return role;
@@ -35,7 +35,6 @@ public class UserDto extends AbstractDto{
     @Override
     public String toString() {
         return "UserDto{" +
-                "id=" + super.getId() +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +

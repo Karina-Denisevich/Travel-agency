@@ -1,12 +1,17 @@
 package com.github.karina_denisevich.travel_agency.web.dto;
 
-public class TourDto extends AbstractDto {
+import com.github.karina_denisevich.travel_agency.datamodel.Category;
+
+import java.util.List;
+
+public class TourDto extends AbstractDto{
 
     private String title;
     private String photoLink;
     private Boolean isHot;
     private Double price;
     private String description;
+    private List<Category> categoryList;
 
     public String getTitle() {
         return title;
@@ -48,10 +53,17 @@ public class TourDto extends AbstractDto {
         this.description = description;
     }
 
+    public List<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    public void setCategoryList(List<Category> categoryList) {
+        this.categoryList = categoryList;
+    }
+
     @Override
     public String toString() {
         return "Tour{" +
-                "id='" + super.getId() + '\'' +
                 "title='" + title + '\'' +
                 ", photoLink='" + photoLink + '\'' +
                 ", isHot=" + isHot +

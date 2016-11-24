@@ -11,11 +11,4 @@ public abstract class AbstractDto {
     public void setId(Long id) {
         this.id = id;
     }
-
-    @Override
-    public String toString() {
-        return "AbstractDto{" +
-                "id=" + id +
-                '}';
-    }
 }

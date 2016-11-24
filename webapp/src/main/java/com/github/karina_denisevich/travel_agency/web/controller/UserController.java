@@ -28,6 +28,12 @@ public class UserController {
     @Inject
     private DtoToEntity<UserDto, User> converterToEntity;
 
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<UserDto> getById(@PathVariable Long userId) {
+        return new ResponseEntity<>(converterToDto.convert(userService.get(userId)),
+                HttpStatus.OK);
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<UserDto>> getAll() {
         List<User> users = userService.getAll();
@@ -35,17 +41,6 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(converterToDto.convert(users), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<UserDto> getById(@PathVariable Long userId) {
-        User user;
-        try {
-            user = userService.get(userId);
-        } catch (EmptyResultException ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(converterToDto.convert(user), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -60,14 +55,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.POST)
-    public ResponseEntity updateUser(@RequestBody UserDto userDto, @PathVariable Long userId) {
+    public ResponseEntity<Void> updateUser(@RequestBody UserDto userDto, @PathVariable Long userId) {
         User user = converterToEntity.convert(userDto);
         user.setId(userId);
-        try {
-            userService.save(user);
-        } catch (EmptyResultException ex) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
+        userService.save(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
+    public ResponseEntity delete(@PathVariable Long userId) {
+        userService.get(userId);  //To handle emptyResultException
+        userService.delete(userId);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

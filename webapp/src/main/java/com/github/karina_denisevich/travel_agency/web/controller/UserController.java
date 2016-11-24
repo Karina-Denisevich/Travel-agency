@@ -1,7 +1,6 @@
 package com.github.karina_denisevich.travel_agency.web.controller;
 
 import com.github.karina_denisevich.travel_agency.daoapi.exception.DuplicateEntityException;
-import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import com.github.karina_denisevich.travel_agency.services.UserService;
 import com.github.karina_denisevich.travel_agency.web.converter.dto_to_entity.DtoToEntity;
@@ -44,14 +43,14 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity createUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<Object> createUser(@RequestBody UserDto userDto) {
         User user = converterToEntity.convert(userDto);
         try {
             userService.save(user);
         } catch (DuplicateEntityException ex) {
-            return new ResponseEntity(ex.getMessage(), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
         }
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.POST)

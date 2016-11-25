@@ -1,16 +1,16 @@
-package com.github.karina_denisevich.travel_agency.web.converter.entity_to_dto;
+package com.github.karina_denisevich.travel_agency.web.converter;
 
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public interface EntityToDto<S, T> extends Converter<S, T> {
+public abstract class EntityToEntity<S, T> implements Converter<S, T> {
 
     @Override
-    T convert(S source);
+    public abstract T convert(S source);
 
-    default List<T> convert(List<S> sources) {
+    public List<T> convert(List<S> sources) {
         if (sources == null) {
             return null;
         }

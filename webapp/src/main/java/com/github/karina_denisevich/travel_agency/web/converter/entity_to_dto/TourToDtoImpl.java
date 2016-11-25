@@ -1,11 +1,10 @@
 package com.github.karina_denisevich.travel_agency.web.converter.entity_to_dto;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
+import com.github.karina_denisevich.travel_agency.web.converter.EntityToEntity;
 import com.github.karina_denisevich.travel_agency.web.dto.TourDto;
-import org.springframework.stereotype.Component;
 
-@Component
-public class TourToDtoImpl implements EntityToDto<Tour, TourDto> {
+public class TourToDtoImpl extends EntityToEntity<Tour, TourDto> {
 
     @Override
     public TourDto convert(Tour tour) {

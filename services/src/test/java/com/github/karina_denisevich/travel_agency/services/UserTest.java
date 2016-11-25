@@ -1,5 +1,6 @@
 package com.github.karina_denisevich.travel_agency.services;
 
+import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.junit.*;
@@ -84,7 +85,7 @@ public class UserTest {
         Assert.assertNotNull(id);
         User userFromDb = userService.get(id);
         Assert.assertEquals(user.getEmail(), userFromDb.getEmail());
-       // userService.delete(id);
+        // userService.delete(id);
     }
 
     @Test
@@ -134,10 +135,16 @@ public class UserTest {
         Assert.assertEquals(id, user.getId());
     }
 
-    @Test
-    @Ignore
+    @Test(expected = EmptyResultException.class)
     public void deleteTest() {
+        User user = new User();
+        user.setEmail("testDelete");
+        email = user.getEmail();
+        user.setPassword("1111");
+        Long id = userService.save(user);
+
         userService.delete(id);
+        userService.get(id);
     }
 
     @After

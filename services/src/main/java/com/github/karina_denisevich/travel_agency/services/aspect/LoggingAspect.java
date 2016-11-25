@@ -54,7 +54,7 @@ public class LoggingAspect {
 
         logMessage.append(joinPoint.getTarget().getClass().getName()).append(".");
         logMessage.append(joinPoint.getSignature().getName());
-        logMessage.append(" Error : ").append(error.getMessage());
+        logMessage.append(" Cause : ").append(error.getMessage());
 
         logger.error(logMessage.toString());
     }

@@ -47,7 +47,7 @@ public class RoleTest {
         Long id = 1L;
         Role role = new Role();
         role.setId(id);
-        role.setType(Role.RoleEnum.ROLE_USER);
+        role.setType(Role.RoleEnum.ROLE_ADMIN);
         id = roleService.save(role);
 
         Assert.assertNotNull(id);

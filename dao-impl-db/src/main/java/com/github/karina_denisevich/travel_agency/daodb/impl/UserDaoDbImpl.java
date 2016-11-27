@@ -65,7 +65,7 @@ public class UserDaoDbImpl extends GenericDaoDbImpl<User, Long> implements UserD
             return jdbcTemplate.queryForObject(sql, new Object[]{email},
                     new BeanPropertyRowMapper<>(User.class));
         } catch (EmptyResultDataAccessException ex) {
-            return null;
+            throw new EmptyResultException("There is no entity with email = " + email);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.github.karina_denisevich.travel_agency.daoxml.impl;
 
 import com.github.karina_denisevich.travel_agency.daoapi.UserDao;
+import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.springframework.stereotype.Repository;
@@ -19,12 +20,11 @@ public class UserDaoXmlImpl extends GenericDaoXmlImpl<User, Long> implements Use
             if (user.getEmail().equals(email))
                 return user;
         }
-        return null;
+        throw new EmptyResultException("There is no entity with email = " + email);
     }
 
     @Override
     public User getWithRole(Long id) {
-
         return get(id);
     }
 

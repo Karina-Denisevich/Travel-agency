@@ -1,8 +1,8 @@
-package com.github.karina_denisevich.travel_agency.services.impl;
+package com.github.karina_denisevich.travel_agency.services.security;
 
 import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
-import com.github.karina_denisevich.travel_agency.services.AuthenticationService;
+import com.github.karina_denisevich.travel_agency.services.security.AuthenticationService;
 import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

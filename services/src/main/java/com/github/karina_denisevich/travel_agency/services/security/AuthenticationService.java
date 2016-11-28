@@ -1,4 +1,4 @@
-package com.github.karina_denisevich.travel_agency.services;
+package com.github.karina_denisevich.travel_agency.services.security;
 
 public interface AuthenticationService {
 

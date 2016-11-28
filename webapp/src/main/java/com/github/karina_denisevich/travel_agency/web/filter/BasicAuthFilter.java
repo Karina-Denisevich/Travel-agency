@@ -1,6 +1,6 @@
 package com.github.karina_denisevich.travel_agency.web.filter;
 
-import com.github.karina_denisevich.travel_agency.services.AuthenticationService;
+import com.github.karina_denisevich.travel_agency.services.security.AuthenticationService;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Response;
 import org.springframework.web.context.support.WebApplicationContextUtils;

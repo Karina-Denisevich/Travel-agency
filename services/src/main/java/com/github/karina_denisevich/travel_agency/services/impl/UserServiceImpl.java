@@ -8,6 +8,7 @@ import com.github.karina_denisevich.travel_agency.services.RoleService;
 import com.github.karina_denisevich.travel_agency.services.UserDetailsService;
 import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.apache.commons.lang3.Validate;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,19 +20,20 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Inject
-    UserDao userDao;
+    private UserDao userDao;
 
     @Inject
-    RoleService roleService;
+    private RoleService roleService;
 
     @Inject
-    BookingService bookingService;
+    private BookingService bookingService;
 
     @Inject
-    UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
     @Transactional
     @Override
+    @CacheEvict(value = "userAuth", key = "#user.id")
     public Long save(User user) {
         beforeInsert(user);
 
@@ -45,6 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
+    @CacheEvict(value = "userAuth", allEntries = true)
     public void saveAll(List<User> users) {
         users.forEach(this::beforeInsert);
         userDao.insertBatch(users);
@@ -87,6 +90,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
+    @CacheEvict(value = "userAuth", key = "#id")
     public void delete(Long id) {
         bookingService.deleteByUserId(id);
         userDetailsService.delete(id);

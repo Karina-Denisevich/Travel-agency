@@ -19,16 +19,16 @@ import java.util.List;
 public class TourServiceImpl implements TourService {
 
     @Inject
-    TourDao tourDao;
+    private TourDao tourDao;
 
     @Inject
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Inject
-    BookingService bookingService;
+    private BookingService bookingService;
 
     @Inject
-    TourToCategoryDao tourToCategoryDao;
+    private TourToCategoryDao tourToCategoryDao;
 
     @Transactional
     @Override

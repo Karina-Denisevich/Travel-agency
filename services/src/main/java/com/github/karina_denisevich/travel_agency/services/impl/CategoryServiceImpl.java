@@ -14,10 +14,10 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     @Inject
-    CategoryDao categoryDao;
+    private CategoryDao categoryDao;
 
     @Inject
-    TourToCategoryDao tourToCategoryDao;
+    private TourToCategoryDao tourToCategoryDao;
 
     @Override
     public Long save(Category category) {

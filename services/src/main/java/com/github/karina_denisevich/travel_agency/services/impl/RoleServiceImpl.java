@@ -15,10 +15,10 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
 
     @Inject
-    RoleDao roleDao;
+    private RoleDao roleDao;
 
     @Inject
-    UserService userService;
+    private UserService userService;
 
     @Override
     public Long save(Role role) {

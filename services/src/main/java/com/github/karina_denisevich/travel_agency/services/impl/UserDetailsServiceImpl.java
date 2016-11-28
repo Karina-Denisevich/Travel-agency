@@ -15,10 +15,7 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Inject
-    UserDetailsDao userDetailsDao;
-
-    @Inject
-    UserService userService;
+    private UserDetailsDao userDetailsDao;
 
     @Transactional
     @Override

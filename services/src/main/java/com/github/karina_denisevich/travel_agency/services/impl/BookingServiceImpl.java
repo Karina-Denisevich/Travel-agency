@@ -16,13 +16,7 @@ import java.util.List;
 public class BookingServiceImpl implements BookingService {
 
     @Inject
-    BookingDao bookingDao;
-
-    @Inject
-    UserService userService;
-
-    @Inject
-    TourService tourService;
+    private BookingDao bookingDao;
 
     @Transactional
     @Override

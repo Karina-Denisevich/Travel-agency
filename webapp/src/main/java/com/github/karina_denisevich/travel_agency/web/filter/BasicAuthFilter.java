@@ -16,7 +16,6 @@ public class BasicAuthFilter implements Filter {
 
     private AuthenticationService authService;
 
-
     @Override
     public void init(FilterConfig config) throws ServletException {
         authService = WebApplicationContextUtils.getRequiredWebApplicationContext(config

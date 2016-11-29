@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    @CacheEvict(value = "userAuth", key = "#user.id")
+    @CacheEvict(value = "userAuthBasic userAuthSpring", key = "#user.id")
     public Long save(User user) {
         beforeInsert(user);
 
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    @CacheEvict(value = "userAuth", allEntries = true)
+    @CacheEvict(value = "userAuthBasic userAuthSpring", allEntries = true)
     public void saveAll(List<User> users) {
         users.forEach(this::beforeInsert);
         userDao.insertBatch(users);
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    @CacheEvict(value = "userAuth", key = "#id")
+    @CacheEvict(value = {"userAuthBasic", "userAuthSpring"}, key = "#id")
     public void delete(Long id) {
         bookingService.deleteByUserId(id);
         userDetailsService.delete(id);
@@ -113,5 +113,10 @@ public class UserServiceImpl implements UserService {
             role = roleService.getByType(role.getType());
         }
         return userDao.getByRole(role);
+    }
+
+    @Override
+    public User getByEmailWithRole(String email) {
+        return userDao.getByEmailWithRole(email);
     }
 }

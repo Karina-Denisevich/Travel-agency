@@ -7,19 +7,19 @@
         http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <bean:http auto-config="true" use-expressions="false">
-        <bean:intercept-url pattern="/*" access="ROLE_USER"/>
+    <bean:http auto-config="true" use-expressions="true">
         <bean:logout/>
         <bean:http-basic/>
         <bean:csrf disabled="true"/>
     </bean:http>
 
-    <bean:authentication-manager>
-        <bean:authentication-provider>
-            <bean:user-service>
-                <bean:user name="email" password="password" authorities="ROLE_USER"/>
-            </bean:user-service>
+    <bean:authentication-manager alias="authenticationManager">
+        <bean:authentication-provider user-service-ref="customUserDetailsServiceImpl">
+            <bean:password-encoder ref="encoder"/>
         </bean:authentication-provider>
     </bean:authentication-manager>
 
+    <bean id="encoder"
+          class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+    </bean>
 </beans>

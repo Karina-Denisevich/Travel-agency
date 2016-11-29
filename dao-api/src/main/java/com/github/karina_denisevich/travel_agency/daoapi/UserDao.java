@@ -9,6 +9,8 @@ public interface UserDao extends GenericDao<User, Long> {
 
     User getByEmail(String email);
 
+    User getByEmailWithRole(String email);
+
     User getWithRole(Long id);
 
     List<User> getByRole(Role role);

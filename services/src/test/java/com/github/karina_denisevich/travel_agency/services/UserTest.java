@@ -67,14 +67,14 @@ public class UserTest {
         User user = new User();
 
         //validate email before
-        user.setEmail("Ivan@gmail.com");
-        user.setPassword("1111");
+        user.setEmail("email");
+        user.setPassword("password");
 
-        Role role = new Role();
-        role.setId(1L);
-        role.setType(Role.RoleEnum.ROLE_ADMIN);
+//        Role role = new Role();
+//        role.setId(1L);
+//        role.setType(Role.RoleEnum.ROLE_ADMIN);
 
-        user.setRole(role);
+       // user.setRole(role);
 
         Long id = null;
         try {

@@ -48,4 +48,9 @@ public class UserDaoXmlImpl extends GenericDaoXmlImpl<User, Long> implements Use
         }
         xmlFileIOUtils.writeCollection(entityList);
     }
+
+    @Override
+    public User getByEmailWithRole(String email) {
+        return getByEmail(email);
+    }
 }

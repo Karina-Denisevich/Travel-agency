@@ -6,7 +6,17 @@
 
     <diskStore path="c:/ehcache" />
 
-    <cache name="userAuth"
+    <cache name="userAuthBasic"
+           maxEntriesLocalHeap="500"
+           maxEntriesLocalDisk="1000"
+           eternal="false"
+           timeToIdleSeconds="3000"
+           timeToLiveSeconds="6000"
+           memoryStoreEvictionPolicy="LFU">
+        <persistence strategy="localTempSwap" />
+    </cache>
+
+    <cache name="userAuthSpring"
            maxEntriesLocalHeap="500"
            maxEntriesLocalDisk="1000"
            eternal="false"

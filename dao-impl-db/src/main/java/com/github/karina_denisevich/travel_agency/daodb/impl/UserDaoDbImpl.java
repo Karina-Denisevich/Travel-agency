@@ -93,4 +93,17 @@ public class UserDaoDbImpl extends GenericDaoDbImpl<User, Long> implements UserD
             return null;
         }
     }
+
+    @Override
+    public User getByEmailWithRole(String email) {
+        final String sql = "SELECT * FROM " + tableName + " u "
+                + "LEFT JOIN " + roleTableName + " r ON u.role_id=r.id "
+                + "WHERE u.email = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{email},
+                    new UserWithRoleMapper(new RoleMapper()));
+        } catch (EmptyResultDataAccessException ex) {
+            throw new EmptyResultException("There is no entity with email = " + email);
+        }
+    }
 }

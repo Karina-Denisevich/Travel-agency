@@ -20,7 +20,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private UserService userService;
 
     @Override
-    @Cacheable("userAuth")
+    @Cacheable("userAuthBasic")
     public boolean validateUserPassword(String email, String password) {
         boolean isValid = false;
         User user;

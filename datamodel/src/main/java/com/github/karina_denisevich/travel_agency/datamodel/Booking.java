@@ -20,12 +20,12 @@ public class Booking extends AbstractModel {
         this.orderDate = orderDate;
     }
 
-    public Boolean getConfirmed() {
+    public Boolean getIsConfirmed() {
         return isConfirmed;
     }
 
-    public void setConfirmed(Boolean confirmed) {
-        isConfirmed = confirmed;
+    public void setIsConfirmed(Boolean isConfirmed) {
+        this.isConfirmed = isConfirmed;
     }
 
     public User getUser() {

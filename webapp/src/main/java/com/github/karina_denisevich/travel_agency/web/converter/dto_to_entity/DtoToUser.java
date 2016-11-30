@@ -4,7 +4,7 @@ import com.github.karina_denisevich.travel_agency.datamodel.User;
 import com.github.karina_denisevich.travel_agency.web.dto.UserDto;
 import org.springframework.core.convert.converter.Converter;
 
-public class DtoToUserImpl implements Converter<UserDto, User> {
+public class DtoToUser implements Converter<UserDto, User> {
 
     @Override
     public User convert(UserDto userDto) {

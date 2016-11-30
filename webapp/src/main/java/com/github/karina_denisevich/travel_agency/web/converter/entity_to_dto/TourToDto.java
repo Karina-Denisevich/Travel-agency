@@ -4,7 +4,7 @@ import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import com.github.karina_denisevich.travel_agency.web.dto.TourDto;
 import org.springframework.core.convert.converter.Converter;
 
-public class TourToDtoImpl implements Converter<Tour, TourDto> {
+public class TourToDto implements Converter<Tour, TourDto> {
 
     @Override
     public TourDto convert(Tour tour) {

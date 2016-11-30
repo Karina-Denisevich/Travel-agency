@@ -1,6 +1,7 @@
 package com.github.karina_denisevich.travel_agency.daodb.mapper;
 
 
+import com.github.karina_denisevich.travel_agency.daodb.mapper.util.MapperUtil;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.springframework.jdbc.core.RowMapper;
@@ -20,17 +21,17 @@ public class UserWithRoleMapper implements RowMapper<User> {
 
     @Override
     public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-        User entity = new User();
-        entity.setId(rs.getLong("id"));
-        entity.setEmail(rs.getString("email"));
-        entity.setPassword(rs.getString("password"));
+        User user = new User();
+        user.setId(new MapperUtil().getId(rs, "user"));
+        user.setEmail(rs.getString("email"));
+        user.setPassword(rs.getString("password"));
 
         Role role = this.roleMapper.mapRow(rs, rowNum);
         List<User> userList = new ArrayList<>();
-        userList.add(entity);
+        userList.add(user);
         role.setUsers(userList);
-        entity.setRole(role);
+        user.setRole(role);
 
-        return entity;
+        return user;
     }
 }

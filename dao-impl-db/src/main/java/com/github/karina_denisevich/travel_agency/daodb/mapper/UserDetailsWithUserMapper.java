@@ -1,5 +1,6 @@
 package com.github.karina_denisevich.travel_agency.daodb.mapper;
 
+import com.github.karina_denisevich.travel_agency.daodb.mapper.util.MapperUtil;
 import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -11,7 +12,7 @@ public class UserDetailsWithUserMapper implements RowMapper<UserDetails> {
     @Override
     public UserDetails mapRow(ResultSet rs, int rowNum) throws SQLException {
         UserDetails userDetails = new UserDetails();
-        userDetails.setId(rs.getLong("id"));
+        userDetails.setId(new MapperUtil().getId(rs, "tour"));
         userDetails.setFirstName(rs.getString("first_name"));
         userDetails.setLastName(rs.getString("last_name"));
         userDetails.setDiscount(rs.getDouble("discount"));

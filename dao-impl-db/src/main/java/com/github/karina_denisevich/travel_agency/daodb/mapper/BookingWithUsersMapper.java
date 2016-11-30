@@ -2,18 +2,18 @@ package com.github.karina_denisevich.travel_agency.daodb.mapper;
 
 import com.github.karina_denisevich.travel_agency.daodb.mapper.util.MapperUtil;
 import com.github.karina_denisevich.travel_agency.datamodel.Booking;
-import com.github.karina_denisevich.travel_agency.datamodel.Tour;
+import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class BookingWithToursMapper implements RowMapper<Booking> {
+public class BookingWithUsersMapper implements RowMapper<Booking> {
 
-    private final TourMapper tourMapper;
+    private final UserWithRoleMapper userWithRoleMapper;
 
-    public BookingWithToursMapper(TourMapper tourMapper) {
-        this.tourMapper = tourMapper;
+    public BookingWithUsersMapper(UserWithRoleMapper userWithRoleMapper) {
+        this.userWithRoleMapper = userWithRoleMapper;
     }
 
     @Override
@@ -23,8 +23,8 @@ public class BookingWithToursMapper implements RowMapper<Booking> {
         booking.setOrderDate(rs.getDate("order_date"));
         booking.setIsConfirmed(rs.getBoolean("is_confirmed"));
 
-        Tour tour = this.tourMapper.mapRow(rs, rowNum);
-        booking.setTour(tour);
+        User user = this.userWithRoleMapper.mapRow(rs, rowNum);
+        booking.setUser(user);
 
         return booking;
     }

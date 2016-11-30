@@ -31,16 +31,16 @@ public class Tour extends AbstractModel {
         this.photoLink = photoLink;
     }
 
+    public Double getPrice() {
+        return price;
+    }
+
     public Boolean getIsHot() {
         return isHot;
     }
 
-    public void setIsHot(Boolean hot) {
-        isHot = hot;
-    }
-
-    public Double getPrice() {
-        return price;
+    public void setIsHot(Boolean isHot) {
+        this.isHot = isHot;
     }
 
     public void setPrice(Double price) {

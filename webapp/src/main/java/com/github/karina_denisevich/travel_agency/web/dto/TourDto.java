@@ -11,7 +11,7 @@ public class TourDto extends AbstractDto{
     private Boolean isHot;
     private Double price;
     private String description;
-    private List<Category> categoryList;
+    private List<Category> categoryList; //TODO: change to Dto
 
     public String getTitle() {
         return title;

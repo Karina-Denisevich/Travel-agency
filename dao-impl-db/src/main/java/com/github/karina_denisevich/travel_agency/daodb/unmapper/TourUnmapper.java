@@ -12,7 +12,7 @@ public class TourUnmapper implements RowUnmapper<Tour> {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("title", tour.getTitle());
         map.put("photo_link", tour.getPhotoLink());
-        map.put("hot", tour.getIsHot());
+        map.put("is_hot", tour.getIsHot());
         map.put("price", tour.getPrice());
         map.put("description", tour.getDescription());
         if (tour.getId() != null) {

@@ -18,7 +18,7 @@ CREATE TABLE `tour` (
   `id`          BIGINT    NOT NULL AUTO_INCREMENT,
   `title`       CHAR(150) NOT NULL,
   `photo_link`  CHAR(255),
-  `hot`         TINYINT   NOT NULL DEFAULT '0',
+  `is_hot`      TINYINT   NOT NULL DEFAULT '0',
   `price`       DOUBLE    NOT NULL,
   `description` TEXT,
   PRIMARY KEY (`id`)

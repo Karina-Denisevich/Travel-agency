@@ -18,11 +18,12 @@
     <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
         <property name="converters">
             <set>
-                <bean class="com.github.karina_denisevich.travel_agency.web.converter.dto_to_entity.DtoToUserImpl"/>
-                <bean class="com.github.karina_denisevich.travel_agency.web.converter.entity_to_dto.UserToDtoImpl"/>
-                <bean class="com.github.karina_denisevich.travel_agency.web.converter.dto_to_entity.DtoToTourImpl"/>
-                <bean class="com.github.karina_denisevich.travel_agency.web.converter.entity_to_dto.TourToDtoImpl"/>
-                <!--<bean class="com.github.karina_denisevich.travel_agency.web.converter.entity_to_dto.OrderToDto"/>-->
+                <bean class="com.github.karina_denisevich.travel_agency.web.converter.dto_to_entity.DtoToUser"/>
+                <bean class="com.github.karina_denisevich.travel_agency.web.converter.entity_to_dto.UserToDto"/>
+                <bean class="com.github.karina_denisevich.travel_agency.web.converter.dto_to_entity.DtoToTour"/>
+                <bean class="com.github.karina_denisevich.travel_agency.web.converter.entity_to_dto.TourToDto"/>
+                <bean class="com.github.karina_denisevich.travel_agency.web.converter.dto_to_entity.DtoToBooking"/>
+                <bean class="com.github.karina_denisevich.travel_agency.web.converter.entity_to_dto.BookingToDto"/>
             </set>
         </property>
     </bean>

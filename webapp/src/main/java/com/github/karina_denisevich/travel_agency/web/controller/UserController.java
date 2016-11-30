@@ -1,6 +1,7 @@
 package com.github.karina_denisevich.travel_agency.web.controller;
 
 import com.github.karina_denisevich.travel_agency.daoapi.exception.DuplicateEntityException;
+import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import com.github.karina_denisevich.travel_agency.services.UserService;
 import com.github.karina_denisevich.travel_agency.web.dto.UserDto;
@@ -59,7 +60,7 @@ public class UserController {
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.POST)
     public ResponseEntity<Void> update(@RequestBody UserDto userDto,
-                                           @PathVariable Long userId) {
+                                       @PathVariable Long userId) {
         User user = (conversionService.getObject().convert(userDto, User.class));
         user.setId(userId);
         userService.save(user);
@@ -67,10 +68,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable Long userId) {
-
-        userService.get(userId);  //To handle emptyResultException
+    public ResponseEntity<Void> delete(@PathVariable Long userId) {
+        userService.get(userId);
         userService.delete(userId);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

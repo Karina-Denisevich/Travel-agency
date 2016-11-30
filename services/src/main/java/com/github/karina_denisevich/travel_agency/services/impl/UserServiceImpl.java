@@ -9,6 +9,7 @@ import com.github.karina_denisevich.travel_agency.services.UserDetailsService;
 import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

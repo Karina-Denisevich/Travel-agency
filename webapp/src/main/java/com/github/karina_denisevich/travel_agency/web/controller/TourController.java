@@ -1,5 +1,6 @@
 package com.github.karina_denisevich.travel_agency.web.controller;
 
+import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import com.github.karina_denisevich.travel_agency.services.TourService;
 import com.github.karina_denisevich.travel_agency.web.dto.TourDto;
@@ -26,7 +27,6 @@ public class TourController {
 
     @RequestMapping(value = "/{tourId}", method = RequestMethod.GET)
     public ResponseEntity<TourDto> getById(@PathVariable Long tourId) {
-
         return new ResponseEntity<>(conversionService.getObject().convert(tourService.get(tourId),
                 TourDto.class), HttpStatus.OK);
     }
@@ -45,7 +45,7 @@ public class TourController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Object> create(@RequestBody TourDto tourDto) {
+    public ResponseEntity<Void> create(@RequestBody TourDto tourDto) {
         Tour tour = (conversionService.getObject().convert(tourDto, Tour.class));
         tourService.save(tour);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -61,10 +61,9 @@ public class TourController {
     }
 
     @RequestMapping(value = "/{tourId}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable Long tourId) {
-
-        tourService.get(tourId);  //To handle emptyResultException
+    public ResponseEntity<Void> delete(@PathVariable Long tourId) {
+        tourService.get(tourId);
         tourService.delete(tourId);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

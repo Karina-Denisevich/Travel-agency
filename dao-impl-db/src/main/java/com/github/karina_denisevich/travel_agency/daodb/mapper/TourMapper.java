@@ -13,7 +13,7 @@ public class TourMapper implements RowMapper<Tour> {
         Tour tour = new Tour();
         tour.setId(rs.getLong("id"));
         tour.setTitle(rs.getString("title"));
-        tour.setIsHot(rs.getBoolean("hot"));
+        tour.setIsHot(rs.getBoolean("is_hot"));
         tour.setPhotoLink(rs.getString("photo_link"));
         tour.setPrice(rs.getDouble("price"));
         tour.setDescription(rs.getString("description"));

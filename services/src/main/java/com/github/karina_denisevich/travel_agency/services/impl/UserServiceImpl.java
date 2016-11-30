@@ -9,6 +9,7 @@ import com.github.karina_denisevich.travel_agency.services.UserDetailsService;
 import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +34,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    @CacheEvict(value = "userAuthBasic userAuthSpring", key = "#user.id")
+    @CacheEvict(value = {"userAuthBasic", "userAuthSpring"}, key = "#user.id")
+//    @PreAuthorize("#user.id==null or hasRole('ROLE_ADMIN')" +
+//            " or @userServiceImpl.get(#user.id).email==authentication.name")
     public Long save(User user) {
         beforeInsert(user);
 
@@ -47,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    @CacheEvict(value = "userAuthBasic userAuthSpring", allEntries = true)
+    @CacheEvict(value = {"userAuthBasic", "userAuthSpring"}, allEntries = true)
     public void saveAll(List<User> users) {
         users.forEach(this::beforeInsert);
         userDao.insertBatch(users);
@@ -84,6 +87,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     public List<User> getAll() {
         return userDao.getAll();
     }

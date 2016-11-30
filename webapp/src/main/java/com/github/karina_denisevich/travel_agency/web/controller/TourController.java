@@ -8,9 +8,7 @@ import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -26,6 +24,13 @@ public class TourController {
     @Inject
     private ConversionServiceFactoryBean conversionService;
 
+    @RequestMapping(value = "/{tourId}", method = RequestMethod.GET)
+    public ResponseEntity<TourDto> getById(@PathVariable Long tourId) {
+
+        return new ResponseEntity<>(conversionService.getObject().convert(tourService.get(tourId),
+                TourDto.class), HttpStatus.OK);
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<TourDto>> getAll() {
         List<Tour> tours = tourService.getAll();
@@ -33,9 +38,33 @@ public class TourController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         List<TourDto> convertedList = (List<TourDto>) conversionService.getObject().convert(tours,
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(Tour.class)),
+                TypeDescriptor.valueOf(List.class),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(TourDto.class)));
 
         return new ResponseEntity<>(convertedList, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Object> create(@RequestBody TourDto tourDto) {
+        Tour tour = (conversionService.getObject().convert(tourDto, Tour.class));
+        tourService.save(tour);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/{tourId}", method = RequestMethod.POST)
+    public ResponseEntity<Void> update(@RequestBody TourDto tourDto,
+                                       @PathVariable Long tourId) {
+        Tour tour = (conversionService.getObject().convert(tourDto, Tour.class));
+        tour.setId(tourId);
+        tourService.save(tour);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{tourId}", method = RequestMethod.DELETE)
+    public ResponseEntity delete(@PathVariable Long tourId) {
+
+        tourService.get(tourId);  //To handle emptyResultException
+        tourService.delete(tourId);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

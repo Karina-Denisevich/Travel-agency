@@ -1,10 +1,10 @@
 package com.github.karina_denisevich.travel_agency.web.converter.entity_to_dto;
 
 import com.github.karina_denisevich.travel_agency.datamodel.User;
-import com.github.karina_denisevich.travel_agency.web.converter.EntityToEntity;
 import com.github.karina_denisevich.travel_agency.web.dto.UserDto;
+import org.springframework.core.convert.converter.Converter;
 
-public class UserToDtoImpl extends EntityToEntity<User, UserDto> {
+public class UserToDtoImpl implements Converter<User, UserDto> {
 
     @Override
     public UserDto convert(User user) {
@@ -12,7 +12,7 @@ public class UserToDtoImpl extends EntityToEntity<User, UserDto> {
         userDto.setId(user.getId());
         userDto.setEmail(user.getEmail());
         userDto.setPassword(user.getPassword());
-        userDto.setRole(user.getRole());
+        userDto.setRole(user.getRole());  //TODO: change to Dto
         return userDto;
     }
 }

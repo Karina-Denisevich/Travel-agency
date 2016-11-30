@@ -8,7 +8,6 @@ import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +33,6 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<List<UserDto>> getAll() {
         List<User> users = userService.getAll();
 
@@ -42,15 +40,14 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         List<UserDto> convertedList = (List<UserDto>) conversionService.getObject().convert(users,
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(User.class)),
+                TypeDescriptor.valueOf(List.class),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(UserDto.class)));
 
         return new ResponseEntity<>(convertedList, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Object> createUser(@RequestBody UserDto userDto) {
-
+    public ResponseEntity<Object> create(@RequestBody UserDto userDto) {
         User user = (conversionService.getObject().convert(userDto, User.class));
         try {
             userService.save(user);
@@ -61,7 +58,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.POST)
-    public ResponseEntity<Void> updateUser(@RequestBody UserDto userDto,
+    public ResponseEntity<Void> update(@RequestBody UserDto userDto,
                                            @PathVariable Long userId) {
         User user = (conversionService.getObject().convert(userDto, User.class));
         user.setId(userId);

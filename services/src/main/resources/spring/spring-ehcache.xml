@@ -8,7 +8,7 @@
           http://www.springframework.org/schema/cache
         http://www.springframework.org/schema/cache/spring-cache.xsd">
 
-    <cache:annotation-driven/>
+    <cache:annotation-driven cache-manager="cacheManager"/>
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
           p:cacheManager-ref="ehcache"/>
     <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"

@@ -6,7 +6,7 @@ public class UserDto extends AbstractDto {
 
     private String email;
     private String password;
-    private Role role;  //TODO:
+    private Role role;  //TODO: change to Dto
 
     public Role getRole() {
         return role;

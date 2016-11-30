@@ -1,7 +1,6 @@
 package com.github.karina_denisevich.travel_agency.services;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Booking;
-import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.junit.After;
@@ -15,11 +14,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:service-context.xml")
+@ContextConfiguration(locations = "classpath:spring/service-context.xml")
 public class BookingTest {
 
     @Inject

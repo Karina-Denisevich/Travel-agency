@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring/service-context.xml")
+@ContextConfiguration(locations = "classpath:spring/service-context-test.xml")
 public class BookingTest {
 
     @Inject
@@ -37,13 +37,13 @@ public class BookingTest {
     //@Test
     public void insertTest() {
         User user = new User();
-        user.setEmail("Booking@mail.ru");
+        user.setEmail("BookingTest@mail.ru");
         user.setPassword("1");
         userId = userService.save(user);
         user.setId(userId);
 
         Tour tour = new Tour();
-        tour.setTitle("BookingTitle");
+        tour.setTitle("BookingTestTitle");
         tour.setPrice(100.0);
         tourId = tourService.save(tour);
         tour.setId(tourId);
@@ -107,9 +107,15 @@ public class BookingTest {
 
     @Test
     public void getAllByUserIdTest() {
-        List<Booking> bookingList = bookingService.getAllByUserId(-1L);
+        List<Booking> bookingList = bookingService.getAllByUserId(userId);
 
         Assert.assertNotNull(bookingList);
+    }
+
+    @Test
+    public void getByIdWithUser() {
+        Booking booking = bookingService.getByIdWithUser(id);
+        Assert.assertEquals(userId, booking.getUser().getId());
     }
 
     @After

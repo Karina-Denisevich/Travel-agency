@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring/service-context.xml")
+@ContextConfiguration(locations = "classpath:spring/service-context-test.xml")
 public class TourTest {
 
     @Inject

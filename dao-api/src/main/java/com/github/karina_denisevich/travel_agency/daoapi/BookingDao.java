@@ -10,5 +10,7 @@ public interface BookingDao extends GenericDao<Booking, Long> {
 
     void deleteByTourId(Long id);
 
+    Booking getByIdWithUser(Long id);
+
     List<Booking> getAllByUserId(Long userId);
 }

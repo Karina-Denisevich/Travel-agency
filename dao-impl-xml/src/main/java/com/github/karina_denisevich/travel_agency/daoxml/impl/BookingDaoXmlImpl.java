@@ -39,4 +39,9 @@ public class BookingDaoXmlImpl extends GenericDaoXmlImpl<Booking, Long> implemen
                 .filter(booking -> booking.getUser().getId().equals(userId))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Booking getByIdWithUser(Long id) {
+        return get(id);
+    }
 }

@@ -12,7 +12,7 @@ public class BookingUnmapper implements RowUnmapper<Booking> {
 
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("order_date", booking.getOrderDate());
-        map.put("confirmed", booking.getConfirmed());
+        map.put("is_confirmed", booking.getIsConfirmed());
         map.put("user_id", booking.getUser().getId());
         map.put("tour_id", booking.getTour().getId());
         if (booking.getId() != null) {

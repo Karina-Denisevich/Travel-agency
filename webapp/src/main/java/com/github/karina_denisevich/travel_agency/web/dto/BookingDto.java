@@ -1,19 +1,17 @@
 package com.github.karina_denisevich.travel_agency.web.dto;
 
-import java.util.Date;
-
 public class BookingDto extends AbstractDto {
 
-    private Date orderDate;
+    private String orderDate;
     private Boolean isConfirmed;
     private UserDto userDto;
     private TourDto tourDto;
 
-    public Date getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(String  orderDate) {
         this.orderDate = orderDate;
     }
 

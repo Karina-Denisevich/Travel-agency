@@ -1,6 +1,5 @@
 package com.github.karina_denisevich.travel_agency.web.controller;
 
-import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.datamodel.Booking;
 import com.github.karina_denisevich.travel_agency.services.BookingService;
 import com.github.karina_denisevich.travel_agency.web.dto.BookingDto;

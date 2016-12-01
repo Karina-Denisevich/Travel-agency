@@ -6,7 +6,6 @@ import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.converter.Converter;
 
 import javax.inject.Inject;
-import java.text.SimpleDateFormat;
 
 public class BookingToDto implements Converter<Booking, BookingDto> {
 

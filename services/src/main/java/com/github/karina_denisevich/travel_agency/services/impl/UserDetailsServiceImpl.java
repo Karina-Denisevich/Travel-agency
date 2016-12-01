@@ -1,6 +1,7 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
 import com.github.karina_denisevich.travel_agency.daoapi.UserDetailsDao;
+import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
 import com.github.karina_denisevich.travel_agency.services.UserDetailsService;
 import com.github.karina_denisevich.travel_agency.services.UserService;
@@ -31,6 +32,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             userDetails.setId(userDetails.getUser().getId());
             return userDetailsDao.insert(userDetails);
         } else {
+            try {
+                userDetailsDao.get(userDetails.getId());
+            } catch (EmptyResultException ex) {
+                return userDetailsDao.insert(userDetails);
+            }
             userDetailsDao.update(userDetails);
             return userDetails.getId();
         }

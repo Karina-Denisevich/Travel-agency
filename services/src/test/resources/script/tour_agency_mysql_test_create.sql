@@ -1,5 +1,6 @@
-CREATE DATABASE IF NOT EXISTS `travel_agency`;
-USE travel_agency;
+DROP SCHEMA IF EXISTS `travel_agency_test`;
+CREATE DATABASE IF NOT EXISTS `travel_agency_test`;
+USE travel_agency_test;
 CREATE TABLE `user` (
   `id`       BIGINT    NOT NULL AUTO_INCREMENT,
   `email`    CHAR(100) NOT NULL UNIQUE,

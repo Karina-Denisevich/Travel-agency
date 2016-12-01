@@ -13,11 +13,11 @@ import javax.inject.Inject;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring/service-context-test.xml")
+@ContextConfiguration(locations = "classpath:service-context-test.xml")
 public class CategoryTest {
 
     @Inject
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     private Long id;
 
@@ -59,7 +59,6 @@ public class CategoryTest {
     @Test
     public void getByType() {
         Category category = categoryService.getByType(Category.CategoryEnum.SAFARI_TOUR);
-        System.out.println(category);
         Assert.assertEquals(Category.CategoryEnum.SAFARI_TOUR, category.getType());
     }
 

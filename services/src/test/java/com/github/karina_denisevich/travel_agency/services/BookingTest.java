@@ -17,17 +17,17 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring/service-context-test.xml")
+@ContextConfiguration(locations = "classpath:service-context-test.xml")
 public class BookingTest {
 
     @Inject
-    BookingService bookingService;
+    private BookingService bookingService;
 
     @Inject
-    UserService userService;
+    private UserService userService;
 
     @Inject
-    TourService tourService;
+    private TourService tourService;
 
     private Long id;
     private Long userId;

@@ -10,16 +10,15 @@ import javax.inject.Inject;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring/service-context-test.xml")
+@ContextConfiguration(locations = "classpath:service-context-test.xml")
 public class RoleTest {
 
     @Inject
-    RoleService roleService;
+   private RoleService roleService;
 
     private Long id;
 
     @Before
-    //@Test
     public void insert() {
         Role role = new Role();
         role.setType(Role.RoleEnum.ROLE_ANONYMOUS);
@@ -44,10 +43,9 @@ public class RoleTest {
 
     @Test
     public void updateTest() {
-        Long id = 1L;
         Role role = new Role();
         role.setId(id);
-        role.setType(Role.RoleEnum.ROLE_ADMIN);
+        role.setType(Role.RoleEnum.ROLE_ANONYMOUS);
         id = roleService.save(role);
 
         Assert.assertNotNull(id);
@@ -60,7 +58,6 @@ public class RoleTest {
     }
 
     @After
-    //@Test
     public void deleteTest() {
         roleService.delete(id);
     }

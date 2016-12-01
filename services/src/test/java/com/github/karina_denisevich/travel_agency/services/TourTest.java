@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring/service-context-test.xml")
+@ContextConfiguration(locations = "classpath:service-context-test.xml")
 public class TourTest {
 
     @Inject
-    TourService tourService;
+    private TourService tourService;
 
     private Long id;
     private String title;

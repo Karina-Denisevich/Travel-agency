@@ -16,21 +16,21 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring/service-context-test.xml")
+@ContextConfiguration(locations = "classpath:service-context-test.xml")
 public class UserDetailsTest {
 
     @Inject
-    UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
     @Inject
-    UserService userService;
+    private UserService userService;
 
     private Long id;
 
     @Before
     public void executeBeforeTest() {
         User user = new User();
-        user.setEmail("email");
+        user.setEmail("userDetails");
         user.setPassword("1111");
         id = userService.save(user);
         user.setId(id);
@@ -72,7 +72,7 @@ public class UserDetailsTest {
     public void updateTest() {
         UserDetails userDetails = new UserDetails();
         userDetails.setId(id);
-        userDetails.setFirstName("first");
+        userDetails.setFirstName("userDetailsUpdate");
         userDetails.setLastName("last");
         userDetails.setPhone("+375290000000");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

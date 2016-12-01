@@ -6,15 +6,5 @@ import java.util.List;
 
 public interface CategoryService extends AbstractService<Category> {
 
-//    Long save(Category category);
-//
-//    void saveAll(List<Category> categories);
-//
-//    Category get(Long id);
-//
-//    List<Category> getAll();
-//
-//    void delete(Long id);
-
     Category getByType(Category.CategoryEnum type);
 }

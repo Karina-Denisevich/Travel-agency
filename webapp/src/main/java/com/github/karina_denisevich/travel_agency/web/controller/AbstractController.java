@@ -48,7 +48,6 @@ public abstract class AbstractController<T extends AbstractModel, D extends Abst
         }
         List<D> convertedList = (List<D>) conversionService.getObject().convert(entities,
                 TypeDescriptor.valueOf(List.class),
-                //TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(genericType)),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(genericDtoType)));
 
         return new ResponseEntity<>(convertedList, HttpStatus.OK);

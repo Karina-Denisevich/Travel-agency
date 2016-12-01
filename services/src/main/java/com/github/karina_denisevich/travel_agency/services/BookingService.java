@@ -6,16 +6,6 @@ import java.util.List;
 
 public interface BookingService extends AbstractService<Booking> {
 
-//    Long save(Booking booking);
-//
-//    void saveAll(List<Booking> bookingList);
-//
-//    Booking get(Long id);
-//
-//    List<Booking> getAll();
-//
-//    void delete(Long id);
-
     Booking getByIdWithUser(Long id);
 
     void deleteByUserId(Long id);

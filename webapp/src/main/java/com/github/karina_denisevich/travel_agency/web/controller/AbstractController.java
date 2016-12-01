@@ -60,6 +60,15 @@ public abstract class AbstractController<T extends AbstractModel, D extends Abst
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/batch", method = RequestMethod.POST)
+    public ResponseEntity<Object> createBatch(@RequestBody List<D> entityDtoList) {
+        List<T> convertedList = (List<T>) conversionService.getObject().convert(entityDtoList,
+                TypeDescriptor.valueOf(List.class),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(genericType)));
+        abstractService.saveAll(convertedList);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
     @RequestMapping(value = "/{entityId}", method = RequestMethod.POST)
     public ResponseEntity<Void> update(@RequestBody D entityDto,
                                        @PathVariable Long entityId) {

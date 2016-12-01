@@ -28,7 +28,8 @@
                 <bean class="com.github.karina_denisevich.travel_agency.web.converter.entity_to_dto.UserDetailsToDto"/>
                 <bean class="com.github.karina_denisevich.travel_agency.web.converter.dto_to_entity.DtoToCategory"/>
                 <bean class="com.github.karina_denisevich.travel_agency.web.converter.entity_to_dto.CategoryToDto"/>
-
+                <bean class="com.github.karina_denisevich.travel_agency.web.converter.dto_to_entity.DtoToRole"/>
+                <bean class="com.github.karina_denisevich.travel_agency.web.converter.entity_to_dto.RoleToDto"/>
 
                 <bean class="com.github.karina_denisevich.travel_agency.web.converter.type_to_type.StringToDate"/>
                 <bean class="com.github.karina_denisevich.travel_agency.web.converter.type_to_type.DateToString"/>

@@ -16,6 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Aspect
 public class CachingAspect {
 
+    //TODO: set max size
+
     private static final Logger logger = LoggerFactory.getLogger(CachingAspect.class);
 
     private Map<String, Object> cache = new ConcurrentHashMap<>();

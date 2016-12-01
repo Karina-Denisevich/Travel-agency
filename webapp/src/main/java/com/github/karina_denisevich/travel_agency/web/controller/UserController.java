@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @SuppressWarnings("unchecked")
-public class UserController {
+public class UserController extends AbstractController<User, UserDto>{
 
     @Inject
     private UserService userService;
@@ -26,51 +26,5 @@ public class UserController {
     @Inject
     private ConversionServiceFactoryBean conversionService;
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<UserDto> getById(@PathVariable Long userId) {
 
-        return new ResponseEntity<>(conversionService.getObject().convert(userService.get(userId),
-                UserDto.class), HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<UserDto>> getAll() {
-        List<User> users = userService.getAll();
-
-        if (CollectionUtils.isEmpty(users)) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        List<UserDto> convertedList = (List<UserDto>) conversionService.getObject().convert(users,
-                TypeDescriptor.valueOf(List.class),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(UserDto.class)));
-
-        return new ResponseEntity<>(convertedList, HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Object> create(@RequestBody UserDto userDto) {
-        User user = (conversionService.getObject().convert(userDto, User.class));
-        try {
-            userService.save(user);
-        } catch (DuplicateEntityException ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
-        }
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @RequestMapping(value = "/{userId}", method = RequestMethod.POST)
-    public ResponseEntity<Void> update(@RequestBody UserDto userDto,
-                                       @PathVariable Long userId) {
-        User user = (conversionService.getObject().convert(userDto, User.class));
-        user.setId(userId);
-        userService.save(user);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable Long userId) {
-        userService.get(userId);
-        userService.delete(userId);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }

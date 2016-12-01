@@ -31,7 +31,7 @@ public abstract class GenericDaoDbImpl<T, PK extends Serializable> implements Ge
     protected final String tableName;
 
     @SuppressWarnings("unchecked")
-    public GenericDaoDbImpl(RowUnmapper<T> rowUnmapper) {
+    protected GenericDaoDbImpl(RowUnmapper<T> rowUnmapper) {
 
         this.rowUnmapper = rowUnmapper;
 

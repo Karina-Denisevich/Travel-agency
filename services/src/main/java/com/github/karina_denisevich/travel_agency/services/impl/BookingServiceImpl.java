@@ -3,10 +3,7 @@ package com.github.karina_denisevich.travel_agency.services.impl;
 import com.github.karina_denisevich.travel_agency.daoapi.BookingDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Booking;
 import com.github.karina_denisevich.travel_agency.services.BookingService;
-import com.github.karina_denisevich.travel_agency.services.TourService;
-import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.apache.commons.lang3.Validate;
-import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,8 +51,8 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    @PostFilter("@bookingServiceImpl.getByIdWithUser(filterObject.id).user.email" +
-            "==authentication.name or hasRole('ROLE_ADMIN')")
+//    @PostFilter("@bookingServiceImpl.getByIdWithUser(filterObject.id).user.email" +
+//            "==authentication.name or hasRole('ROLE_ADMIN')")
     public List<Booking> getAll() {
         return bookingDao.getAll();
     }

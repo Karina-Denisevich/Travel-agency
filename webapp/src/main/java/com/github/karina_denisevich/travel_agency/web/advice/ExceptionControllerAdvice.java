@@ -1,5 +1,6 @@
 package com.github.karina_denisevich.travel_agency.web.advice;
 
+import com.github.karina_denisevich.travel_agency.daoapi.exception.DuplicateEntityException;
 import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,12 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<Object> handleIllegalAndNullException(RuntimeException ex, HttpServletRequest webRequest) {
         logger.error(getLogMessage(ex, webRequest));
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(DuplicateEntityException.class)
+    public ResponseEntity<Object> handleDuplicateException(RuntimeException ex, HttpServletRequest webRequest) {
+        logger.error(getLogMessage(ex, webRequest));
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
     private String getLogMessage(RuntimeException ex, HttpServletRequest webRequest) {

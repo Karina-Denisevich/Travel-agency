@@ -1,7 +1,5 @@
 package com.github.karina_denisevich.travel_agency.web.dto;
 
-import com.github.karina_denisevich.travel_agency.datamodel.Category;
-
 import java.util.List;
 
 public class TourDto extends AbstractDto{
@@ -11,7 +9,7 @@ public class TourDto extends AbstractDto{
     private Boolean isHot;
     private Double price;
     private String description;
-    private List<Category> categoryList; //TODO: change to Dto
+    private List<CategoryDto> categoryDtoList;
 
     public String getTitle() {
         return title;
@@ -53,12 +51,12 @@ public class TourDto extends AbstractDto{
         this.description = description;
     }
 
-    public List<Category> getCategoryList() {
-        return categoryList;
+    public List<CategoryDto> getCategoryList() {
+        return categoryDtoList;
     }
 
-    public void setCategoryList(List<Category> categoryList) {
-        this.categoryList = categoryList;
+    public void setCategoryList(List<CategoryDto> categoryDtoList) {
+        this.categoryDtoList = categoryDtoList;
     }
 
     @Override

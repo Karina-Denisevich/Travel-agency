@@ -1,19 +1,17 @@
 package com.github.karina_denisevich.travel_agency.web.dto;
 
-import com.github.karina_denisevich.travel_agency.datamodel.Role;
-
 public class UserDto extends AbstractDto {
 
     private String email;
     private String password;
-    private Role role;  //TODO: change to Dto
+    private RoleDto roleDto;
 
-    public Role getRole() {
-        return role;
+    public RoleDto getRole() {
+        return roleDto;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRole(RoleDto roleDto) {
+        this.roleDto = roleDto;
     }
 
     public String getEmail() {
@@ -37,7 +35,7 @@ public class UserDto extends AbstractDto {
         return "UserDto{" +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", role=" + role +
+                ", roleDto=" + roleDto +
                 '}';
     }
 }

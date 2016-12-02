@@ -25,7 +25,7 @@ public class CachingAspect {
 
     private Map<String, Object> cache = new ConcurrentHashMap<>();
 
-    @Around(value = "execution( * com.github.karina_denisevich.travel_agency.services.*.get*(..))",
+    @Around(value = "execution( * com.github.karina_denisevich.travel_agency.services.impl.*.get*(..))",
             argNames = "point")
     public Object cacheMethod(ProceedingJoinPoint point) throws Throwable {
         String key = new CachingUtil().getKey(point);
@@ -52,8 +52,8 @@ public class CachingAspect {
         }
     }
 
-    @After(value = "execution( * com.github.karina_denisevich.travel_agency.services.*.*(..)) " +
-            "&& !execution( * com.github.karina_denisevich.travel_agency.services.*.get*(..))")
+    @After(value = "execution( * com.github.karina_denisevich.travel_agency.services.impl.*.*(..)) " +
+            "&& !execution( * com.github.karina_denisevich.travel_agency.services.impl.*.get*(..))")
     public void deleteFromCacheMethod(JoinPoint point) {
         String targetName = point.getTarget().getClass().getName();
         int deletedCount = 0;

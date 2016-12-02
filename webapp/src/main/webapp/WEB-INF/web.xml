@@ -9,6 +9,8 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
+        <!--also delete <security:global-method-security pre-post-annotations="enabled"/>-->
+        <!--<param-value>classpath:spring/service-context.xml</param-value>-->
         <param-value>classpath:spring/service-context.xml, classpath:spring/spring-security.xml</param-value>
     </context-param>
 
@@ -31,7 +33,6 @@
         <!--<filter-name>BasicAuthFilter</filter-name>-->
         <!--<filter-class>com.github.karina_denisevich.travel_agency.web.filter.BasicAuthFilter</filter-class>-->
     <!--</filter>-->
-
     <!--<filter-mapping>-->
         <!--<filter-name>BasicAuthFilter</filter-name>-->
         <!--<url-pattern>/*</url-pattern>-->
@@ -40,7 +41,6 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
 
     <!--Spring Security-->
     <filter>
@@ -55,5 +55,4 @@
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
-
 </web-app>

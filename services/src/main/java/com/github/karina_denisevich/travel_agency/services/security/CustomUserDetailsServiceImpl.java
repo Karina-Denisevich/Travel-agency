@@ -4,9 +4,6 @@ import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -31,7 +27,6 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
     private UserService userService;
 
     @Override
-    //@Cacheable(value = "userAuthSpring")  //does not work in jmeter with cache
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         logger.info("Inside loadUserByUsername(" + email + ")");
         com.github.karina_denisevich.travel_agency.datamodel.User user

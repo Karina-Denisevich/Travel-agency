@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    @CacheEvict(value = {"userAuthBasic", "userAuthSpring"}, key = "#user.id")
+    @CacheEvict(value = "userAuthBasic", allEntries = true)
 //    @PreAuthorize("#user.id==null or hasRole('ROLE_ADMIN')" +
 //            " or @userServiceImpl.get(#user.id).email==authentication.name")
     public Long save(User user) {
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    @CacheEvict(value = {"userAuthBasic", "userAuthSpring"}, allEntries = true)
+    @CacheEvict(value = "userAuthSpring", allEntries = true)
     public void saveAll(List<User> users) {
         users.forEach(this::beforeInsert);
         userDao.insertBatch(users);
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    @CacheEvict(value = {"userAuthBasic", "userAuthSpring"}, key = "#id")
+    @CacheEvict(value = "userAuthBasic", allEntries = true)
     public void delete(Long id) {
         bookingService.deleteByUserId(id);
         userDetailsService.delete(id);

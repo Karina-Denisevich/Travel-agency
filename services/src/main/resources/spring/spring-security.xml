@@ -7,8 +7,7 @@
         http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <bean:http auto-config="true" use-expressions="true">
-        <bean:logout/>
+    <bean:http auto-config="true" use-expressions="true" create-session="never">
         <bean:http-basic/>
         <bean:csrf disabled="true"/>
     </bean:http>

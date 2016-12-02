@@ -90,7 +90,7 @@ public class UserDaoDbImpl extends GenericDaoDbImpl<User, Long> implements UserD
             return jdbcTemplate.query(sql, new Object[]{role.getId()},
                     new BeanPropertyRowMapper<>(User.class));
         } catch (EmptyResultDataAccessException ex) {
-            return null;
+            throw new EmptyResultException("There is no entities with role = " + role.getType().toString());
         }
     }
 

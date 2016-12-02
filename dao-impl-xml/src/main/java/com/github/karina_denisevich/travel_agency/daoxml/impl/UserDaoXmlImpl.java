@@ -32,8 +32,13 @@ public class UserDaoXmlImpl extends GenericDaoXmlImpl<User, Long> implements Use
     public List<User> getByRole(Role role) {
         List<User> userList = xmlFileIOUtils.readCollection();
 
-        return userList.stream().filter
+        List<User> userWithRoleList = userList.stream().filter
                 (user -> user.getRole().getId().equals(role.getId())).collect(Collectors.toList());
+
+        if (userWithRoleList.isEmpty()) {
+            throw new EmptyResultException("There is no entities with role = " + role.getType().toString());
+        }
+        return userWithRoleList;
     }
 
     @Override

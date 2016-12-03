@@ -39,15 +39,15 @@ public class UserServiceImpl extends AbstractServiceImpl<User, Long> implements 
 //            " or @userServiceImpl.get(#user.id).email==authentication.name")
     public Long save(User user) {
         beforeSave(user);
-
-        if (user.getId() == null) {
-            return userDao.insert(user);
-        } else {
-            if (userDao.update(user) == 0) {
-                return null;
-            }
-            return user.getId();
-        }
+        return super.save(user);
+//        if (user.getId() == null) {
+//            return userDao.insert(user);
+//        } else {
+//            if (userDao.update(user) == 0) {
+//                return null;
+//            }
+//            return user.getId();
+//        }
     }
 
     @Transactional
@@ -63,6 +63,21 @@ public class UserServiceImpl extends AbstractServiceImpl<User, Long> implements 
         Validate.notEmpty(user.getPassword(), "Password should not be empty.");
         user.setRole(getUserRole(user));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public List<User> getAll() {
+        return super.getAll();
+    }
+
+    @Transactional
+    @Override
+    @CacheEvict(value = "userAuthBasic", allEntries = true)
+    public int delete(Long id) {
+        bookingService.deleteByUserId(id);
+        userDetailsService.delete(id);
+        return super.delete(id);
     }
 
     /**
@@ -88,20 +103,6 @@ public class UserServiceImpl extends AbstractServiceImpl<User, Long> implements 
 //        return userDao.get(id);
 //    }
 
-    @Override
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public List<User> getAll() {
-        return userDao.getAll();
-    }
-
-    @Transactional
-    @Override
-    @CacheEvict(value = "userAuthBasic", allEntries = true)
-    public int delete(Long id) {
-        bookingService.deleteByUserId(id);
-        userDetailsService.delete(id);
-        return userDao.delete(id);
-    }
 
     @Override
     public User getByEmail(String email) {

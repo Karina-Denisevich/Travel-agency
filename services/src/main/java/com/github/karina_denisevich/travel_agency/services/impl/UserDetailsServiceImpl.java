@@ -13,7 +13,8 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl extends AbstractServiceImpl<UserDetails, Long>
+        implements UserDetailsService {
 
     @Inject
     private UserDetailsDao userDetailsDao;
@@ -48,24 +49,27 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
     }
 
-    @Transactional
-    @Override
-    public void saveAll(List<UserDetails> userDetailsList) {
-        userDetailsList.forEach(this::save);
-    }
+//    @Transactional
+//    @Override
+//    public void saveAll(List<UserDetails> userDetailsList) {
+//        userDetailsList.forEach(this::save);
+//    }
 
     @Override
     public UserDetails get(Long id) {
-        return userDetailsDao.get(id);
+        return super.get(id);
+        //return userDetailsDao.get(id);
     }
 
     @Override
     public List<UserDetails> getAll() {
-        return userDetailsDao.getAll();
+        return super.getAll();
+       // return userDetailsDao.getAll();
     }
 
     @Override
     public int delete(Long id) {
-        return userDetailsDao.delete(id);
+        return super.delete(id);
+        //return userDetailsDao.delete(id);
     }
 }

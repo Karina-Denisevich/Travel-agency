@@ -1,32 +1,40 @@
 package com.github.karina_denisevich.travel_agency.services.impl;
 
 import com.github.karina_denisevich.travel_agency.daoapi.GenericDao;
+import com.github.karina_denisevich.travel_agency.datamodel.AbstractModel;
 import com.github.karina_denisevich.travel_agency.services.AbstractService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-public abstract class AbstractServiceImpl<T, PK extends Serializable>
+@Service
+@SuppressWarnings("unchecked")
+public abstract class AbstractServiceImpl<T extends AbstractModel, PK extends Serializable>
         implements AbstractService<T, PK> {
 
-    private final Class<T> genericType;
+    @Inject
     private GenericDao<T, PK> genericDao;
 
-    @SuppressWarnings("unchecked")
-    protected  AbstractServiceImpl(){
-        this.genericType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
-                .getActualTypeArguments()[0];
-    }
-
+    @Transactional
     @Override
     public PK save(T entity) {
-        return null;
+        if (entity.getId() == null) {
+            return genericDao.insert(entity);
+        } else {
+            if (genericDao.update(entity) == 0) {
+                return null;
+            }
+            return (PK) entity.getId();
+        }
     }
 
+    @Transactional
     @Override
     public void saveAll(List<T> entities) {
-
+        entities.forEach(this::save);
     }
 
     @Override
@@ -39,8 +47,9 @@ public abstract class AbstractServiceImpl<T, PK extends Serializable>
         return genericDao.getAll();
     }
 
+    @Transactional
     @Override
     public int delete(PK id) {
-        return 0;
+        return genericDao.delete(id);
     }
 }

@@ -12,7 +12,8 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Service
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends AbstractServiceImpl<Role, Long>
+        implements RoleService {
 
     @Inject
     private RoleDao roleDao;
@@ -22,6 +23,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Long save(Role role) {
+        //return super.save(role);
         if (role.getId() == null) {
             return roleDao.insert(role);
         } else {

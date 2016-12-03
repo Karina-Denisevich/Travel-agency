@@ -11,7 +11,8 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Service
-public class BookingServiceImpl implements BookingService {
+public class BookingServiceImpl extends AbstractServiceImpl<Booking, Long>
+        implements BookingService {
 
     @Inject
     private BookingDao bookingDao;
@@ -20,15 +21,15 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Long save(Booking booking) {
         beforeSave(booking);
-
-        if (booking.getId() == null) {
-            return bookingDao.insert(booking);
-        } else {
-            if (bookingDao.update(booking) == 0) {
-                return null;
-            }
-            return booking.getId();
-        }
+        return super.save(booking);
+//        if (booking.getId() == null) {
+//            return bookingDao.insert(booking);
+//        } else {
+//            if (bookingDao.update(booking) == 0) {
+//                return null;
+//            }
+//            return booking.getId();
+//        }
     }
 
     private void beforeSave(Booking booking) {
@@ -41,27 +42,29 @@ public class BookingServiceImpl implements BookingService {
         }
     }
 
-    @Transactional
-    @Override
-    public void saveAll(List<Booking> bookingList) {
-        bookingList.forEach(this::save);
-    }
+//    @Transactional
+//    @Override
+//    public void saveAll(List<Booking> bookingList) {
+//        bookingList.forEach(this::save);
+//    }
 
     @Override
     public Booking get(Long id) {
-        return bookingDao.get(id);
+        return super.get(id);
+//        return bookingDao.get(id);
     }
 
     @Override
 //    @PostFilter("@bookingServiceImpl.getByIdWithUser(filterObject.id).user.email" +
 //            "==authentication.name or hasRole('ROLE_ADMIN')")
     public List<Booking> getAll() {
-        return bookingDao.getAll();
+        return super.getAll();
+//        return bookingDao.getAll();
     }
 
     @Override
     public int delete(Long id) {
-        return bookingDao.delete(id);
+        return super.delete(id);
     }
 
     @Override

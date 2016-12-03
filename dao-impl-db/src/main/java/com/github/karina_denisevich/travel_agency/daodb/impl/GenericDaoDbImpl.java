@@ -18,6 +18,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public abstract class GenericDaoDbImpl<T, PK extends Serializable> implements GenericDao<T, PK> {
 
     @Inject

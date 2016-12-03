@@ -29,6 +29,7 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
 
     @PostConstruct
     private void initialize() throws IOException {
+
         String fileName = basePath.concat("\\")
                 .concat(new DbTableAnalyzer().getDbTableName(genericType)).concat(".xml");
         xmlFileIOUtils = new XmlFileIOUtils<>(fileName, genericType);
@@ -56,7 +57,6 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
     @Override
     public PK insert(T entity) {
         List<T> entityList = xmlFileIOUtils.readCollection();
-        checkDuplicateEmail(entity, entityList);
         Long id;
         if (entity.getId() == null) {
             id = getNextId(entityList);
@@ -64,7 +64,6 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
         } else {
             id = entity.getId();
         }
-
         entityList.add(entity);
         xmlFileIOUtils.writeCollection(entityList);
 
@@ -108,21 +107,8 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
         return xmlFileIOUtils.readCollection();
     }
 
-    @SuppressWarnings("unchecked")
-    protected void checkDuplicateEmail(T entity, List<T> entitiesFromXml) {
-        if (genericType.getSimpleName().equals("User")) {
-            User user = (User) entity;
-            for (User type : (List<User>) entitiesFromXml) {
-                if (type.getEmail().equals(user.getEmail())) {
-                    throw new DuplicateEntityException("There is already user with email = " +
-                            user.getEmail());
-                }
-            }
-        }
-    }
-
     protected Long getNextId(List<T> entityList) {
-        return entityList.isEmpty() ? 1L : entityList.get(
-                entityList.size() - 1).getId() + 1;
+        return entityList.isEmpty() ? 1L : (entityList.get(
+                entityList.size() - 1).getId() + 1);
     }
 }

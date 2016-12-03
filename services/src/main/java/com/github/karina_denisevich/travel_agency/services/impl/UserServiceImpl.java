@@ -35,8 +35,8 @@ public class UserServiceImpl extends AbstractServiceImpl<User, Long> implements 
     @Transactional
     @Override
     @CacheEvict(value = "userAuthBasic", allEntries = true)
-//    @PreAuthorize("#user.id==null or hasRole('ROLE_ADMIN')" +
-//            " or @userServiceImpl.get(#user.id).email==authentication.name")
+//    @PreAuthorize("#user.id == null or hasRole('ROLE_ADMIN')" +
+//            " or @userServiceImpl.get(#user.id).email == authentication.name")
     public Long save(User user) {
         beforeSave(user);
         return super.save(user);
@@ -53,6 +53,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User, Long> implements 
     @Transactional
     @Override
     @CacheEvict(value = "userAuthSpring", allEntries = true)
+//    @PreAuthorize("#user.id==null or hasRole('ROLE_ADMIN')")
     public void saveAll(List<User> users) {
         users.forEach(this::beforeSave);
         userDao.insertBatch(users);
@@ -65,11 +66,11 @@ public class UserServiceImpl extends AbstractServiceImpl<User, Long> implements 
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
     }
 
-    @Override
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public List<User> getAll() {
-        return super.getAll();
-    }
+//    @Override
+//    //@PreAuthorize("hasRole('ROLE_USER')")
+//    public List<User> getAll() {
+//        return super.getAll();
+//    }
 
     @Transactional
     @Override

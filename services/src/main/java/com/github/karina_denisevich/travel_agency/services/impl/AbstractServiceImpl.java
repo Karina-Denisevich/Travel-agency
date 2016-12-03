@@ -33,6 +33,7 @@ public abstract class AbstractServiceImpl<T extends AbstractModel, PK extends Se
 
     @Transactional
     @Override
+  //  @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void saveAll(List<T> entities) {
         entities.forEach(this::save);
     }

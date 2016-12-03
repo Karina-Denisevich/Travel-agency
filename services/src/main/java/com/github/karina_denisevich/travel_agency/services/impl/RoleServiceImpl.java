@@ -23,42 +23,42 @@ public class RoleServiceImpl extends AbstractServiceImpl<Role, Long>
 
     @Override
     public Long save(Role role) {
-        //return super.save(role);
-        if (role.getId() == null) {
-            return roleDao.insert(role);
-        } else {
-            if (roleDao.update(role) == 0) {
-                return null;
-            }
-            return role.getId();
-        }
+        return super.save(role);
+//        if (role.getId() == null) {
+//            return roleDao.insert(role);
+//        } else {
+//            if (roleDao.update(role) == 0) {
+//                return null;
+//            }
+//            return role.getId();
+//        }
     }
 
     @Transactional
     @Override
     public void saveAll(List<Role> roles) {
-        roles.forEach(this::save);
+        super.saveAll(roles);
+        //roles.forEach(this::save);
     }
 
-    @Override
-    public Role get(Long id) {
-        return roleDao.get(id);
-    }
+//    @Override
+//    public Role get(Long id) {
+//        return super.get(id);
+//        //return roleDao.get(id);
+//    }
 
-    @Override
-    public List<Role> getAll() {
-        return roleDao.getAll();
-    }
+//    @Override
+//    public List<Role> getAll() {
+//        return roleDao.getAll();
+//    }
 
     @Transactional
     @Override
     public int delete(Long id) {
         Role role = new Role();
         role.setId(id);
-        for (User user : userService.getByRole(role)) {
-            userService.delete(user.getId());
-        }
-        return roleDao.delete(id);
+        userService.getByRole(role).forEach(user -> userService.delete(user.getId()));
+        return super.delete(id);
     }
 
     @Override

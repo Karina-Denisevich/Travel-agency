@@ -49,11 +49,12 @@ public class UserDetailsServiceImpl extends AbstractServiceImpl<UserDetails, Lon
         }
     }
 
-//    @Transactional
-//    @Override
-//    public void saveAll(List<UserDetails> userDetailsList) {
-//        userDetailsList.forEach(this::save);
-//    }
+    @Transactional
+    @Override
+    public void saveAll(List<UserDetails> userDetailsList) {
+        super.saveAll(userDetailsList);
+        //userDetailsList.forEach(this::save);
+    }
 
     @Override
     public UserDetails get(Long id) {

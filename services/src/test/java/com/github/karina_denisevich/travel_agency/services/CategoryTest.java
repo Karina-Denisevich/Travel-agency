@@ -22,7 +22,7 @@ public class CategoryTest {
     private Long id;
 
     @Before
-    //@Test
+   // @Test
     public void insertTest() {
         Category category = new Category();
         category.setType(Category.CategoryEnum.SAFARI_TOUR);

@@ -29,9 +29,25 @@ public class UserDaoXmlImpl extends GenericDaoXmlImpl<User, Long> implements Use
         return id;
     }
 
+    public int update(User userParam) {
+        List<User> entityList = xmlFileIOUtils.readCollection();
+
+        int updatedRows = 0;
+        for (User user : entityList) {
+            if (user.getId().equals(userParam.getId())) {
+                checkDuplicateEmail(user, entityList);
+                entityList.set(entityList.indexOf(user), userParam);
+                updatedRows++;
+                break;
+            }
+        }
+        xmlFileIOUtils.writeCollection(entityList);
+        return updatedRows;
+    }
+
     @SuppressWarnings("unchecked")
     private void checkDuplicateEmail(User user, List<User> entitiesFromXml) {
-        for (User type :  entitiesFromXml) {
+        for (User type : entitiesFromXml) {
             if (type.getEmail().equals(user.getEmail())) {
                 throw new DuplicateEntityException("There is already user with email = " +
                         user.getEmail());
@@ -59,13 +75,8 @@ public class UserDaoXmlImpl extends GenericDaoXmlImpl<User, Long> implements Use
     public List<User> getByRole(Role role) {
         List<User> userList = xmlFileIOUtils.readCollection();
 
-        List<User> userWithRoleList = userList.stream().filter
+        return userList.stream().filter
                 (user -> user.getRole().getId().equals(role.getId())).collect(Collectors.toList());
-
-        if (userWithRoleList.isEmpty()) {
-            throw new EmptyResultException("There is no entities with role = " + role.getType().toString());
-        }
-        return userWithRoleList;
     }
 
     @Override

@@ -74,7 +74,8 @@ public class TourServiceImpl extends AbstractServiceImpl<Tour, Long> implements 
     @Transactional
     @Override
     public void saveAll(List<Tour> tours) {
-        tours.forEach(this::save);
+        super.saveAll(tours);
+       // tours.forEach(this::save);
     }
 
 //    @Override

@@ -86,12 +86,8 @@ public class UserDaoDbImpl extends GenericDaoDbImpl<User, Long> implements UserD
     public List<User> getByRole(Role role) {
         final String sql = "SELECT * FROM " + tableName + " WHERE role_id = ?";
 
-        try {
-            return jdbcTemplate.query(sql, new Object[]{role.getId()},
-                    new BeanPropertyRowMapper<>(User.class));
-        } catch (EmptyResultDataAccessException ex) {
-            throw new EmptyResultException("There is no entities with role = " + role.getType().toString());
-        }
+        return jdbcTemplate.query(sql, new Object[]{role.getId()},
+                new BeanPropertyRowMapper<>(User.class));
     }
 
     @Override

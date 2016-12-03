@@ -34,11 +34,12 @@ public class CategoryServiceImpl extends AbstractServiceImpl<Category, Long>
 //        }
     }
 
-//    @Transactional
-//    @Override
-//    public void saveAll(List<Category> categories) {
-//        categories.forEach(this::save);
-//    }
+    @Transactional
+    @Override
+    public void saveAll(List<Category> categories) {
+        super.saveAll(categories);
+        //categories.forEach(this::save);
+    }
 
 //    @Override
 //    public Category get(Long id) {

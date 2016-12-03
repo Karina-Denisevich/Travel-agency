@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user_details")
+@RequestMapping("/userDetails")
 @SuppressWarnings("unchecked")
 public class UserDetailsController extends AbstractController<UserDetails, UserDetailsDto, Long> {
 }

@@ -100,7 +100,11 @@ public abstract class GenericDaoDbImpl<T, PK extends Serializable> implements Ge
         }
         sql.append("WHERE id = ?");
 
-        return jdbcTemplate.update(sql.toString(), valueArr);
+        try {
+            return jdbcTemplate.update(sql.toString(), valueArr);
+        } catch (DuplicateKeyException ex) {
+            throw new DuplicateEntityException(ex.getCause().getMessage());
+        }
     }
 
     @Override

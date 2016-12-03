@@ -4,7 +4,6 @@ import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultEx
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.datamodel.User;
 import com.github.karina_denisevich.travel_agency.services.UserService;
-import com.github.karina_denisevich.travel_agency.web.dto.RoleDto;
 import com.github.karina_denisevich.travel_agency.web.dto.UserDto;
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.TypeDescriptor;
@@ -27,38 +26,38 @@ public class UserController extends AbstractController<User, UserDto> {
     @Inject
     private ConversionServiceFactoryBean conversionService;
 
-    @RequestMapping(value = "/getByEmail", method = RequestMethod.GET)
-    public ResponseEntity<UserDto> getByEmail(@RequestParam("email") String email) {
+    @RequestMapping(value = "/getByEmail/{email}", method = RequestMethod.GET)
+    public ResponseEntity<UserDto> getByEmail(@PathVariable String email) {
         return new ResponseEntity<>(conversionService.getObject()
                 .convert(userService.getByEmail(email), UserDto.class), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getWithRole/{userId}", method = RequestMethod.GET)
     public ResponseEntity<UserDto> getWithRoleById(@PathVariable Long userId) {
         return new ResponseEntity<>(conversionService.getObject()
                 .convert(userService.getWithRole(userId), UserDto.class), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/getByRole", method = RequestMethod.GET)
-    public ResponseEntity<List<UserDto>> getByRole(@RequestParam("role") String roleParam) {
+    @RequestMapping(value = "/getByRole/{roleType}", method = RequestMethod.GET)
+    public ResponseEntity<List<UserDto>> getByRole(@PathVariable String roleType) {
         Role role = new Role();
-        role.setType(Role.RoleEnum.valueOf(roleParam));
+        role.setType(Role.RoleEnum.valueOf(roleType));
 
-        List<User> userList;
-        try {
-            userList = userService.getByRole(role);
-        } catch (EmptyResultException ex) {
+        List<User> userList = userService.getByRole(role);
+        if (CollectionUtils.isEmpty(userList)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+
         List<UserDto> convertedList = (List<UserDto>) conversionService.getObject()
                 .convert(userList, TypeDescriptor.valueOf(List.class),
                         TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(UserDto.class)));
 
         return new ResponseEntity<>(convertedList, HttpStatus.OK);
     }
-//
-//    @Override
-//    public User getByEmailWithRole(String email) {
-//        return userDao.getByEmailWithRole(email);
-//    }
+
+    @RequestMapping(value = "/getWithRoleByEmail/{email}", method = RequestMethod.GET)
+    public ResponseEntity<UserDto> getWithRoleByEmail(@PathVariable String email) {
+        return new ResponseEntity<>(conversionService.getObject()
+                .convert(userService.getByEmailWithRole(email), UserDto.class), HttpStatus.OK);
+    }
 }

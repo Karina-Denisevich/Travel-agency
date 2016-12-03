@@ -15,7 +15,7 @@ public class RoleDaoXmlImpl extends GenericDaoXmlImpl<Role, Long> implements Rol
         List<Role> roleList = xmlFileIOUtils.readCollection();
 
         for (Role role : roleList) {
-            if (role.getType().equals(roleEnum)) {
+            if (role.getType() == roleEnum) {
                 return role;
             }
         }

@@ -1,6 +1,7 @@
 package com.github.karina_denisevich.travel_agency.daoxml.impl;
 
 import com.github.karina_denisevich.travel_agency.daoapi.CategoryDao;
+import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.datamodel.Category;
 import org.springframework.stereotype.Repository;
 
@@ -14,10 +15,10 @@ public class CategoryDaoXmlImpl extends GenericDaoXmlImpl<Category, Long> implem
         List<Category> categoryList = xmlFileIOUtils.readCollection();
 
         for (Category category : categoryList) {
-            if (category.getType().equals(type)) {
+            if (category.getType() == type) {
                 return category;
             }
         }
-        return null;
+        throw new EmptyResultException("There is no category with type = " + type);
     }
 }

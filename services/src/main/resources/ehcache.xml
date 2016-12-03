@@ -1,5 +1,8 @@
-<ehcache >
-    <diskStore path="c:/ehcache" />
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="true" monitoring="autodetect"
+         dynamicConfig="true">
+    <diskStore path="c:/ehcache"/>
 
     <defaultCache
             maxElementsInMemory="1000"
@@ -9,11 +12,11 @@
             overflowToDisk="true"/>
 
     <cache name="userAuthBasic"
-           maxElementsOnDisk="20000"
-           maxElementsInMemory="2000"
-           eternal="false"
-           diskPersistent="false"
-           overflowToDisk="true"
-           diskExpiryThreadIntervalSeconds="100"
-           memoryStoreEvictionPolicy="LRU"/>
+               maxEntriesLocalHeap="500"
+               maxEntriesLocalDisk="1000"
+               eternal="false"
+               memoryStoreEvictionPolicy="LFU">
+        <!--persistence strategy=”localRestartable” enterprise only-->
+            <persistence strategy="localTempSwap" />
+        </cache>
 </ehcache>

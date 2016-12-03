@@ -1,16 +1,17 @@
 package com.github.karina_denisevich.travel_agency.services;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface AbstractService<T> {
+public interface AbstractService<T, PK extends Serializable> {
 
-    Long save(T entity);
+    PK save(T entity);
 
     void saveAll(List<T> entities);
 
-    T get(Long id);
+    T get(PK id);
 
     List<T> getAll();
 
-    int delete(Long id);
+    int delete(PK id);
 }

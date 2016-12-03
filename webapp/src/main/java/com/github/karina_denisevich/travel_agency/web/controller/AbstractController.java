@@ -11,15 +11,17 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Objects;
 
 @SuppressWarnings("unchecked")
-public abstract class AbstractController<T extends AbstractModel, D extends AbstractDto> {
+public abstract class AbstractController<T extends AbstractModel,
+        D extends AbstractDto, PK extends Serializable> {
 
     @Inject
-    private AbstractService<T> abstractService;
+    private AbstractService<T, PK> abstractService;
 
     @Inject
     private ConversionServiceFactoryBean conversionService;
@@ -35,7 +37,7 @@ public abstract class AbstractController<T extends AbstractModel, D extends Abst
     }
 
     @RequestMapping(value = "/{entityId}", method = RequestMethod.GET)
-    public ResponseEntity<D> getById(@PathVariable Long entityId) {
+    public ResponseEntity<D> getById(@PathVariable PK entityId) {
         return new ResponseEntity<>(conversionService.getObject()
                 .convert(abstractService.get(entityId), genericDtoType), HttpStatus.OK);
     }
@@ -83,7 +85,7 @@ public abstract class AbstractController<T extends AbstractModel, D extends Abst
     }
 
     @RequestMapping(value = "/{entityId}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> delete(@PathVariable Long entityId) {
+    public ResponseEntity<Object> delete(@PathVariable PK entityId) {
         if (abstractService.delete(entityId) == 0) {
             return new ResponseEntity<>("There is no entity with id = " + entityId,
                     HttpStatus.BAD_REQUEST);

@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @SuppressWarnings("unchecked")
-public class UserController extends AbstractController<User, UserDto> {
+public class UserController extends AbstractController<User, UserDto, Long> {
 
     @Inject
     private UserService userService;

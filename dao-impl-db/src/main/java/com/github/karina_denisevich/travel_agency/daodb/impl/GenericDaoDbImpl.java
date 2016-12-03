@@ -18,7 +18,6 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
 
-@Repository
 public abstract class GenericDaoDbImpl<T, PK extends Serializable> implements GenericDao<T, PK> {
 
     @Inject
@@ -32,12 +31,9 @@ public abstract class GenericDaoDbImpl<T, PK extends Serializable> implements Ge
 
     @SuppressWarnings("unchecked")
     protected GenericDaoDbImpl(RowUnmapper<T> rowUnmapper) {
-
         this.rowUnmapper = rowUnmapper;
-
         this.genericType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
                 .getActualTypeArguments()[0];
-
         this.tableName = new DbTableAnalyzer().getDbTableName(genericType);
     }
 

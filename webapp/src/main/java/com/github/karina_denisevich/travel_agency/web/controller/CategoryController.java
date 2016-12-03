@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/categories")
 @SuppressWarnings("unchecked")
-public class CategoryController extends AbstractController<Category, CategoryDto> {
+public class CategoryController extends AbstractController<Category, CategoryDto, Long> {
 }

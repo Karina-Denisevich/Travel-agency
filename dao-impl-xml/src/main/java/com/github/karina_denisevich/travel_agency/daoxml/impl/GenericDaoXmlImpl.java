@@ -29,7 +29,6 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
 
     @PostConstruct
     private void initialize() throws IOException {
-
         String fileName = basePath.concat("\\")
                 .concat(new DbTableAnalyzer().getDbTableName(genericType)).concat(".xml");
         xmlFileIOUtils = new XmlFileIOUtils<>(fileName, genericType);

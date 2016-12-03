@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/tours")
 @SuppressWarnings("unchecked")
-public class TourController extends AbstractController<Tour, TourDto> {
+public class TourController extends AbstractController<Tour, TourDto, Long> {
 
     @Inject
     private TourService tourService;

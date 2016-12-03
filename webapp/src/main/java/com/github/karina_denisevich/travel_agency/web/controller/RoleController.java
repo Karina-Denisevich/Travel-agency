@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/roles")
 @SuppressWarnings("unchecked")
-public class RoleController extends AbstractController<Role, RoleDto> {
+public class RoleController extends AbstractController<Role, RoleDto, Long> {
 }

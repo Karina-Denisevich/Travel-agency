@@ -4,7 +4,7 @@ import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 
 import java.util.List;
 
-public interface TourService extends AbstractService<Tour>{
+public interface TourService extends AbstractService<Tour, Long>{
 
     List<Tour> getByTitle(String title);
 }

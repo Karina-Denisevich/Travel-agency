@@ -4,5 +4,5 @@ import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
 
 import java.util.List;
 
-public interface UserDetailsService extends AbstractService<UserDetails> {
+public interface UserDetailsService extends AbstractService<UserDetails, Long> {
 }

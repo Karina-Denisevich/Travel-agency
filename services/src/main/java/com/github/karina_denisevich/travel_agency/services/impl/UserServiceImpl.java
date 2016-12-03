@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends AbstractServiceImpl<User, Long> implements UserService {
 
     @Inject
     private UserDao userDao;
@@ -83,10 +83,10 @@ public class UserServiceImpl implements UserService {
         return role;
     }
 
-    @Override
-    public User get(Long id) {
-        return userDao.get(id);
-    }
+//    @Override
+//    public User get(Long id) {
+//        return userDao.get(id);
+//    }
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")

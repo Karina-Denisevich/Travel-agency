@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/bookings")
 @SuppressWarnings("unchecked")
-public class BookingController extends AbstractController<Booking, BookingDto> {
+public class BookingController extends AbstractController<Booking, BookingDto, Long> {
 
     @Inject
     private BookingService bookingService;

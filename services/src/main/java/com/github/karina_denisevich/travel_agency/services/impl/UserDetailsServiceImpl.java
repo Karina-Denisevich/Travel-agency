@@ -21,12 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional
     @Override
     public Long save(UserDetails userDetails) {
-        Validate.notEmpty(userDetails.getFirstName(), "First name should not be empty.");
-        Validate.notEmpty(userDetails.getLastName(), "Last name should not be empty.");
-
-        if (userDetails.getDiscount() == null) {
-            userDetails.setDiscount(0.0);
-        }
+        beforeSave(userDetails);
 
         if (userDetails.getId() == null) {
             userDetails.setId(userDetails.getUser().getId());
@@ -37,8 +32,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             } catch (EmptyResultException ex) {
                 return userDetailsDao.insert(userDetails);
             }
-            userDetailsDao.update(userDetails);
+            if (userDetailsDao.update(userDetails) == 0) {
+                return null;
+            }
             return userDetails.getId();
+        }
+    }
+
+    private void beforeSave(UserDetails userDetails) {
+        Validate.notEmpty(userDetails.getFirstName(), "First name should not be empty.");
+        Validate.notEmpty(userDetails.getLastName(), "Last name should not be empty.");
+
+        if (userDetails.getDiscount() == null) {
+            userDetails.setDiscount(0.0);
         }
     }
 
@@ -59,7 +65,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public void delete(Long id) {
-        userDetailsDao.delete(id);
+    public int delete(Long id) {
+        return userDetailsDao.delete(id);
     }
 }

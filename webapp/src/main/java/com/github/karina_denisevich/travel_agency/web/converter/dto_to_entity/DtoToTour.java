@@ -25,9 +25,11 @@ public class DtoToTour implements Converter<TourDto, Tour> {
         tour.setPhotoLink(tourDto.getPhotoLink());
         tour.setPrice(tourDto.getPrice());
         tour.setDescription(tourDto.getDescription());
-        tour.setCategoryList((List<Category>) conversionService.getObject()
-                .convert(tourDto.getCategoryList(), TypeDescriptor.valueOf(List.class),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(Category.class))));
+        if (tourDto.getCategoryList() != null) {
+            tour.setCategoryList((List<Category>) conversionService.getObject()
+                    .convert(tourDto.getCategoryList(), TypeDescriptor.valueOf(List.class),
+                            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(Category.class))));
+        }
         return tour;
     }
 }

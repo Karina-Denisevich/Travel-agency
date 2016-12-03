@@ -19,7 +19,6 @@ public class BookingToDto implements Converter<Booking, BookingDto> {
         bookingDto.setIsConfirmed(booking.getIsConfirmed());
         bookingDto.setOrderDate(conversionService.getObject()
                 .convert(booking.getOrderDate(), String.class));
-
         if (booking.getUser() != null) {
             bookingDto.setUserDto(new UserToDto().convert(booking.getUser()));
         }

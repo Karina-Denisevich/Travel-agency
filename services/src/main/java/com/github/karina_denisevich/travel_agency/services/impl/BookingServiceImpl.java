@@ -24,7 +24,9 @@ public class BookingServiceImpl implements BookingService {
         if (booking.getId() == null) {
             return bookingDao.insert(booking);
         } else {
-            bookingDao.update(booking);
+            if (bookingDao.update(booking) == 0) {
+                return null;
+            }
             return booking.getId();
         }
     }
@@ -58,8 +60,8 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void delete(Long id) {
-        bookingDao.delete(id);
+    public int delete(Long id) {
+        return bookingDao.delete(id);
     }
 
     @Override
@@ -68,13 +70,13 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void deleteByUserId(Long id) {
-        bookingDao.deleteByUserId(id);
+    public int deleteByUserId(Long id) {
+        return bookingDao.deleteByUserId(id);
     }
 
     @Override
-    public void deleteByTourId(Long id) {
-        bookingDao.deleteByTourId(id);
+    public int deleteByTourId(Long id) {
+        return bookingDao.deleteByTourId(id);
     }
 
     @Override

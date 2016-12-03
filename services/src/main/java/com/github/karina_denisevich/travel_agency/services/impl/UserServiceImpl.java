@@ -9,7 +9,6 @@ import com.github.karina_denisevich.travel_agency.services.UserDetailsService;
 import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,12 +38,14 @@ public class UserServiceImpl implements UserService {
 //    @PreAuthorize("#user.id==null or hasRole('ROLE_ADMIN')" +
 //            " or @userServiceImpl.get(#user.id).email==authentication.name")
     public Long save(User user) {
-        beforeInsert(user);
+        beforeSave(user);
 
         if (user.getId() == null) {
             return userDao.insert(user);
         } else {
-            userDao.update(user);
+            if (userDao.update(user) == 0) {
+                return null;
+            }
             return user.getId();
         }
     }
@@ -53,11 +54,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @CacheEvict(value = "userAuthSpring", allEntries = true)
     public void saveAll(List<User> users) {
-        users.forEach(this::beforeInsert);
+        users.forEach(this::beforeSave);
         userDao.insertBatch(users);
     }
 
-    private void beforeInsert(User user) {
+    private void beforeSave(User user) {
         Validate.notEmpty(user.getEmail(), "Email should not be empty.");
         Validate.notEmpty(user.getPassword(), "Password should not be empty.");
         user.setRole(getUserRole(user));
@@ -96,10 +97,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     @CacheEvict(value = "userAuthBasic", allEntries = true)
-    public void delete(Long id) {
+    public int delete(Long id) {
         bookingService.deleteByUserId(id);
         userDetailsService.delete(id);
-        userDao.delete(id);
+        return userDao.delete(id);
     }
 
     @Override

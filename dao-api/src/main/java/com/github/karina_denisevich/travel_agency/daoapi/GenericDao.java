@@ -9,9 +9,9 @@ public interface GenericDao<T, PK extends Serializable> {
 
     PK insert(T entity);
 
-    void update(T entity);
+    int update(T entity);
 
-    void delete(PK id);
+    int delete(PK id);
 
     List<T> getAll();
 }

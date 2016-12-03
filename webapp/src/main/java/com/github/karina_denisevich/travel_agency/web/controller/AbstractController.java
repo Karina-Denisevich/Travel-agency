@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.Objects;
 
 @SuppressWarnings("unchecked")
 public abstract class AbstractController<T extends AbstractModel, D extends AbstractDto> {
@@ -70,17 +71,23 @@ public abstract class AbstractController<T extends AbstractModel, D extends Abst
     }
 
     @RequestMapping(value = "/{entityId}", method = RequestMethod.POST)
-    public ResponseEntity<Void> update(@RequestBody D entityDto,
-                                       @PathVariable Long entityId) {
+    public ResponseEntity<Object> update(@RequestBody D entityDto,
+                                         @PathVariable Long entityId) {
         T entity = (conversionService.getObject().convert(entityDto, genericType));
         entity.setId(entityId);
-        abstractService.save(entity);
+        if (!Objects.equals(abstractService.save(entity), entityId)) {
+            return new ResponseEntity<>("There is no entity with id = " + entityId,
+                    HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{entityId}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable Long entityId) {
-        abstractService.delete(entityId);
+    public ResponseEntity<Object> delete(@PathVariable Long entityId) {
+        if (abstractService.delete(entityId) == 0) {
+            return new ResponseEntity<>("There is no entity with id = " + entityId,
+                    HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

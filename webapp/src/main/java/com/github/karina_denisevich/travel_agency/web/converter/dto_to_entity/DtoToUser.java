@@ -19,8 +19,10 @@ public class DtoToUser implements Converter<UserDto, User> {
         user.setId(userDto.getId());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
-        user.setRole(conversionService.getObject()
-                .convert(userDto.getRole(), Role.class));
+        if (user.getRole() != null) {
+            user.setRole(conversionService.getObject()
+                    .convert(userDto.getRole(), Role.class));
+        }
         return user;
     }
 }

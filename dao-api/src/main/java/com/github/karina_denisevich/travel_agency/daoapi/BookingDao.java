@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface BookingDao extends GenericDao<Booking, Long> {
 
-    void deleteByUserId(Long id);
+    int deleteByUserId(Long id);
 
-    void deleteByTourId(Long id);
+    int deleteByTourId(Long id);
 
     Booking getByIdWithUser(Long id);
 

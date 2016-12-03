@@ -24,7 +24,9 @@ public class CategoryServiceImpl implements CategoryService {
         if (category.getId() == null) {
             return categoryDao.insert(category);
         } else {
-            categoryDao.update(category);
+            if(categoryDao.update(category)== 0) {
+                return null;
+            }
             return category.getId();
         }
     }
@@ -37,7 +39,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category get(Long id) {
-
         return categoryDao.get(id);
     }
 
@@ -48,9 +49,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Transactional
     @Override
-    public void delete(Long id) {
+    public int delete(Long id) {
         tourToCategoryDao.deleteByCategoryId(id);
-        categoryDao.delete(id);
+        return categoryDao.delete(id);
     }
 
     @Override

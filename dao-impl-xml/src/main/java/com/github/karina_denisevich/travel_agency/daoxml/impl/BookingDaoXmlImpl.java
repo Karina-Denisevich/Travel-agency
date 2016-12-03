@@ -12,24 +12,38 @@ import java.util.stream.Collectors;
 public class BookingDaoXmlImpl extends GenericDaoXmlImpl<Booking, Long> implements BookingDao {
 
     @Override
-    public void deleteByUserId(Long id) {
+    public int deleteByUserId(Long id) {
         List<Booking> bookingList = xmlFileIOUtils.readCollection();
 
+        int deletedRows = 0;
+        Iterator iterator = bookingList.iterator();
+        while (iterator.hasNext()) {
+            Booking booking = (Booking) iterator.next();
+            if (booking.getUser().getId().equals(id)) {
+                iterator.remove();
+                deletedRows++;
+            }
+        }
+
         xmlFileIOUtils.writeCollection(bookingList);
+        return deletedRows;
     }
 
     @Override
-    public void deleteByTourId(Long id) {
+    public int deleteByTourId(Long id) {
         List<Booking> bookingList = xmlFileIOUtils.readCollection();
 
+        int deletedRows = 0;
         Iterator iterator = bookingList.iterator();
         while (iterator.hasNext()) {
             Booking booking = (Booking) iterator.next();
             if (booking.getTour().getId().equals(id)) {
                 iterator.remove();
+                deletedRows++;
             }
         }
         xmlFileIOUtils.writeCollection(bookingList);
+        return deletedRows;
     }
 
     @Override

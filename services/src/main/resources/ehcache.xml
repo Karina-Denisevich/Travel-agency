@@ -12,16 +12,7 @@
            maxElementsOnDisk="20000"
            maxElementsInMemory="2000"
            eternal="false"
-           diskPersistent="true"
-           overflowToDisk="true"
-           diskExpiryThreadIntervalSeconds="100"
-           memoryStoreEvictionPolicy="LRU"/>
-
-    <cache name="userAuthSpring"
-           maxElementsOnDisk="20000"
-           maxElementsInMemory="2000"
-           eternal="false"
-           diskPersistent="true"
+           diskPersistent="false"
            overflowToDisk="true"
            diskExpiryThreadIntervalSeconds="100"
            memoryStoreEvictionPolicy="LRU"/>

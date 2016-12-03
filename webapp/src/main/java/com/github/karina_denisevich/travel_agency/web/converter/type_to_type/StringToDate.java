@@ -14,7 +14,7 @@ public class StringToDate implements Converter<String, Date> {
         try {
             return sdf.parse(source);
         } catch (ParseException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            return null;
         }
     }
 }

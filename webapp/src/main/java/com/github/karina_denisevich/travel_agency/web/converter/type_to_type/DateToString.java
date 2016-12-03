@@ -10,7 +10,7 @@ public class DateToString implements Converter<Date, String> {
     @Override
     public String convert(Date date) {
         if (date == null) {
-            return "";
+            return null;
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(date);

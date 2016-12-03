@@ -8,9 +8,9 @@ public interface BookingService extends AbstractService<Booking> {
 
     Booking getByIdWithUser(Long id);
 
-    void deleteByUserId(Long id);
+    int deleteByUserId(Long id);
 
-    void deleteByTourId(Long id);
+    int deleteByTourId(Long id);
 
     List<Booking> getAllByUserId(Long userId);
 }

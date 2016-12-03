@@ -24,4 +24,6 @@ public class BookingController extends AbstractController<Booking, BookingDto> {
     @Inject
     private ConversionServiceFactoryBean conversionService;
 
+    //TODO: do not forget about delete 400
+
 }

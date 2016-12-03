@@ -42,7 +42,9 @@ public class TourServiceImpl implements TourService {
         } else {
             tourToCategoryDao.deleteByTourId(tour.getId());
             tourToCategoryDao.insertTourWithCategories(tour);
-            tourDao.update(tour);
+            if (tourDao.update(tour) == 0) {
+                return null;
+            }
             return tour.getId();
         }
     }
@@ -59,8 +61,9 @@ public class TourServiceImpl implements TourService {
 
         List<Category> categories = tour.getCategoryList();
         if (categories != null) {
-            categories.stream().filter(category -> category.getId() == null).forEach(category ->
-                    categories.set(categories.indexOf(category), categoryService.getByType(category.getType())));
+            categories.stream().filter(category -> category.getId() == null)
+                    .forEach(category -> categories.set(categories.indexOf(category),
+                            categoryService.getByType(category.getType())));
         } else {
             List<Category> categoryOther = new ArrayList<>();
             categoryOther.add(categoryService.getByType(Category.CategoryEnum.OTHER_TOUR));
@@ -86,10 +89,10 @@ public class TourServiceImpl implements TourService {
 
     @Transactional
     @Override
-    public void delete(Long id) {
+    public int delete(Long id) {
         bookingService.deleteByTourId(id);
         tourToCategoryDao.deleteByTourId(id);
-        tourDao.delete(id);
+        return tourDao.delete(id);
     }
 
     @Override

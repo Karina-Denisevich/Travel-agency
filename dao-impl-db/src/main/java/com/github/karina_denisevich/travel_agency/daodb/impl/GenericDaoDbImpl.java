@@ -83,7 +83,7 @@ public abstract class GenericDaoDbImpl<T, PK extends Serializable> implements Ge
     }
 
     @Override
-    public void update(T entity) {
+    public int update(T entity) {
         StringBuilder sql = new StringBuilder("UPDATE " + tableName + " SET ");
 
         Map<String, Object> map = rowUnmapper.mapColumns(entity);
@@ -103,14 +103,14 @@ public abstract class GenericDaoDbImpl<T, PK extends Serializable> implements Ge
         }
         sql.append("WHERE id = ?");
 
-        jdbcTemplate.update(sql.toString(), valueArr);
+        return jdbcTemplate.update(sql.toString(), valueArr);
     }
 
     @Override
-    public void delete(PK id) {
+    public int delete(PK id) {
         final String sql = "DELETE FROM " + tableName + " WHERE id = ?";
 
-        jdbcTemplate.update(sql, id);
+        return jdbcTemplate.update(sql, id);
     }
 
     @Override

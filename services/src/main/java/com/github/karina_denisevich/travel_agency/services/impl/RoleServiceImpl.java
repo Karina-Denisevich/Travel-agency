@@ -22,11 +22,12 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Long save(Role role) {
-
         if (role.getId() == null) {
             return roleDao.insert(role);
         } else {
-            roleDao.update(role);
+            if (roleDao.update(role) == 0) {
+                return null;
+            }
             return role.getId();
         }
     }
@@ -39,25 +40,23 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role get(Long id) {
-
         return roleDao.get(id);
     }
 
     @Override
     public List<Role> getAll() {
-
         return roleDao.getAll();
     }
 
     @Transactional
     @Override
-    public void delete(Long id) {
+    public int delete(Long id) {
         Role role = new Role();
         role.setId(id);
         for (User user : userService.getByRole(role)) {
             userService.delete(user.getId());
         }
-        roleDao.delete(id);
+        return roleDao.delete(id);
     }
 
     @Override

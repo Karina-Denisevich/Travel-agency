@@ -73,29 +73,35 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
     }
 
     @Override
-    public void update(T entity) {
+    public int update(T entity) {
         List<T> entityList = xmlFileIOUtils.readCollection();
 
+        int updatedRows = 0;
         for (T t : entityList) {
             if (t.getId().equals(entity.getId())) {
                 entityList.set(entityList.indexOf(t), entity);
+                updatedRows++;
                 break;
             }
         }
         xmlFileIOUtils.writeCollection(entityList);
+        return updatedRows;
     }
 
     @Override
-    public void delete(PK id) {
+    public int delete(PK id) {
         List<T> entityList = xmlFileIOUtils.readCollection();
 
+        int deletedRows = 0;
         for (T entity : entityList) {
             if (entity.getId().equals(id)) {
                 entityList.remove(entity);
+                deletedRows++;
                 break;
             }
         }
         xmlFileIOUtils.writeCollection(entityList);
+        return deletedRows;
     }
 
     @Override

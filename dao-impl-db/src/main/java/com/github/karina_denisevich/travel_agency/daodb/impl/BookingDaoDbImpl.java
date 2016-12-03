@@ -34,17 +34,17 @@ public class BookingDaoDbImpl extends GenericDaoDbImpl<Booking, Long> implements
     }
 
     @Override
-    public void deleteByUserId(Long id) {
+    public int deleteByUserId(Long id) {
         final String sql = "DELETE FROM " + tableName + " WHERE user_id = ?";
 
-        jdbcTemplate.update(sql, id);
+        return jdbcTemplate.update(sql, id);
     }
 
     @Override
-    public void deleteByTourId(Long id) {
+    public int deleteByTourId(Long id) {
         final String sql = "DELETE FROM " + tableName + " WHERE tour_id = ?";
 
-        jdbcTemplate.update(sql, id);
+        return jdbcTemplate.update(sql, id);
     }
 
     @Override

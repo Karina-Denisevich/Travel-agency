@@ -26,11 +26,8 @@ public class TourDaoDbImpl extends GenericDaoDbImpl<Tour, Long> implements TourD
     public List<Tour> getByTitle(String title) {
         final String sql = "SELECT * FROM " + tableName + " WHERE title = ?";
 
-        try {
-            return jdbcTemplate.query(sql, new Object[]{title},
-                    new BeanPropertyRowMapper<>(Tour.class));
-        } catch (EmptyResultDataAccessException ex) {
-            throw new EmptyResultException("There is no entity with title = " + title);
-        }
+        return jdbcTemplate.query(sql, new Object[]{title},
+                new BeanPropertyRowMapper<>(Tour.class));
+
     }
 }

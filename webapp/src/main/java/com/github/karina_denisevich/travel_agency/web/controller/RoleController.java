@@ -6,10 +6,7 @@ import com.github.karina_denisevich.travel_agency.web.dto.RoleDto;
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 
@@ -24,8 +21,8 @@ public class RoleController extends AbstractController<Role, RoleDto, Long> {
     @Inject
     private ConversionServiceFactoryBean conversionService;
 
-    @RequestMapping(value = "/getByType/{roleType}", method = RequestMethod.GET)
-    public ResponseEntity<RoleDto> getByEmail(@PathVariable String roleType) {
+    @RequestMapping(value = "/search", method = RequestMethod.GET, params = "roleType")
+    public ResponseEntity<RoleDto> getByType(@RequestParam String roleType) {
         Role.RoleEnum roleEnum = Role.RoleEnum.valueOf(roleType);
 
         return new ResponseEntity<>(conversionService.getObject()

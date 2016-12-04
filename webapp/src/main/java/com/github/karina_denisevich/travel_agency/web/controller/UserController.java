@@ -26,7 +26,7 @@ public class UserController extends AbstractController<User, UserDto, Long> {
     private ConversionServiceFactoryBean conversionService;
 
     @RequestMapping(value = "/search", method = RequestMethod.GET, params = "email")
-    public ResponseEntity<UserDto> getByEmail(String email) {
+    public ResponseEntity<UserDto> getByEmail(@RequestParam String email) {
         return new ResponseEntity<>(conversionService.getObject()
                 .convert(userService.getByEmail(email), UserDto.class), HttpStatus.OK);
     }
@@ -37,13 +37,12 @@ public class UserController extends AbstractController<User, UserDto, Long> {
         if (isWithRole) {
             return new ResponseEntity<>(conversionService.getObject()
                     .convert(userService.getWithRole(userId), UserDto.class), HttpStatus.OK);
-        } else {
-            return super.getById(userId);
         }
+        return super.getById(userId);
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET, params = "roleType")
-    public ResponseEntity<List<UserDto>> getByRole(String roleType) {
+    public ResponseEntity<List<UserDto>> getByRole(@RequestParam String roleType) {
         Role role = new Role();
         role.setType(Role.RoleEnum.valueOf(roleType));
 

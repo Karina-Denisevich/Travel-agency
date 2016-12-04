@@ -63,7 +63,7 @@ public abstract class AbstractController<T extends AbstractModel,
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/batch", method = RequestMethod.POST)
+    @RequestMapping(value = "/saveAll", method = RequestMethod.POST)
     public ResponseEntity<Object> createBatch(@RequestBody List<D> entityDtoList) {
         List<T> convertedList = (List<T>) conversionService.getObject().convert(entityDtoList,
                 TypeDescriptor.valueOf(List.class),

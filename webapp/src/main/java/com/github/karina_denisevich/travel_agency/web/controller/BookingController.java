@@ -24,6 +24,45 @@ public class BookingController extends AbstractController<Booking, BookingDto, L
     @Inject
     private ConversionServiceFactoryBean conversionService;
 
-    //TODO: do not forget about delete 400
+    @RequestMapping(value = "/{bookingId}", method = RequestMethod.GET, params = "user")
+    public ResponseEntity<BookingDto> getWithUserById(@PathVariable Long bookingId,
+                                                      @RequestParam(value = "user", defaultValue = "false") Boolean isWithUser) {
+        if (isWithUser) {
+            return new ResponseEntity<>(conversionService.getObject()
+                    .convert(bookingService.getByIdWithUser(bookingId), BookingDto.class), HttpStatus.OK);
+        }
+        return super.getById(bookingId);
+    }
 
+    @RequestMapping(value = "/search", method = RequestMethod.GET, params = "userId")
+    public ResponseEntity<List<BookingDto>> getAllByUserId(@RequestParam Long userId) {
+        List<Booking> bookingList = bookingService.getAllByUserId(userId);
+        if (CollectionUtils.isEmpty(bookingList)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        List<BookingDto> convertedList = (List<BookingDto>) conversionService.getObject()
+                .convert(bookingList, TypeDescriptor.valueOf(List.class),
+                        TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(BookingDto.class)));
+
+        return new ResponseEntity<>(convertedList, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> deleteByUserId(@PathVariable Long userId) {
+        if (bookingService.deleteByUserId(userId) == 0) {
+            return new ResponseEntity<>("There is no booking with userId = " + userId,
+                    HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/tours/{tourId}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> deleteByTourId(@PathVariable Long tourId) {
+        if (bookingService.deleteByTourId(tourId) == 0) {
+            return new ResponseEntity<>("There is no booking with tourId = " + tourId,
+                    HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

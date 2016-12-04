@@ -24,8 +24,8 @@ public class TourController extends AbstractController<Tour, TourDto, Long> {
     @Inject
     private ConversionServiceFactoryBean conversionService;
 
-    @RequestMapping(value = "/getByTitle/{title}", method = RequestMethod.GET)
-    public ResponseEntity<List<TourDto>> getByTitle(@PathVariable String title) {
+    @RequestMapping(value = "/search", method = RequestMethod.GET, params = "title")
+    public ResponseEntity<List<TourDto>> getByTitle(@RequestParam String title) {
         List<Tour> tourList = tourService.getByTitle(title);
         if (CollectionUtils.isEmpty(tourList)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

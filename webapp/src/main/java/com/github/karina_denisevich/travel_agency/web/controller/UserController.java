@@ -31,7 +31,7 @@ public class UserController extends AbstractController<User, UserDto, Long> {
                 .convert(userService.getByEmail(email), UserDto.class), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{userId}", params = "role", method = RequestMethod.GET)
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET, params = "role")
     public ResponseEntity<UserDto> getWithRoleById(@PathVariable Long userId,
                                                    @RequestParam(value = "role", defaultValue = "false") Boolean isWithRole) {
         if (isWithRole) {
@@ -42,7 +42,7 @@ public class UserController extends AbstractController<User, UserDto, Long> {
         }
     }
 
-    @RequestMapping(value = "/search", params = "roleType", method = RequestMethod.GET)
+    @RequestMapping(value = "/search", method = RequestMethod.GET, params = "roleType")
     public ResponseEntity<List<UserDto>> getByRole(String roleType) {
         Role role = new Role();
         role.setType(Role.RoleEnum.valueOf(roleType));

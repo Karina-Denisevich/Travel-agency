@@ -66,6 +66,7 @@ public abstract class AbstractController<T extends AbstractModel,
 
     @RequestMapping(value = "/saveAll", method = RequestMethod.POST)
     public ResponseEntity<Object> createBatch(@RequestBody List<D> entityDtoList) {
+        entityDtoList.forEach(d -> d.setId(null));
         List<T> convertedList = (List<T>) conversionService.getObject().convert(entityDtoList,
                 TypeDescriptor.valueOf(List.class),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(genericType)));

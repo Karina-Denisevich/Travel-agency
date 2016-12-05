@@ -22,11 +22,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Long save(Category category) {
-        return super.save(category);
         if (category.getId() == null) {
             return categoryDao.insert(category);
         } else {
-            if(categoryDao.update(category)== 0) {
+            if (categoryDao.update(category) == 0) {
                 return null;
             }
             return category.getId();

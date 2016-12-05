@@ -24,9 +24,9 @@ public class BookingController extends AbstractController<Booking, BookingDto, L
     @Inject
     private ConversionServiceFactoryBean conversionService;
 
-    @RequestMapping(value = "/{bookingId}", method = RequestMethod.GET, params = "user")
+    @RequestMapping(value = "/{bookingId}", method = RequestMethod.GET, params = "withUser")
     public ResponseEntity<BookingDto> getWithUserById(@PathVariable Long bookingId,
-                                                      @RequestParam(value = "user", defaultValue = "false") Boolean isWithUser) {
+                                                      @RequestParam(value = "withUser", defaultValue = "false") Boolean isWithUser) {
         if (isWithUser) {
             return new ResponseEntity<>(conversionService.getObject()
                     .convert(bookingService.getByIdWithUser(bookingId), BookingDto.class), HttpStatus.OK);
@@ -34,13 +34,18 @@ public class BookingController extends AbstractController<Booking, BookingDto, L
         return super.getById(bookingId);
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET, params = "userId")
-    public ResponseEntity<List<BookingDto>> getAllByUserId(@RequestParam Long userId) {
-        List<Booking> bookingList = bookingService.getAllByUserId(userId);
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ResponseEntity<List<BookingDto>> getAllByUserId(@RequestParam(value = "userId", required = false) Long userId) {
+        List<Booking> bookingList;
+        if (userId != null) {
+            bookingList = bookingService.getAllByUserId(userId);
+        } else {
+            bookingList = bookingService.getAll();
+        }
+
         if (CollectionUtils.isEmpty(bookingList)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
         List<BookingDto> convertedList = (List<BookingDto>) conversionService.getObject()
                 .convert(bookingList, TypeDescriptor.valueOf(List.class),
                         TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(BookingDto.class)));

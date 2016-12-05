@@ -91,11 +91,12 @@ public class UserServiceImpl implements UserService {
     private Role getUserRole(User user) {
         Role role = user.getRole();
         if (role == null) {
-            role = roleService.getByType(Role.RoleEnum.valueOf("ROLE_USER"));
+            return roleService.getByType(Role.RoleEnum.valueOf("ROLE_USER"));
         } else if (role.getId() == null) {
-            role = roleService.getByType(role.getType());
+            return roleService.getByType(role.getType());
+        }else{
+            return roleService.get(role.getId());
         }
-        return role;
     }
 
     @Override

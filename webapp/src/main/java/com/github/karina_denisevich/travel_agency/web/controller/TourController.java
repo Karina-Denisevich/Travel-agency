@@ -37,7 +37,6 @@ public class TourController extends AbstractController<Tour, TourDto, Long> {
         if (CollectionUtils.isEmpty(tourList)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
         List<TourDto> convertedList = (List<TourDto>) conversionService.getObject()
                 .convert(tourList, TypeDescriptor.valueOf(List.class),
                         TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(TourDto.class)));

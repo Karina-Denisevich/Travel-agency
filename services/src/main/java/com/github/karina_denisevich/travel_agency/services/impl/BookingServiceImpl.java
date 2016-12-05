@@ -11,8 +11,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Service
-public class BookingServiceImpl extends AbstractServiceImpl<Booking, Long>
-        implements BookingService {
+public class BookingServiceImpl implements BookingService {
 
     @Inject
     private BookingDao bookingDao;
@@ -21,15 +20,14 @@ public class BookingServiceImpl extends AbstractServiceImpl<Booking, Long>
     @Override
     public Long save(Booking booking) {
         beforeSave(booking);
-        return super.save(booking);
-//        if (booking.getId() == null) {
-//            return bookingDao.insert(booking);
-//        } else {
-//            if (bookingDao.update(booking) == 0) {
-//                return null;
-//            }
-//            return booking.getId();
-//        }
+        if (booking.getId() == null) {
+            return bookingDao.insert(booking);
+        } else {
+            if (bookingDao.update(booking) == 0) {
+                return null;
+            }
+            return booking.getId();
+        }
     }
 
     private void beforeSave(Booking booking) {
@@ -42,29 +40,27 @@ public class BookingServiceImpl extends AbstractServiceImpl<Booking, Long>
         }
     }
 
-//    @Transactional
-//    @Override
-//    public void saveAll(List<Booking> bookingList) {
-//        bookingList.forEach(this::save);
-//    }
+    @Transactional
+    @Override
+    public void saveAll(List<Booking> bookingList) {
+        bookingList.forEach(this::save);
+    }
 
     @Override
     public Booking get(Long id) {
-        return super.get(id);
-//        return bookingDao.get(id);
+        return bookingDao.get(id);
     }
 
     @Override
 //    @PostFilter("@bookingServiceImpl.getByIdWithUser(filterObject.id).user.email" +
 //            "==authentication.name or hasRole('ROLE_ADMIN')")
     public List<Booking> getAll() {
-        return super.getAll();
-//        return bookingDao.getAll();
+        return bookingDao.getAll();
     }
 
     @Override
     public int delete(Long id) {
-        return super.delete(id);
+        return bookingDao.delete(id);
     }
 
     @Override

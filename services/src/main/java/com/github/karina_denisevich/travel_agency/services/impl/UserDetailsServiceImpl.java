@@ -4,7 +4,6 @@ import com.github.karina_denisevich.travel_agency.daoapi.UserDetailsDao;
 import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
 import com.github.karina_denisevich.travel_agency.services.UserDetailsService;
-import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,8 +12,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Service
-public class UserDetailsServiceImpl extends AbstractServiceImpl<UserDetails, Long>
-        implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Inject
     private UserDetailsDao userDetailsDao;
@@ -52,25 +50,21 @@ public class UserDetailsServiceImpl extends AbstractServiceImpl<UserDetails, Lon
     @Transactional
     @Override
     public void saveAll(List<UserDetails> userDetailsList) {
-        super.saveAll(userDetailsList);
-        //userDetailsList.forEach(this::save);
+        userDetailsList.forEach(this::save);
     }
 
     @Override
     public UserDetails get(Long id) {
-        return super.get(id);
-        //return userDetailsDao.get(id);
+        return userDetailsDao.get(id);
     }
 
     @Override
     public List<UserDetails> getAll() {
-        return super.getAll();
-       // return userDetailsDao.getAll();
+        return userDetailsDao.getAll();
     }
 
     @Override
     public int delete(Long id) {
-        return super.delete(id);
-        //return userDetailsDao.delete(id);
+        return userDetailsDao.delete(id);
     }
 }

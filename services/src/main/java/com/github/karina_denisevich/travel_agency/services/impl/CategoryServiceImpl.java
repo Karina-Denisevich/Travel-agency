@@ -12,8 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl extends AbstractServiceImpl<Category, Long>
-        implements CategoryService {
+public class CategoryServiceImpl implements CategoryService {
 
     @Inject
     private CategoryDao categoryDao;
@@ -24,38 +23,37 @@ public class CategoryServiceImpl extends AbstractServiceImpl<Category, Long>
     @Override
     public Long save(Category category) {
         return super.save(category);
-//        if (category.getId() == null) {
-//            return categoryDao.insert(category);
-//        } else {
-//            if(categoryDao.update(category)== 0) {
-//                return null;
-//            }
-//            return category.getId();
-//        }
+        if (category.getId() == null) {
+            return categoryDao.insert(category);
+        } else {
+            if(categoryDao.update(category)== 0) {
+                return null;
+            }
+            return category.getId();
+        }
     }
 
     @Transactional
     @Override
     public void saveAll(List<Category> categories) {
-        super.saveAll(categories);
-        //categories.forEach(this::save);
+        categories.forEach(this::save);
     }
 
-//    @Override
-//    public Category get(Long id) {
-//        return categoryDao.get(id);
-//    }
+    @Override
+    public Category get(Long id) {
+        return categoryDao.get(id);
+    }
 
-//    @Override
-//    public List<Category> getAll() {
-//        return categoryDao.getAll();
-//    }
+    @Override
+    public List<Category> getAll() {
+        return categoryDao.getAll();
+    }
 
     @Transactional
     @Override
     public int delete(Long id) {
         tourToCategoryDao.deleteByCategoryId(id);
-        return super.delete(id);
+        return categoryDao.delete(id);
     }
 
     @Override

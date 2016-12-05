@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TourServiceImpl extends AbstractServiceImpl<Tour, Long> implements TourService {
+public class TourServiceImpl implements TourService {
 
     @Inject
     private TourDao tourDao;
@@ -74,26 +74,25 @@ public class TourServiceImpl extends AbstractServiceImpl<Tour, Long> implements 
     @Transactional
     @Override
     public void saveAll(List<Tour> tours) {
-        super.saveAll(tours);
-       // tours.forEach(this::save);
+        tours.forEach(this::save);
     }
 
-//    @Override
-//    public Tour get(Long id) {
-//        return tourDao.get(id);
-//    }
+    @Override
+    public Tour get(Long id) {
+        return tourDao.get(id);
+    }
 
-//    @Override
-//    public List<Tour> getAll() {
-//        return tourDao.getAll();
-//    }
+    @Override
+    public List<Tour> getAll() {
+        return tourDao.getAll();
+    }
 
     @Transactional
     @Override
     public int delete(Long id) {
         bookingService.deleteByTourId(id);
         tourToCategoryDao.deleteByTourId(id);
-        return super.delete(id);
+        return tourDao.delete(id);
     }
 
     @Override

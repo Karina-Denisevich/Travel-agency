@@ -2,7 +2,6 @@ package com.github.karina_denisevich.travel_agency.services.impl;
 
 import com.github.karina_denisevich.travel_agency.daoapi.RoleDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
-import com.github.karina_denisevich.travel_agency.datamodel.User;
 import com.github.karina_denisevich.travel_agency.services.RoleService;
 import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.springframework.stereotype.Service;
@@ -12,8 +11,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Service
-public class RoleServiceImpl extends AbstractServiceImpl<Role, Long>
-        implements RoleService {
+public class RoleServiceImpl implements RoleService {
 
     @Inject
     private RoleDao roleDao;
@@ -23,34 +21,31 @@ public class RoleServiceImpl extends AbstractServiceImpl<Role, Long>
 
     @Override
     public Long save(Role role) {
-        return super.save(role);
-//        if (role.getId() == null) {
-//            return roleDao.insert(role);
-//        } else {
-//            if (roleDao.update(role) == 0) {
-//                return null;
-//            }
-//            return role.getId();
-//        }
+        if (role.getId() == null) {
+            return roleDao.insert(role);
+        } else {
+            if (roleDao.update(role) == 0) {
+                return null;
+            }
+            return role.getId();
+        }
     }
 
     @Transactional
     @Override
     public void saveAll(List<Role> roles) {
-        super.saveAll(roles);
-        //roles.forEach(this::save);
+        roles.forEach(this::save);
     }
 
-//    @Override
-//    public Role get(Long id) {
-//        return super.get(id);
-//        //return roleDao.get(id);
-//    }
+    @Override
+    public Role get(Long id) {
+        return roleDao.get(id);
+    }
 
-//    @Override
-//    public List<Role> getAll() {
-//        return roleDao.getAll();
-//    }
+    @Override
+    public List<Role> getAll() {
+        return roleDao.getAll();
+    }
 
     @Transactional
     @Override
@@ -58,7 +53,7 @@ public class RoleServiceImpl extends AbstractServiceImpl<Role, Long>
         Role role = new Role();
         role.setId(id);
         userService.getByRole(role).forEach(user -> userService.delete(user.getId()));
-        return super.delete(id);
+        return roleDao.delete(id);
     }
 
     @Override

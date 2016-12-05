@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Service
-public class UserServiceImpl extends AbstractServiceImpl<User, Long> implements UserService {
+public class UserServiceImpl implements UserService {
 
     @Inject
     private UserDao userDao;
@@ -38,16 +38,14 @@ public class UserServiceImpl extends AbstractServiceImpl<User, Long> implements 
 //    @PreAuthorize("#user.id == null or hasRole('ROLE_ADMIN')" +
 //            " or @userServiceImpl.get(#user.id).email == authentication.name")
     public Long save(User user) {
-        beforeSave(user);
-        return super.save(user);
-//        if (user.getId() == null) {
-//            return userDao.insert(user);
-//        } else {
-//            if (userDao.update(user) == 0) {
-//                return null;
-//            }
-//            return user.getId();
-//        }
+        if (user.getId() == null) {
+            return userDao.insert(user);
+        } else {
+            if (userDao.update(user) == 0) {
+                return null;
+            }
+            return user.getId();
+        }
     }
 
     @Transactional
@@ -66,11 +64,11 @@ public class UserServiceImpl extends AbstractServiceImpl<User, Long> implements 
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
     }
 
-//    @Override
-//    //@PreAuthorize("hasRole('ROLE_USER')")
-//    public List<User> getAll() {
-//        return super.getAll();
-//    }
+    @Override
+    //@PreAuthorize("hasRole('ROLE_USER')")
+    public List<User> getAll() {
+        return userDao.getAll();
+    }
 
     @Transactional
     @Override
@@ -78,7 +76,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User, Long> implements 
     public int delete(Long id) {
         bookingService.deleteByUserId(id);
         userDetailsService.delete(id);
-        return super.delete(id);
+        return userDao.delete(id);
     }
 
     /**
@@ -99,10 +97,10 @@ public class UserServiceImpl extends AbstractServiceImpl<User, Long> implements 
         return role;
     }
 
-//    @Override
-//    public User get(Long id) {
-//        return userDao.get(id);
-//    }
+    @Override
+    public User get(Long id) {
+        return userDao.get(id);
+    }
 
 
     @Override

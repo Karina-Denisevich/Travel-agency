@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
 //    @PreAuthorize("#user.id == null or hasRole('ROLE_ADMIN')" +
 //            " or @userServiceImpl.get(#user.id).email == authentication.name")
     public Long save(User user) {
+        beforeSave(user);
         if (user.getId() == null) {
             return userDao.insert(user);
         } else {
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    @CacheEvict(value = "userAuthSpring", allEntries = true)
+    @CacheEvict(value = "userAuthBasic", allEntries = true)
 //    @PreAuthorize("#user.id==null or hasRole('ROLE_ADMIN')")
     public void saveAll(List<User> users) {
         users.forEach(this::beforeSave);

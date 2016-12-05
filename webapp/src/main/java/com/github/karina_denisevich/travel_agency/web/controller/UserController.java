@@ -12,6 +12,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,10 +26,24 @@ public class UserController extends AbstractController<User, UserDto, Long> {
     @Inject
     private ConversionServiceFactoryBean conversionService;
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET, params = "email")
-    public ResponseEntity<UserDto> getByEmail(@RequestParam String email) {
-        return new ResponseEntity<>(conversionService.getObject()
-                .convert(userService.getByEmail(email), UserDto.class), HttpStatus.OK);
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ResponseEntity<List<UserDto>> getByEmail(@RequestParam(value = "email", required = false) String email,
+                                                    @RequestParam(value = "roleType", required = false) String roleType) {
+        List<User> userList = new ArrayList<>(userService.getAll());
+        if ((roleType != null) && !CollectionUtils.isEmpty(userList)) {
+            userList.retainAll(getByRole(roleType));
+        }
+        if ((email != null) && !CollectionUtils.isEmpty(userList)) {
+            userList.retainAll(getByEmail(email));
+        }
+        if (CollectionUtils.isEmpty(userList)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        List<UserDto> convertedList = (List<UserDto>) conversionService.getObject()
+                .convert(userList, TypeDescriptor.valueOf(List.class),
+                        TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(UserDto.class)));
+        return new ResponseEntity<>(convertedList, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET, params = "role")
@@ -41,20 +56,16 @@ public class UserController extends AbstractController<User, UserDto, Long> {
         return super.getById(userId);
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET, params = "roleType")
-    public ResponseEntity<List<UserDto>> getByRole(@RequestParam String roleType) {
+    private List<User> getByRole(String roleType) {
         Role role = new Role();
         role.setType(Role.RoleEnum.valueOf(roleType));
 
-        List<User> userList = userService.getByRole(role);
-        if (CollectionUtils.isEmpty(userList)) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+        return userService.getByRole(role);
+    }
 
-        List<UserDto> convertedList = (List<UserDto>) conversionService.getObject()
-                .convert(userList, TypeDescriptor.valueOf(List.class),
-                        TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(UserDto.class)));
-
-        return new ResponseEntity<>(convertedList, HttpStatus.OK);
+    private List<User> getByEmail(String email) {
+        List<User> userList = new ArrayList<>();
+        userList.add(userService.getByEmail(email));
+        return userList;
     }
 }

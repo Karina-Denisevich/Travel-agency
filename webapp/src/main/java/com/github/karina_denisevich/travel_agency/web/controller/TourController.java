@@ -11,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,9 +25,15 @@ public class TourController extends AbstractController<Tour, TourDto, Long> {
     @Inject
     private ConversionServiceFactoryBean conversionService;
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET, params = "title")
-    public ResponseEntity<List<TourDto>> getByTitle(@RequestParam String title) {
-        List<Tour> tourList = tourService.getByTitle(title);
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ResponseEntity<List<TourDto>> getByTitle(@RequestParam(value = "title", required = false) String title) {
+        List<Tour> tourList;
+        if (title != null) {
+            tourList = new ArrayList<>(tourService.getByTitle(title));
+        } else {
+            tourList = new ArrayList<>(tourService.getAll());
+        }
+
         if (CollectionUtils.isEmpty(tourList)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

@@ -59,6 +59,7 @@ public abstract class AbstractController<T extends AbstractModel,
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> create(@RequestBody D entityDto) {
         T entity = (conversionService.getObject().convert(entityDto, genericType));
+        entity.setId(null);
         abstractService.save(entity);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

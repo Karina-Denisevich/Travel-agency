@@ -4,6 +4,7 @@ import com.github.karina_denisevich.travel_agency.daoapi.UserDetailsDao;
 import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.datamodel.UserDetails;
 import com.github.karina_denisevich.travel_agency.services.UserDetailsService;
+import com.github.karina_denisevich.travel_agency.services.UserService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Inject
     private UserDetailsDao userDetailsDao;
+
+    @Inject
+    private UserService userService;
 
     @Transactional
     @Override
@@ -39,6 +43,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private void beforeSave(UserDetails userDetails) {
+        userService.get(userDetails.getId());
         Validate.notEmpty(userDetails.getFirstName(), "First name should not be empty.");
         Validate.notEmpty(userDetails.getLastName(), "Last name should not be empty.");
 

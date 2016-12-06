@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Aspect
 public class CachingAspect {
     private static final Logger logger = LoggerFactory.getLogger(CachingAspect.class);
+    private static final String FILE_NAME = "cacheStorage";
 
     private static final int MAX_SIZE = 1000;
     private static final int MIN_SIZE = 500;
@@ -71,13 +72,18 @@ public class CachingAspect {
 
     @Scheduled(fixedDelay = 15000)
     public void save() {
-        System.out.println("+++++++++++save");
-        FileIOUtil.write(cache);
+        System.out.println("hi");
+        FileIOUtil<ConcurrentHashMap<String, Object>> fileIOUtil = new FileIOUtil<>(FILE_NAME);
+        fileIOUtil.write((ConcurrentHashMap<String, Object>) cache);
     }
 
-
     @PostConstruct
+    @SuppressWarnings("unchecked")
     public void init() {
-        cache = FileIOUtil.read();
+        FileIOUtil<ConcurrentHashMap<String, Object>> fileIOUtil = new FileIOUtil<>(FILE_NAME);
+        ConcurrentHashMap<String, Object> map = fileIOUtil.read();
+        if (map != null) {
+            cache = map;
+        }
     }
 }

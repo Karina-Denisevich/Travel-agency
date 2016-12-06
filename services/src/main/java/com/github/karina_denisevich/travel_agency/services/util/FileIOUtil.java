@@ -4,37 +4,37 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
-public class FileIOUtil {
+public class FileIOUtil<T extends Serializable> {
     private static final Logger logger = LoggerFactory.getLogger(FileIOUtil.class);
+    private final String fileName;
 
-    public static void write(Map<String, Object> map) {
-        try (ObjectOutput objectOutputStream = new ObjectOutputStream(
-                new BufferedOutputStream(new FileOutputStream("cacheStorage", false)))) {
-            objectOutputStream.writeObject(map);
-        } catch (FileNotFoundException e) {
-            new File("customCache").mkdirs();
+    public FileIOUtil(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void write(T object) {
+        try (ObjectOutput objectOutputStream = new ObjectOutputStream
+                (new BufferedOutputStream(new FileOutputStream(fileName, false)))) {
+            objectOutputStream.writeObject(object);
+            logger.info("Object is written in file : " + object);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @SuppressWarnings("unchecked")
-    public static ConcurrentHashMap<String, Object> read() {
-        ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
-        try {
-            try (ObjectInput objectInputStream = new ObjectInputStream(
-                    new BufferedInputStream(new FileInputStream("cacheStorage")))) {
-                map = (ConcurrentHashMap<String, Object>) objectInputStream.readObject();
-                System.out.println(")))))))))))map = " + map);
-            }
+    public T read() {
+        T object = null;
+        try (ObjectInput objectInputStream = new ObjectInputStream
+                (new BufferedInputStream(new FileInputStream(fileName)))) {
+            object = (T) objectInputStream.readObject();
+            logger.info("Object is read from file : " + object);
         } catch (FileNotFoundException e) {
-            new File("customCache").mkdirs();
+            //If file does not exists. New file will created
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return map;
+        return object;
     }
 }

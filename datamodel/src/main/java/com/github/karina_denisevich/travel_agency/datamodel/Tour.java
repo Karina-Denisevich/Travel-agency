@@ -7,6 +7,8 @@ import java.util.List;
 @DbTable(name = "tour")
 public class Tour extends AbstractModel {
 
+    private static final long serialVersionUID = 1L;
+
     private String title;
     private String photoLink;
     private Boolean isHot;

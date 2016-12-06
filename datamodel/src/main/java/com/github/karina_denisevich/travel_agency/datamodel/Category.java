@@ -7,6 +7,8 @@ import java.util.List;
 @DbTable(name = "category")
 public class Category extends AbstractModel {
 
+    private static final long serialVersionUID = 1L;
+
     public enum CategoryEnum {
         ESCOURTED_TOUR,
         RAIL_TOUR,

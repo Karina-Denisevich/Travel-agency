@@ -7,10 +7,12 @@ import java.util.List;
 @DbTable(name = "role")
 public class Role extends AbstractModel {
 
+    private static final long serialVersionUID = 1L;
+
     public enum RoleEnum {
         ROLE_ADMIN,
         ROLE_USER,
-        ROLE_ANONYMOUS;
+        ROLE_ANONYMOUS
     }
 
     private RoleEnum type;

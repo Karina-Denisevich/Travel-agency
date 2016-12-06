@@ -7,6 +7,8 @@ import java.util.List;
 @DbTable(name = "user")
 public class User extends AbstractModel {
 
+    private static final long serialVersionUID = 1L;
+
     private String email;
     private String password;
     private Role role;

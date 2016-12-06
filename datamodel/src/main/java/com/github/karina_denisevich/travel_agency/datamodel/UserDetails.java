@@ -7,6 +7,8 @@ import java.util.Date;
 @DbTable
 public class UserDetails extends AbstractModel {
 
+    private static final long serialVersionUID = 1L;
+
     private String firstName;
     private String lastName;
     private Double discount;

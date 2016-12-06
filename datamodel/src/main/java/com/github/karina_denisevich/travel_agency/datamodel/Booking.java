@@ -7,6 +7,8 @@ import java.util.Date;
 @DbTable(name = "booking")
 public class Booking extends AbstractModel {
 
+    private static final long serialVersionUID = 1L;
+
     private Date orderDate;
     private Boolean isConfirmed;
     private User user;

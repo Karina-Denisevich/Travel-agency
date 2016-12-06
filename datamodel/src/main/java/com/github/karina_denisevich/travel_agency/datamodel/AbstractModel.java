@@ -1,6 +1,10 @@
 package com.github.karina_denisevich.travel_agency.datamodel;
 
-public abstract class AbstractModel {
+import java.io.Serializable;
+
+public abstract class AbstractModel implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Long id;
 

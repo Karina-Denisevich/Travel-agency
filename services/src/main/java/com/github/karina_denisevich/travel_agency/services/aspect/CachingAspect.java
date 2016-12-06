@@ -1,6 +1,7 @@
 package com.github.karina_denisevich.travel_agency.services.aspect;
 
 import com.github.karina_denisevich.travel_agency.services.aspect.util.CachingUtil;
+import com.github.karina_denisevich.travel_agency.services.util.FileIOUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -8,8 +9,10 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +55,7 @@ public class CachingAspect {
         }
     }
 
-    @After(value = "execution( * com.github.karina_denisevich.travel_agency.services.impl.*.*(..)) " +
+    @After("execution( * com.github.karina_denisevich.travel_agency.services.impl.*.*(..)) " +
             "&& !execution( * com.github.karina_denisevich.travel_agency.services.impl.*.get*(..))")
     public void deleteFromCacheMethod(JoinPoint point) {
         String targetName = point.getTarget().getClass().getName();
@@ -64,5 +67,17 @@ public class CachingAspect {
             }
         }
         logger.info("From " + targetName + " was deleted : " + deletedCount + " objects");
+    }
+
+    @Scheduled(fixedDelay = 15000)
+    public void save() {
+        System.out.println("+++++++++++save");
+        FileIOUtil.write(cache);
+    }
+
+
+    @PostConstruct
+    public void init() {
+        cache = FileIOUtil.read();
     }
 }

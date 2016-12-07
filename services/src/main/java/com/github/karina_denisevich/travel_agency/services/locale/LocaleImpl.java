@@ -10,7 +10,6 @@ public class LocaleImpl implements CustomLocale {
 
     private String locale;
 
-
     public String getLocale() {
         return locale;
     }

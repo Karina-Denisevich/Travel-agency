@@ -7,13 +7,8 @@ import java.io.*;
 
 public class FileIOUtil<T extends Serializable> {
     private static final Logger logger = LoggerFactory.getLogger(FileIOUtil.class);
-    private final String fileName;
 
-    public FileIOUtil(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public void write(T object) {
+    public void write(T object, String fileName) {
         try (ObjectOutput objectOutputStream = new ObjectOutputStream
                 (new BufferedOutputStream(new FileOutputStream(fileName, false)))) {
             objectOutputStream.writeObject(object);
@@ -24,7 +19,7 @@ public class FileIOUtil<T extends Serializable> {
     }
 
     @SuppressWarnings("unchecked")
-    public T read() {
+    public T read(String fileName) {
         T object = null;
         try (ObjectInput objectInputStream = new ObjectInputStream
                 (new BufferedInputStream(new FileInputStream(fileName)))) {

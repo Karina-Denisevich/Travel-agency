@@ -58,7 +58,8 @@ public class CachingAspect {
     }
 
     @After("execution( * com.github.karina_denisevich.travel_agency.services.impl.*.*(..)) " +
-            "&& !execution( * com.github.karina_denisevich.travel_agency.services.impl.*.get*(..))")
+            "&& !execution( * com.github.karina_denisevich.travel_agency.services.impl.*.get*(..)) " +
+            "&& !execution( * com.github.karina_denisevich.travel_agency.services.impl.TourServiceImpl.*(..))")
     public void deleteFromCacheMethod(JoinPoint point) {
         String targetName = point.getTarget().getClass().getName();
         int deletedCount = 0;
@@ -73,15 +74,15 @@ public class CachingAspect {
 
    // @Scheduled(fixedDelay = 25000)
     public void save() {
-        FileIOUtil<ConcurrentHashMap<String, Object>> fileIOUtil = new FileIOUtil<>(FILE_NAME);
-        fileIOUtil.write((ConcurrentHashMap<String, Object>) cache);
+        FileIOUtil<ConcurrentHashMap<String, Object>> fileIOUtil = new FileIOUtil<>();
+        fileIOUtil.write((ConcurrentHashMap<String, Object>) cache, FILE_NAME);
     }
 
     @PostConstruct
     @SuppressWarnings("unchecked")
     public void init() {
-        FileIOUtil<ConcurrentHashMap<String, Object>> fileIOUtil = new FileIOUtil<>(FILE_NAME);
-        ConcurrentHashMap<String, Object> map = fileIOUtil.read();
+        FileIOUtil<ConcurrentHashMap<String, Object>> fileIOUtil = new FileIOUtil<>();
+        ConcurrentHashMap<String, Object> map = fileIOUtil.read(FILE_NAME);
         if (map != null) {
             cache = map;
         }

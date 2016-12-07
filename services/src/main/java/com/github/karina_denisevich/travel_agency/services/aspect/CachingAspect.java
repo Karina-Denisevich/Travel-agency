@@ -29,7 +29,8 @@ public class CachingAspect {
 
     private Map<String, Object> cache = new ConcurrentHashMap<>();
 
-    @Around(value = "execution( * com.github.karina_denisevich.travel_agency.services.impl.*.get*(..))",
+    @Around(value = "execution( * com.github.karina_denisevich.travel_agency.services.impl.*.get*(..)) " +
+            "&& !execution( * com.github.karina_denisevich.travel_agency.services.impl.TourServiceImpl.get*(..))",
             argNames = "point")
     public Object cacheMethod(ProceedingJoinPoint point) throws Throwable {
         String key = new CachingUtil().getKey(point);
@@ -70,9 +71,8 @@ public class CachingAspect {
         logger.info("From " + targetName + " was deleted : " + deletedCount + " objects");
     }
 
-    @Scheduled(fixedDelay = 15000)
+   // @Scheduled(fixedDelay = 25000)
     public void save() {
-        System.out.println("hi");
         FileIOUtil<ConcurrentHashMap<String, Object>> fileIOUtil = new FileIOUtil<>(FILE_NAME);
         fileIOUtil.write((ConcurrentHashMap<String, Object>) cache);
     }

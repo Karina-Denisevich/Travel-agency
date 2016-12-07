@@ -7,13 +7,16 @@ import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import com.github.karina_denisevich.travel_agency.services.BookingService;
 import com.github.karina_denisevich.travel_agency.services.CategoryService;
 import com.github.karina_denisevich.travel_agency.services.TourService;
+import com.github.karina_denisevich.travel_agency.services.locale.CustomLocale;
 import org.apache.commons.lang3.Validate;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class TourServiceImpl implements TourService {
@@ -29,6 +32,12 @@ public class TourServiceImpl implements TourService {
 
     @Inject
     private TourToCategoryDao tourToCategoryDao;
+
+    @Inject
+    private MessageSource messageSource;
+
+    @Inject
+    private CustomLocale customLocale;
 
     @Transactional
     @Override
@@ -79,12 +88,18 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public Tour get(Long id) {
-        return tourDao.get(id);
+        Tour tour = tourDao.get(id);
+        tour.setTitle(getField(id, "title", "ru"));
+        return tour;
     }
 
     @Override
     public List<Tour> getAll() {
-        return tourDao.getAll();
+        List<Tour> tourList = tourDao.getAll();
+        for (Tour tour : tourList) {
+            tour.setTitle(getField(tour.getId(), "title", customLocale.getLocale()));
+        }
+        return tourList;
     }
 
     @Transactional
@@ -97,6 +112,12 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public List<Tour> getByTitle(String title) {
+
         return tourDao.getByTitle(title);
+    }
+
+    private String getField(Long id, String fieldName, String language) {
+        return messageSource.getMessage(id.toString().concat("_").concat(fieldName), null,
+                new Locale(language));
     }
 }

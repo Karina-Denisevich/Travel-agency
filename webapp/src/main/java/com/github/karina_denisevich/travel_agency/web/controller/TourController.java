@@ -2,6 +2,7 @@ package com.github.karina_denisevich.travel_agency.web.controller;
 
 import com.github.karina_denisevich.travel_agency.datamodel.Tour;
 import com.github.karina_denisevich.travel_agency.services.TourService;
+import com.github.karina_denisevich.travel_agency.services.locale.CustomLocale;
 import com.github.karina_denisevich.travel_agency.web.dto.TourDto;
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.TypeDescriptor;
@@ -23,10 +24,15 @@ public class TourController extends AbstractController<Tour, TourDto, Long> {
     private TourService tourService;
 
     @Inject
+    private CustomLocale customLocale;
+
+    @Inject
     private ConversionServiceFactoryBean conversionService;
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ResponseEntity<List<TourDto>> getByTitle(@RequestParam(value = "title", required = false) String title) {
+    public ResponseEntity<List<TourDto>> getByTitle(@RequestParam(value = "title", required = false) String title,
+                                                    @RequestHeader(value = "Custom-Lang", required = false, defaultValue = "en") String language) {
+        customLocale.setLocale(language);
         List<Tour> tourList;
         if (title != null) {
             tourList = new ArrayList<>(tourService.getByTitle(title));

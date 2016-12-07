@@ -34,6 +34,7 @@
     <import resource="db-dao-beans.xml"/>
     <!--<import resource="xml-dao-beans.xml"/>-->
 
+    <context:component-scan base-package="com.github.karina_denisevich.travel_agency.services.locale"/>
     <context:component-scan base-package="com.github.karina_denisevich.travel_agency.services.security"/>
     <context:component-scan base-package="com.github.karina_denisevich.travel_agency.services.impl"/>
     <context:component-scan base-package="com.github.karina_denisevich.travel_agency.services.aspect"/>
@@ -59,4 +60,11 @@
     </bean>
 
     <import resource="spring-ehcache.xml"/>
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="basename" value="tours"/>
+        <property name="useCodeAsDefaultMessage" value="true"/>
+        <property name="fallbackToSystemLocale" value="false" />
+    </bean>
 </beans>

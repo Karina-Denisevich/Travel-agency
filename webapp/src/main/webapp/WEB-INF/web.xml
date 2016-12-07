@@ -30,12 +30,12 @@
     </servlet-mapping>
 
     <!--<filter>-->
-        <!--<filter-name>BasicAuthFilter</filter-name>-->
-        <!--<filter-class>com.github.karina_denisevich.travel_agency.web.filter.BasicAuthFilter</filter-class>-->
+    <!--<filter-name>BasicAuthFilter</filter-name>-->
+    <!--<filter-class>com.github.karina_denisevich.travel_agency.web.filter.BasicAuthFilter</filter-class>-->
     <!--</filter>-->
     <!--<filter-mapping>-->
-        <!--<filter-name>BasicAuthFilter</filter-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
+    <!--<filter-name>BasicAuthFilter</filter-name>-->
+    <!--<url-pattern>/*</url-pattern>-->
     <!--</filter-mapping>-->
 
     <listener>
@@ -55,4 +55,16 @@
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
+    <filter>
+        <filter-name>requestContextFilter</filter-name>
+        <filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>requestContextFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
 </web-app>

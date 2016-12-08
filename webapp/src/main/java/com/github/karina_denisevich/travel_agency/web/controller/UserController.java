@@ -53,7 +53,7 @@ public class UserController extends AbstractController<User, UserDto, Long> {
             return new ResponseEntity<>(conversionService.getObject()
                     .convert(userService.getWithRole(userId), UserDto.class), HttpStatus.OK);
         }
-        return super.getById(userId);
+        return super.getById(userId, null);
     }
 
     private List<User> getByRole(String roleType) {

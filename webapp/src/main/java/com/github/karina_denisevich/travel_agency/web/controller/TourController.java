@@ -32,7 +32,7 @@ public class TourController extends AbstractController<Tour, TourDto, Long> {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public ResponseEntity<List<TourDto>> getByTitle(@RequestParam(value = "title", required = false) String title,
                                                     @RequestHeader(value = "Custom-Lang", required = false, defaultValue = "en") String language) {
-        customLocale.setLocale(language);
+        customLocale.setLanguage(language);
         List<Tour> tourList;
         if (title != null) {
             tourList = new ArrayList<>(tourService.getByTitle(title));

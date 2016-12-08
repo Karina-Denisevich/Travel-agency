@@ -2,6 +2,7 @@ package com.github.karina_denisevich.travel_agency.web.controller;
 
 import com.github.karina_denisevich.travel_agency.datamodel.AbstractModel;
 import com.github.karina_denisevich.travel_agency.services.AbstractService;
+import com.github.karina_denisevich.travel_agency.services.locale.CustomLocale;
 import com.github.karina_denisevich.travel_agency.web.dto.AbstractDto;
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.TypeDescriptor;
@@ -26,6 +27,9 @@ public abstract class AbstractController<T extends AbstractModel,
     @Inject
     private ConversionServiceFactoryBean conversionService;
 
+    @Inject
+    private CustomLocale customLocale;
+
     private final Class<T> genericType;
     private final Class<D> genericDtoType;
 
@@ -37,13 +41,16 @@ public abstract class AbstractController<T extends AbstractModel,
     }
 
     @RequestMapping(value = "/{entityId}", method = RequestMethod.GET)
-    public ResponseEntity<D> getById(@PathVariable PK entityId) {
+    public ResponseEntity<D> getById(@PathVariable PK entityId,
+                                     @RequestHeader(value = "Custom-Lang", required = false, defaultValue = "en") String language) {
+        customLocale.setLanguage(language);
         return new ResponseEntity<>(conversionService.getObject()
                 .convert(abstractService.get(entityId), genericDtoType), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<D>> getAll() {
+    public ResponseEntity<List<D>> getAll(@RequestHeader(value = "Custom-Lang", required = false, defaultValue = "en") String language) {
+        customLocale.setLanguage(language);
         List<T> entities = abstractService.getAll();
 
         if (CollectionUtils.isEmpty(entities)) {

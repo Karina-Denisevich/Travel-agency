@@ -9,12 +9,22 @@ import com.github.karina_denisevich.travel_agency.services.CategoryService;
 import com.github.karina_denisevich.travel_agency.services.TourService;
 import com.github.karina_denisevich.travel_agency.services.locale.CustomLocale;
 import com.github.karina_denisevich.travel_agency.services.util.PropertyFileUtil;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import org.apache.commons.lang3.Validate;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -92,17 +102,48 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public Tour get(Long id) {
+
+
+        // try {
+//            String result = URLEncoder.encode("Hello my dear students", "UTF-8");
+//            URL url = new URL("http://translate.googleapis.com/translate_a/single?client=gtx&sl=" + "en" + "&tl="
+//                    + "ru" + "&dt=t&q=" + result + "&ie=UTF-8&oe=UTF-8");
+//
+//            URLConnection uc = url.openConnection();
+//            uc.setRequestProperty("User-Agent", "Mozilla/5.0");
+//
+//            BufferedReader br = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+//            result = br.readLine();
+
+
+//            URL url = new URL("https://translate.yandex.net/api/v1.5/tr.json/translate?" +
+//                    "key=" +
+//                    "&text=Hello world" +
+//                    "&lang=ru");
+//            URLConnection uc = url.openConnection();
+//            BufferedReader br = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+//            String result = br.readLine();
+//            System.out.println("*******  " + result);
+//
+//            JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
+//            result = jsonObject.get("text").getAsString();
+//
+//            System.out.println("______________" + result);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+
         Tour tour = tourDao.get(id);
-        tour.setTitle(getField(id, "title", customLocale.getLocale()));
+        tour.setTitle(getField(id, tour.getTitle(), customLocale.getLanguage()));
         return tour;
     }
 
     @Override
     public List<Tour> getAll() {
         List<Tour> tourList = tourDao.getAll();
-        for (Tour tour : tourList) {
-            tour.setTitle(getField(tour.getId(), "title", customLocale.getLocale()));
-        }
+        tourList.forEach(tour -> tour.setTitle(getField(tour.getId(), tour.getTitle(), customLocale.getLanguage())));
         return tourList;
     }
 
@@ -111,23 +152,23 @@ public class TourServiceImpl implements TourService {
     public int delete(Long id) {
         bookingService.deleteByTourId(id);
         tourToCategoryDao.deleteByTourId(id);
+
         int deleted = tourDao.delete(id);
-        new PropertyFileUtil().deleteByKey(id + "_" + "title"
-                , EN_PROPERTIES_FILE, RU_PROPERTIES_FILE);
+        new PropertyFileUtil().deleteByKey(id + "_", EN_PROPERTIES_FILE, RU_PROPERTIES_FILE);
         return deleted;
     }
 
     @Override
     public List<Tour> getByTitle(String title) {
-        PropertyFileUtil propertyFileUtil = new PropertyFileUtil();
-        String key = propertyFileUtil.getKey(title, EN_PROPERTIES_FILE, RU_PROPERTIES_FILE);
-        List<Tour> tourList = tourDao.getByTitle(key);
+        String titleKey = new PropertyFileUtil().getKeyByValue(title, EN_PROPERTIES_FILE, RU_PROPERTIES_FILE);
+
+        List<Tour> tourList = tourDao.getByTitle(titleKey.substring(titleKey.indexOf('_') + 1));
         tourList.forEach(t -> t.setTitle(title));
         return tourList;
     }
 
-    private String getField(Long id, String fieldName, String language) {
-        return messageSource.getMessage(id.toString().concat("_").concat(fieldName), null,
+    private String getField(Long id, String key, String language) {
+        return messageSource.getMessage(id.toString().concat("_").concat(key), null,
                 new Locale(language));
     }
 }

@@ -31,7 +31,7 @@ public class BookingController extends AbstractController<Booking, BookingDto, L
             return new ResponseEntity<>(conversionService.getObject()
                     .convert(bookingService.getByIdWithUser(bookingId), BookingDto.class), HttpStatus.OK);
         }
-        return super.getById(bookingId);
+        return super.getById(bookingId, null);
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)

@@ -1,23 +1,28 @@
 package com.github.karina_denisevich.travel_agency.services.aspect.util;
 
+import com.github.karina_denisevich.travel_agency.services.TourService;
+import com.github.karina_denisevich.travel_agency.services.locale.CustomLocale;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class CachingUtil {
 
-    public String getKey(ProceedingJoinPoint point) {
+    public String getKey(ProceedingJoinPoint point, CustomLocale customLocale) {
         StringBuilder keyBuff = new StringBuilder();
 
         keyBuff.append(point.getTarget().getClass().getName());
         keyBuff.append(".").append(point.getSignature().getName());
         keyBuff.append("(");
 
-        for (Object arg : point.getArgs()) {
-            if (arg != null) {
-                keyBuff.append(arg.getClass().getSimpleName()).append("=").append(arg).append(";");
-            } else {
-                keyBuff.append("null").append(";");
-            }
-        }
+        Arrays.stream(point.getArgs()).filter(Objects::nonNull).forEach(arg -> keyBuff
+                .append(arg.getClass().getSimpleName()).append("=").append(arg).append(";"));
+
+        keyBuff.append(customLocale.getLanguage());
         keyBuff.append(")");
         return keyBuff.toString();
     }

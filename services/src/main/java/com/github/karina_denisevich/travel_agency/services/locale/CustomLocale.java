@@ -2,7 +2,7 @@ package com.github.karina_denisevich.travel_agency.services.locale;
 
 public interface CustomLocale {
 
-    String getLocale();
+    String getLanguage();
 
-    void setLocale(String locale);
+    void setLanguage(String language);
 }

@@ -4,17 +4,22 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+
 @Component
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class LocaleImpl implements CustomLocale {
 
-    private String locale;
+    private String language;
 
-    public String getLocale() {
-        return locale;
+    public String getLanguage() {
+        if (language == null) {
+            return "en";
+        }
+        return language;
     }
 
-    public void setLocale(String locale) {
-        this.locale = locale;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

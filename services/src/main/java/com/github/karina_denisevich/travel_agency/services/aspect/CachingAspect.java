@@ -1,6 +1,7 @@
 package com.github.karina_denisevich.travel_agency.services.aspect;
 
 import com.github.karina_denisevich.travel_agency.services.aspect.util.CachingUtil;
+import com.github.karina_denisevich.travel_agency.services.locale.CustomLocale;
 import com.github.karina_denisevich.travel_agency.services.util.FileIOUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -9,10 +10,10 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -29,11 +30,13 @@ public class CachingAspect {
 
     private Map<String, Object> cache = new ConcurrentHashMap<>();
 
-    @Around(value = "execution( * com.github.karina_denisevich.travel_agency.services.impl.*.get*(..)) " +
-            "&& !execution( * com.github.karina_denisevich.travel_agency.services.impl.TourServiceImpl.get*(..))",
+    @Inject
+    private CustomLocale customLocale;
+
+    @Around(value = "execution( * com.github.karina_denisevich.travel_agency.services.impl.*.get*(..))",
             argNames = "point")
     public Object cacheMethod(ProceedingJoinPoint point) throws Throwable {
-        String key = new CachingUtil().getKey(point);
+        String key = new CachingUtil().getKey(point, customLocale);
 
         Object result = cache.get(key);
         if (result == null) {
@@ -58,8 +61,7 @@ public class CachingAspect {
     }
 
     @After("execution( * com.github.karina_denisevich.travel_agency.services.impl.*.*(..)) " +
-            "&& !execution( * com.github.karina_denisevich.travel_agency.services.impl.*.get*(..)) " +
-            "&& !execution( * com.github.karina_denisevich.travel_agency.services.impl.TourServiceImpl.*(..))")
+            "&& !execution( * com.github.karina_denisevich.travel_agency.services.impl.*.get*(..))")
     public void deleteFromCacheMethod(JoinPoint point) {
         String targetName = point.getTarget().getClass().getName();
         int deletedCount = 0;

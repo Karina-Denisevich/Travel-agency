@@ -43,7 +43,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private void beforeSave(UserDetails userDetails) {
-        userService.get(userDetails.getId());
+        userService.get(userDetails.getId() != null ? userDetails.getId() : userDetails.getUser().getId());
         Validate.notEmpty(userDetails.getFirstName(), "First name should not be empty.");
         Validate.notEmpty(userDetails.getLastName(), "Last name should not be empty.");
 

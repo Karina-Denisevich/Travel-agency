@@ -33,7 +33,7 @@ public class CachingAspect {
     @Inject
     private CustomLocale customLocale;
 
-    @Around(value = "execution( * com.github.karina_denisevich.travel_agency.services.impl.*.get*(..))",
+    @Around(value = "execution( public * com.github.karina_denisevich.travel_agency.services.impl.*.get*(..))",
             argNames = "point")
     public Object cacheMethod(ProceedingJoinPoint point) throws Throwable {
         String key = new CachingUtil().getKey(point, customLocale);
@@ -49,7 +49,6 @@ public class CachingAspect {
         } else {
             logger.info("Result '" + result + "' was found in cache");
         }
-
         return result;
     }
 
@@ -60,8 +59,8 @@ public class CachingAspect {
         }
     }
 
-    @After("execution( * com.github.karina_denisevich.travel_agency.services.impl.*.*(..)) " +
-            "&& !execution( * com.github.karina_denisevich.travel_agency.services.impl.*.get*(..))")
+    @After("execution( public * com.github.karina_denisevich.travel_agency.services.impl.*.*(..)) " +
+            "&& !execution( public * com.github.karina_denisevich.travel_agency.services.impl.*.get*(..))")
     public void deleteFromCacheMethod(JoinPoint point) {
         String targetName = point.getTarget().getClass().getName();
         int deletedCount = 0;

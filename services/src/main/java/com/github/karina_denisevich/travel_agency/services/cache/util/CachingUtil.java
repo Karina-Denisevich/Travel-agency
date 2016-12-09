@@ -1,4 +1,4 @@
-package com.github.karina_denisevich.travel_agency.services.aspect.util;
+package com.github.karina_denisevich.travel_agency.services.cache.util;
 
 import com.github.karina_denisevich.travel_agency.services.locale.CustomLocale;
 import org.aspectj.lang.ProceedingJoinPoint;

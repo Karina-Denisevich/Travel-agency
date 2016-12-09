@@ -1,4 +1,4 @@
-package com.github.karina_denisevich.travel_agency.services.util;
+package com.github.karina_denisevich.travel_agency.services.locale.util;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;

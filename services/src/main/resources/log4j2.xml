@@ -29,7 +29,7 @@
         </SMTP>
 
         <JDBC name="databaseAppender" tableName="application_log">
-            <ConnectionFactory class="com.github.karina_denisevich.travel_agency.services.logger_util.ConnectionFactory"
+            <ConnectionFactory class="com.github.karina_denisevich.travel_agency.services.logger.util.ConnectionFactory"
                                method="getDatabaseConnection"/>
             <Column name="level" pattern="%level"/>
             <Column name="logger" pattern="%logger"/>

@@ -1,4 +1,4 @@
-package com.github.karina_denisevich.travel_agency.services.logger_util;
+package com.github.karina_denisevich.travel_agency.services.logger.util;
 
 import org.apache.commons.dbcp.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp.PoolableConnection;

@@ -37,7 +37,8 @@
     <context:component-scan base-package="com.github.karina_denisevich.travel_agency.services.locale"/>
     <context:component-scan base-package="com.github.karina_denisevich.travel_agency.services.security"/>
     <context:component-scan base-package="com.github.karina_denisevich.travel_agency.services.impl"/>
-    <context:component-scan base-package="com.github.karina_denisevich.travel_agency.services.aspect"/>
+    <context:component-scan base-package="com.github.karina_denisevich.travel_agency.services.cache"/>
+    <context:component-scan base-package="com.github.karina_denisevich.travel_agency.services.logger"/>
 
     <context:property-placeholder ignore-unresolvable="true" location="classpath:db.properties"/>
 

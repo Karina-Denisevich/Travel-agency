@@ -1,4 +1,4 @@
-package com.github.karina_denisevich.travel_agency.services.aspect;
+package com.github.karina_denisevich.travel_agency.services.logger;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;

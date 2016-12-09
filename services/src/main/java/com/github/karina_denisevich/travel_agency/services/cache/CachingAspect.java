@@ -1,8 +1,8 @@
-package com.github.karina_denisevich.travel_agency.services.aspect;
+package com.github.karina_denisevich.travel_agency.services.cache;
 
-import com.github.karina_denisevich.travel_agency.services.aspect.util.CachingUtil;
+import com.github.karina_denisevich.travel_agency.services.cache.util.CachingUtil;
 import com.github.karina_denisevich.travel_agency.services.locale.CustomLocale;
-import com.github.karina_denisevich.travel_agency.services.util.FileIOUtil;
+import com.github.karina_denisevich.travel_agency.services.cache.util.FileIOUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;

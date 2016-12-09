@@ -1,4 +1,4 @@
-package com.github.karina_denisevich.travel_agency.services.util;
+package com.github.karina_denisevich.travel_agency.services.cache.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

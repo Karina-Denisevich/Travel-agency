@@ -11,7 +11,7 @@ public class PropertyFileUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(PropertyFileUtil.class);
     private static final String templateFileName = "services\\src\\main\\resources\\";
-    private static final List<String> supportedLanguages = Arrays.asList("en", "ru");
+    private static final List<String> supportedLanguages = Arrays.asList("en", "ru", "de");
 
     public String getKeyByValue(String value, String... fileNames) {
         for (String fileName : fileNames) {

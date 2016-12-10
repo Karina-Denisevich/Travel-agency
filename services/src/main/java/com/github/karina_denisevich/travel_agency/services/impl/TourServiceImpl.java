@@ -22,6 +22,7 @@ public class TourServiceImpl implements TourService {
 
     private static final String EN_PROPERTIES_FILE = "services\\src\\main\\resources\\tours_en.properties";
     private static final String RU_PROPERTIES_FILE = "services\\src\\main\\resources\\tours_ru.properties";
+    private static final String DE_PROPERTIES_FILE = "services\\src\\main\\resources\\tours_de.properties";
 
     @Inject
     private TourDao tourDao;
@@ -51,7 +52,7 @@ public class TourServiceImpl implements TourService {
             tourToCategoryDao.deleteByTourId(tour.getId());
             tourToCategoryDao.insertTourWithCategories(tour);
             new PropertyFileUtil().deleteByKey(tour.getId() + ".", EN_PROPERTIES_FILE,
-                    RU_PROPERTIES_FILE);
+                    RU_PROPERTIES_FILE, DE_PROPERTIES_FILE);
             id = tour.getId();
         } else {
             return null;
@@ -85,6 +86,7 @@ public class TourServiceImpl implements TourService {
     private void afterSave(Long id, String title) {
         new PropertyFileUtil().write(id + "." + title, title, "ru", RU_PROPERTIES_FILE);
         new PropertyFileUtil().write(id + "." + title, title, "en", EN_PROPERTIES_FILE);
+        new PropertyFileUtil().write(id + "." + title, title, "de", DE_PROPERTIES_FILE);
     }
 
     @Transactional
@@ -117,13 +119,13 @@ public class TourServiceImpl implements TourService {
         tourToCategoryDao.deleteByTourId(id);
 
         int deletedCount = tourDao.delete(id);
-        new PropertyFileUtil().deleteByKey(id.toString(), EN_PROPERTIES_FILE, RU_PROPERTIES_FILE);
+        new PropertyFileUtil().deleteByKey(id.toString(), EN_PROPERTIES_FILE, RU_PROPERTIES_FILE, DE_PROPERTIES_FILE);
         return deletedCount;
     }
 
     @Override
     public List<Tour> getByTitle(String title) {
-        String titleKey = new PropertyFileUtil().getKeyByValue(title, EN_PROPERTIES_FILE, RU_PROPERTIES_FILE);
+        String titleKey = new PropertyFileUtil().getKeyByValue(title, EN_PROPERTIES_FILE, RU_PROPERTIES_FILE, DE_PROPERTIES_FILE);
 
         List<Tour> tourList = tourDao.getByTitle(titleKey.substring(titleKey.indexOf('.') + 1));
         tourList.forEach(t -> t.setTitle(title));

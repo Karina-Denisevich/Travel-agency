@@ -10,8 +10,6 @@ import com.github.karina_denisevich.travel_agency.services.TourService;
 import com.github.karina_denisevich.travel_agency.services.locale.CustomLocale;
 import com.github.karina_denisevich.travel_agency.services.locale.util.PropertyFileUtil;
 import org.apache.commons.lang3.Validate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,9 +34,6 @@ public class TourServiceImpl implements TourService {
 
     @Inject
     private TourToCategoryDao tourToCategoryDao;
-
-    @Autowired
-    private MessageSource messageSource;
 
     @Inject
     private CustomLocale customLocale;
@@ -88,8 +83,8 @@ public class TourServiceImpl implements TourService {
     }
 
     private void afterSave(Long id, String title) {
-        new PropertyFileUtil().write(id + "." + "Newtour", "Новый тур", RU_PROPERTIES_FILE);
-        new PropertyFileUtil().write(id + "." + "Newtour", "New Tour", EN_PROPERTIES_FILE);
+        new PropertyFileUtil().write(id + "." + title, title, "ru", RU_PROPERTIES_FILE);
+        new PropertyFileUtil().write(id + "." + title, title, "en", EN_PROPERTIES_FILE);
     }
 
     @Transactional
@@ -101,7 +96,7 @@ public class TourServiceImpl implements TourService {
     @Override
     public Tour get(Long id) {
         Tour tour = tourDao.get(id);
-        tour.setTitle(new PropertyFileUtil().getValue(getKey(id, tour.getTitle()), "tours"
+        tour.setTitle(new PropertyFileUtil().getValueByLocale(getKey(id, tour.getTitle()), "tours"
                 , customLocale.getLanguage()));
         return tour;
     }
@@ -110,7 +105,7 @@ public class TourServiceImpl implements TourService {
     public List<Tour> getAll() {
         List<Tour> tourList = tourDao.getAll();
         PropertyFileUtil prFileUtil = new PropertyFileUtil();
-        tourList.forEach(tour -> tour.setTitle(prFileUtil.getValue(getKey(tour.getId(),
+        tourList.forEach(tour -> tour.setTitle(prFileUtil.getValueByLocale(getKey(tour.getId(),
                 tour.getTitle()), "tours", customLocale.getLanguage())));
         return tourList;
     }
@@ -121,9 +116,9 @@ public class TourServiceImpl implements TourService {
         bookingService.deleteByTourId(id);
         tourToCategoryDao.deleteByTourId(id);
 
-        int deleted = tourDao.delete(id);
+        int deletedCount = tourDao.delete(id);
         new PropertyFileUtil().deleteByKey(id.toString(), EN_PROPERTIES_FILE, RU_PROPERTIES_FILE);
-        return deleted;
+        return deletedCount;
     }
 
     @Override

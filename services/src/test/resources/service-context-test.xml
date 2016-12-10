@@ -29,6 +29,7 @@
     <context:component-scan base-package="com.github.karina_denisevich.travel_agency.services.locale"/>
 
     <context:property-placeholder ignore-unresolvable="true" location="classpath:db-test.properties"/>
+    <context:property-placeholder ignore-unresolvable="true" location="classpath:api.properties"/>
 
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">

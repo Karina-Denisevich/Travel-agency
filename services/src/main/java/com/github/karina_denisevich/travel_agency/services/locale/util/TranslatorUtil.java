@@ -2,52 +2,71 @@ package com.github.karina_denisevich.travel_agency.services.locale.util;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.springframework.util.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 
 public class TranslatorUtil {
 
-    public String translate(String from, String into, String text){
+    private static final String API_FILE_NAME = "services\\src\\main\\resources\\api.properties";
+    private String key;
 
+    public String translate(String langFrom, String langTo, String text) {
+        this.key = new PropertyFileUtil().getValue("key", API_FILE_NAME);
+        if (StringUtils.isEmpty(langFrom)) {
+            langFrom = getLanguage(text);
+        }
+        String languagePair = !StringUtils.isEmpty(langFrom) ?
+                langFrom.concat("-").concat(langTo) : langTo;
 
+        try {
+            String url = "https://translate.yandex.net/api/v1.5/tr.json/translate?" +
+                    "key=" + key +
+                    "&text=" + text +
+                    "&lang=" + languagePair;
+            return getResult(url, "text");
 
-         try {
-//             String result = URLEncoder.encode("Hello my dear students", "UTF-8");
-//
-//             URL url = new URL("http://translate.googleapis.com/translate_a/single?client=gtx&sl=" + "en" + "&tl="
+        } catch (IOException e) {
+            return text;
+        }
+    }
+
+    private String getLanguage(String text) {
+        try {
+            String url = "https://translate.yandex.net/api/v1.5/tr.json/detect?" +
+                    "key=" + key +
+                    "&text=" + text +
+                    "&hint=en,ru,de";
+            return getResult(url, "lang");
+        } catch (IOException e) {
+            return text;
+        }
+    }
+
+    private String getResult(String urlValue, String param) throws IOException {
+
+        // google translate
+//            String result = URLEncoder.encode("Hello my dear students", "UTF-8");
+//            URL url = new URL("http://translate.googleapis.com/translate_a/single?client=gtx&sl=" + "en" + "&tl="
 //                    + "ru" + "&dt=t&q=" + result + "&ie=UTF-8&oe=UTF-8");
-//
 //            URLConnection uc = url.openConnection();
 //            uc.setRequestProperty("User-Agent", "Mozilla/5.0");
-//
 //            BufferedReader br = new BufferedReader(new InputStreamReader(uc.getInputStream()));
 //            result = br.readLine();
 
 
-            URL url = new URL("https://translate.yandex.net/api/v1.5/tr.json/translate?" +
-                    "key=trnsl.1.1.20161208T210352Z.1a5b09010dcd1a00.a8c73d2729c9bf96620d1163f843be2bb5bb766d" +
-                    "&text=Hello world" +
-                    "&lang=ru");
-            URLConnection uc = url.openConnection();
-            BufferedReader br = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-            String result = br.readLine();
-            System.out.println("*******  " + result);
+        URL url = new URL(urlValue);
+        URLConnection uc = url.openConnection();
+        BufferedReader br = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+        String result = br.readLine();
 
-            JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
-            result = jsonObject.get("text").getAsString();
+        JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
+        result = jsonObject.get(param).getAsString();
 
-            System.out.println("______________" + result);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return result;
     }
 }

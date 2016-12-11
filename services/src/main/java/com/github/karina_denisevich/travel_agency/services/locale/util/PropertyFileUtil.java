@@ -19,7 +19,8 @@ public class PropertyFileUtil {
             try (InputStream in = new FileInputStream(fileName)) {
                 prop.load((new InputStreamReader(in, Charset.forName("UTF-8"))));
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Some problem with resource bundle " + fileName + ". Cannot find key " +
+                        "by value: " + value);
             }
             Enumeration<?> e = prop.propertyNames();
             while (e.hasMoreElements()) {
@@ -41,7 +42,8 @@ public class PropertyFileUtil {
         Properties prop = new Properties();
         try (InputStream in = new FileInputStream(getPath(baseName, language))) {
             prop.load((new InputStreamReader(in, Charset.forName("UTF-8"))));
-            return prop.getProperty(key);
+            String value = prop.getProperty(key);
+            return (value == null) ? key : value;
         } catch (IOException e) {
             logger.error("Cannot find key " + key);
             return key;
@@ -65,9 +67,9 @@ public class PropertyFileUtil {
         return key;
     }
 
-    public void deleteByKey(String keyPrefix, String... fileNames) {
+    //TODO
+    public synchronized void deleteByKey(String keyPrefix, String... fileNames) {
         for (String fileName : fileNames) {
-
             Properties prop = new Properties();
             try (InputStream in = new FileInputStream(fileName)) {
                 prop.load((new InputStreamReader(in, Charset.forName("UTF-8"))));
@@ -77,12 +79,12 @@ public class PropertyFileUtil {
                         new FileOutputStream(fileName), "UTF-8"), null);
                 logger.info("From " + fileName + " deleted property starting from " + keyPrefix);
             } catch (IOException e) {
-                logger.error("Some problem with resource bundle " + fileName);
+                logger.error("Some problem with deleting resource bundle " + fileName);
             }
         }
     }
 
-    public void write(String key, String value, String language, String fileName) {
+    public synchronized void write(String key, String value, String language, String fileName) {
         if (!isLanguageSupported(language)) {
             language = supportedLanguages.get(0);
         }
@@ -95,7 +97,7 @@ public class PropertyFileUtil {
             prop.store(new OutputStreamWriter(
                     new FileOutputStream(fileName), "UTF-8"), null);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Some problem with writing into resource bundle " + fileName);
         }
     }
 

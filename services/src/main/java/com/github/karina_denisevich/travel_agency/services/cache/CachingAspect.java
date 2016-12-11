@@ -10,6 +10,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -87,5 +88,10 @@ public class CachingAspect {
         if (map != null) {
             cache = map;
         }
+    }
+
+    @Scheduled(fixedDelay = 10000)
+    public void clearCache() {
+        cache.clear();
     }
 }

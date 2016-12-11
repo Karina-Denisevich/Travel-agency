@@ -84,9 +84,12 @@ public class TourServiceImpl implements TourService {
     }
 
     private void afterSave(Long id, String title) {
-        new PropertyFileUtil().write(id + "." + title, title, "ru", RU_PROPERTIES_FILE);
-        new PropertyFileUtil().write(id + "." + title, title, "en", EN_PROPERTIES_FILE);
-        new PropertyFileUtil().write(id + "." + title, title, "de", DE_PROPERTIES_FILE);
+        Thread thread = new Thread(() -> {
+            new PropertyFileUtil().write(id + "." + title, title, "ru", RU_PROPERTIES_FILE);
+            new PropertyFileUtil().write(id + "." + title, title, "en", EN_PROPERTIES_FILE);
+            new PropertyFileUtil().write(id + "." + title, title, "de", DE_PROPERTIES_FILE);
+        });
+        thread.start();
     }
 
     @Transactional

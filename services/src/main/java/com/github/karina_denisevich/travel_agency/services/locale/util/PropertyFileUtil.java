@@ -19,8 +19,8 @@ public class PropertyFileUtil {
             try (InputStream in = new FileInputStream(fileName)) {
                 prop.load((new InputStreamReader(in, Charset.forName("UTF-8"))));
             } catch (IOException e) {
-                logger.error("Some problem with resource bundle " + fileName + ". Cannot find key " +
-                        "by value: " + value);
+                logger.error(String.format("Some problem with resource bundle %1s. Cannot find key by value: %s2",
+                        fileName, value));
             }
             Enumeration<?> e = prop.propertyNames();
             while (e.hasMoreElements()) {
@@ -45,7 +45,7 @@ public class PropertyFileUtil {
             String value = prop.getProperty(key);
             return (value == null) ? key : value;
         } catch (IOException e) {
-            logger.error("Cannot find key " + key);
+            logger.error(String.format("Cannot find key %s", key));
             return key;
         }
 //        return messageSource.getMessage(id.toString().concat(".").concat(key), null,
@@ -77,9 +77,9 @@ public class PropertyFileUtil {
                         .findFirst().ifPresent(prop::remove);
                 prop.store(new OutputStreamWriter(
                         new FileOutputStream(fileName), "UTF-8"), null);
-                logger.info("From " + fileName + " deleted property starting from " + keyPrefix);
+                logger.info(String.format("From %1s deleted property starting from %2s", fileName, keyPrefix));
             } catch (IOException e) {
-                logger.error("Some problem with deleting resource bundle " + fileName);
+                logger.error(String.format("Some problem with deleting resource bundle %s", fileName));
             }
         }
     }
@@ -97,7 +97,7 @@ public class PropertyFileUtil {
             prop.store(new OutputStreamWriter(
                     new FileOutputStream(fileName), "UTF-8"), null);
         } catch (IOException e) {
-            logger.error("Some problem with writing into resource bundle " + fileName);
+            logger.error(String.format("Some problem with writing into resource bundle %s", fileName));
         }
     }
 

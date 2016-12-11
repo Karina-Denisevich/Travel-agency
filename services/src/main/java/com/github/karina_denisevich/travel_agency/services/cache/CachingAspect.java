@@ -45,10 +45,10 @@ public class CachingAspect {
             if (result != null) {
                 prepareCache();
                 cache.put(key, result);
-                logger.info("Storing value " + result + " to cache");
+                logger.info(String.format("Storing value %s to cache", result));
             }
         } else {
-            logger.info("Result '" + result + "' was found in cache");
+            logger.info(String.format("Result '%s' was found in cache", result));
         }
         return result;
     }
@@ -71,10 +71,10 @@ public class CachingAspect {
                 deletedCount++;
             }
         }
-        logger.info("From " + targetName + " was deleted : " + deletedCount + " objects");
+        logger.info(String.format("From %1s was deleted : %2s objects", targetName, deletedCount));
     }
 
-   // @Scheduled(fixedDelay = 25000)
+    //@Scheduled(fixedDelay = 5000)
     public void save() {
         FileIOUtil<ConcurrentHashMap<String, Object>> fileIOUtil = new FileIOUtil<>();
         fileIOUtil.write((ConcurrentHashMap<String, Object>) cache, FILE_NAME);

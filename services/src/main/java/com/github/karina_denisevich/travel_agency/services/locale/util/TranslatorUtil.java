@@ -22,7 +22,6 @@ public class TranslatorUtil {
         }
         String languagePair = !StringUtils.isEmpty(langFrom) ?
                 langFrom.concat("-").concat(langTo) : langTo;
-
         try {
             String url = "https://translate.yandex.net/api/v1.5/tr.json/translate?" +
                     "key=" + key +

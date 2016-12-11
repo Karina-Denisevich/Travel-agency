@@ -65,13 +65,9 @@ public abstract class AbstractController<T extends AbstractModel,
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> create(@RequestBody D entityDto) {
-        long startTime = System.currentTimeMillis();
         T entity = (conversionService.getObject().convert(entityDto, genericType));
         entity.setId(null);
         abstractService.save(entity);
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        System.out.println("++++++++++++++++   " + totalTime);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

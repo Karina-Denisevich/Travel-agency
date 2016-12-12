@@ -6,6 +6,7 @@ import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.springframework.util.StringUtils;
 
 import javax.management.MBeanServer;
 import java.lang.management.ManagementFactory;
@@ -23,12 +24,15 @@ public class StartJetty {
      */
     public static void main(String[] args) {
 
-        startInstance(8081);
-        startInstance(8082);
-        startInstance(8083);
+        for (String port : args) {
+            startInstance(Integer.parseInt(port));
+        }
+//        startInstance(8081);
+//        startInstance(8082);
+//        startInstance(8083);
     }
 
-    private static void startInstance(int port){
+    private static void startInstance(int port) {
 
         Server server = new Server();
 
@@ -55,7 +59,7 @@ public class StartJetty {
 
         try {
             server.start();
-           // server.join();
+            // server.join();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(100);

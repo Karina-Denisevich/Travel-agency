@@ -28,7 +28,6 @@ public class StartJetty {
     }
 
     private static void startInstance(int port) {
-
         Server server = new Server();
 
         HttpConfiguration http_config = new HttpConfiguration();

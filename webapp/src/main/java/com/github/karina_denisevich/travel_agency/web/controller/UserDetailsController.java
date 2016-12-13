@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @RestController
-@RequestMapping("/user/details")
+@RequestMapping("/users/details")
 @SuppressWarnings("unchecked")
 public class UserDetailsController extends AbstractController<UserDetails, UserDetailsDto, Long> {
 

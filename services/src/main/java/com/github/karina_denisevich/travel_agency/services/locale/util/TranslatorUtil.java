@@ -57,7 +57,6 @@ public class TranslatorUtil {
 //            BufferedReader br = new BufferedReader(new InputStreamReader(uc.getInputStream()));
 //            result = br.readLine();
 
-
         URL url = new URL(urlValue);
         URLConnection uc = url.openConnection();
         BufferedReader br = new BufferedReader(new InputStreamReader(uc.getInputStream()));

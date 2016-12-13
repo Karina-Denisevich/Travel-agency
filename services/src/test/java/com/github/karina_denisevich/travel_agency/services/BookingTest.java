@@ -31,7 +31,7 @@ public class BookingTest {
 
     private Long id;
     private Long userId;
-    private Long tourId;
+    private Long tourId = 1L;
 
     @Before
     //@Test
@@ -42,11 +42,11 @@ public class BookingTest {
         userId = userService.save(user);
         user.setId(userId);
 
-        Tour tour = new Tour();
-        tour.setTitle("BookingTestTitle");
-        tour.setPrice(100.0);
-        tourId = tourService.save(tour);
-        tour.setId(tourId);
+        Tour tour = tourService.get(tourId);
+//        tour.setTitle("BookingTestTitle");
+//        tour.setPrice(100.0);
+//        tourId = tourService.save(tour);
+//        tour.setId(tourId);
 
         Booking booking = new Booking();
 
@@ -121,7 +121,7 @@ public class BookingTest {
     @After
     public void delete() {
         userService.delete(userId);
-        tourService.delete(tourId);
+      //  tourService.delete(tourId);
         bookingService.delete(id);
     }
 }

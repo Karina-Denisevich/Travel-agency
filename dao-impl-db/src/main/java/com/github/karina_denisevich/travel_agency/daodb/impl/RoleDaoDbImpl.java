@@ -15,8 +15,7 @@ import javax.inject.Inject;
 public class RoleDaoDbImpl extends GenericDaoDbImpl<Role, Long> implements RoleDao {
 
     @Inject
-    JdbcTemplate jdbcTemplate;
-
+    private JdbcTemplate jdbcTemplate;
 
     public RoleDaoDbImpl() {
         super(new RoleUnmapper());

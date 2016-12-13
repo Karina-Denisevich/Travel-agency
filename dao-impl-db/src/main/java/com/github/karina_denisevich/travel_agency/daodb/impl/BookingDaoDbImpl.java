@@ -20,7 +20,7 @@ import java.util.List;
 public class BookingDaoDbImpl extends GenericDaoDbImpl<Booking, Long> implements BookingDao {
 
     @Inject
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     private final String tourTableName;
     private final String userTableName;
@@ -35,21 +35,19 @@ public class BookingDaoDbImpl extends GenericDaoDbImpl<Booking, Long> implements
 
     @Override
     public int deleteByUserId(Long id) {
-        final String sql = "DELETE FROM " + tableName + " WHERE user_id = ?";
-
+        String sql = "DELETE FROM " + tableName + " WHERE user_id = ?";
         return jdbcTemplate.update(sql, id);
     }
 
     @Override
     public int deleteByTourId(Long id) {
-        final String sql = "DELETE FROM " + tableName + " WHERE tour_id = ?";
-
+        String sql = "DELETE FROM " + tableName + " WHERE tour_id = ?";
         return jdbcTemplate.update(sql, id);
     }
 
     @Override
     public List<Booking> getAllByUserId(Long userId) {
-        final String sql = "SELECT * FROM " + tableName + " b "
+        String sql = "SELECT * FROM " + tableName + " b "
                 + "LEFT JOIN " + tourTableName + " t ON b.tour_id=t.id "
                 + "WHERE b.user_id = ?";
 

@@ -16,25 +16,21 @@ import java.util.List;
 public class TourToCategoryDaoDbImpl implements TourToCategoryDao {
 
     @Inject
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     private final String tableName = "tour_2_category";
 
     @Override
     public void insertTourWithCategories(Tour tour) {
-
-        final String sql = "INSERT INTO " + tableName + " (tour_id, category_id)" +
-                " VALUES (?, ?)";
+        String sql = "INSERT INTO " + tableName + " (tour_id, category_id)" + " VALUES (?, ?)";
         List<Category> categories = tour.getCategoryList();
 
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
-
             public void setValues(PreparedStatement ps, int i) throws SQLException {
                 Category category = categories.get(i);
                 ps.setLong(1, tour.getId());
                 ps.setLong(2, category.getId());
             }
-
             public int getBatchSize() {
                 return categories.size();
             }
@@ -43,15 +39,13 @@ public class TourToCategoryDaoDbImpl implements TourToCategoryDao {
 
     @Override
     public void deleteByTourId(Long id) {
-        final String sql = "DELETE FROM " + tableName + " WHERE tour_id = ?";
-
+        String sql = "DELETE FROM " + tableName + " WHERE tour_id = ?";
         jdbcTemplate.update(sql, id);
     }
 
     @Override
     public void deleteByCategoryId(Long id) {
-        final String sql = "DELETE FROM " + tableName + " WHERE category_id = ?";
-
+        String sql = "DELETE FROM " + tableName + " WHERE category_id = ?";
         jdbcTemplate.update(sql, id);
     }
 }

@@ -15,7 +15,7 @@ import javax.inject.Inject;
 public class CategoryDaoDbImpl extends GenericDaoDbImpl<Category, Long> implements CategoryDao {
 
     @Inject
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     public CategoryDaoDbImpl() {
         super(new CategoryUnmapper());
@@ -23,7 +23,7 @@ public class CategoryDaoDbImpl extends GenericDaoDbImpl<Category, Long> implemen
 
     @Override
     public Category getByType(Category.CategoryEnum type) {
-        final String sql = "SELECT * FROM " + tableName + " WHERE type = ?";
+        String sql = "SELECT * FROM " + tableName + " WHERE type = ?";
 
         try {
             return jdbcTemplate.queryForObject(sql, new Object[]{type.toString()},

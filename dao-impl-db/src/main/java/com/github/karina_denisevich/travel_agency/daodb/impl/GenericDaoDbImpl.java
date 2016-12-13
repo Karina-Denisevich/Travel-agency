@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Repository
 public abstract class GenericDaoDbImpl<T, PK extends Serializable> implements GenericDao<T, PK> {
@@ -41,7 +42,6 @@ public abstract class GenericDaoDbImpl<T, PK extends Serializable> implements Ge
     @Override
     public T get(PK id) {
         String sql = "SELECT * FROM " + tableName + " WHERE id = ?";
-
         try {
             return jdbcTemplate.queryForObject(sql, new Object[]{id},
                     new BeanPropertyRowMapper<>(genericType));
@@ -62,46 +62,28 @@ public abstract class GenericDaoDbImpl<T, PK extends Serializable> implements Ge
         Map map = rowUnmapper.mapColumns(entity);
         SimpleJdbcInsert insertEntity;
 
-        if (map.containsKey("id")) {
-            insertEntity = new SimpleJdbcInsert(jdbcTemplate)
-                    .withTableName(tableName);
-            insertEntity.execute(map);
-            return (PK) map.get("id");
-        } else {
-            insertEntity = new SimpleJdbcInsert(jdbcTemplate)
-                    .withTableName(tableName)
-                    .usingGeneratedKeyColumns("id");
-            try {
+        try {
+            if (map.containsKey("id")) {
+                insertEntity = new SimpleJdbcInsert(jdbcTemplate)
+                        .withTableName(tableName);
+                insertEntity.execute(map);
+                return (PK) map.get("id");
+            } else {
+                insertEntity = new SimpleJdbcInsert(jdbcTemplate)
+                        .withTableName(tableName)
+                        .usingGeneratedKeyColumns("id");
                 return (PK) insertEntity.executeAndReturnKey(map);
-            } catch (DuplicateKeyException ex) {
-                throw new DuplicateEntityException(ex.getCause().getMessage());
             }
+        } catch (DuplicateKeyException ex) {
+            throw new DuplicateEntityException(ex.getCause().getMessage());
         }
     }
 
     @Override
     public int update(T entity) {
-        StringBuilder sql = new StringBuilder("UPDATE " + tableName + " SET ");
-
         Map<String, Object> map = rowUnmapper.mapColumns(entity);
-        Object[] valueArr = new Object[map.size()];
-
-        int index = 0;
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            if (index < map.size() - 1) {
-                sql.append(entry.getKey().concat(" = ?"));
-                if (index < map.size() - 2) {
-                    sql.append(",");
-                }
-                sql.append(" ");
-            }
-            valueArr[index] = entry.getValue();
-            index++;
-        }
-        sql.append("WHERE id = ?");
-
         try {
-            return jdbcTemplate.update(sql.toString(), valueArr);
+            return jdbcTemplate.update(generateUpdateSql(map), getUpdateParameters(map));
         } catch (DuplicateKeyException ex) {
             throw new DuplicateEntityException(ex.getCause().getMessage());
         }
@@ -109,16 +91,35 @@ public abstract class GenericDaoDbImpl<T, PK extends Serializable> implements Ge
 
     @Override
     public int delete(PK id) {
-        final String sql = "DELETE FROM " + tableName + " WHERE id = ?";
-
+        String sql = "DELETE FROM " + tableName + " WHERE id = ?";
         return jdbcTemplate.update(sql, id);
     }
 
     @Override
     public List<T> getAll() {
-        final String sql = "SELECT * FROM " + tableName;
-
+        String sql = "SELECT * FROM " + tableName;
         return jdbcTemplate.query(sql,
                 new BeanPropertyRowMapper<>(genericType));
+    }
+
+    private String generateUpdateSql(Map<String, Object> map) {
+        StringBuilder sql = new StringBuilder("UPDATE " + tableName + " SET ");
+
+        map.entrySet().stream().filter(entry -> !Objects.equals(entry.getKey(), "id"))
+                .forEach(entry -> sql.append(entry.getKey()).append(" = ?, "));
+        sql.deleteCharAt(sql.lastIndexOf(","));
+        sql.append("WHERE id = ?");
+
+        return sql.toString();
+    }
+
+    private Object[] getUpdateParameters(Map<String, Object> map) {
+        Object[] valueArr = new Object[map.size()];
+        int index = 0;
+        for (Object o : map.values()) {
+            valueArr[index] = o;
+            index++;
+        }
+        return valueArr;
     }
 }

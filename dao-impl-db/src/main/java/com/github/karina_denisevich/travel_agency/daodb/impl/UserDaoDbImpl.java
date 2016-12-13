@@ -36,7 +36,7 @@ public class UserDaoDbImpl extends GenericDaoDbImpl<User, Long> implements UserD
 
     @Override
     public void insertBatch(List<User> userList) {
-        final String sql = "INSERT INTO " + tableName + " (email, password, role_id)" +
+        String sql = "INSERT INTO " + tableName + " (email, password, role_id)" +
                 " VALUES (?, ?, ?)";
 
         try {
@@ -47,7 +47,6 @@ public class UserDaoDbImpl extends GenericDaoDbImpl<User, Long> implements UserD
                     ps.setString(2, user.getPassword());
                     ps.setLong(3, user.getRole().getId());
                 }
-
                 public int getBatchSize() {
                     return userList.size();
                 }
@@ -59,7 +58,7 @@ public class UserDaoDbImpl extends GenericDaoDbImpl<User, Long> implements UserD
 
     @Override
     public User getByEmail(String email) {
-        final String sql = "SELECT * FROM " + tableName + " WHERE email = ?";
+        String sql = "SELECT * FROM " + tableName + " WHERE email = ?";
 
         try {
             return jdbcTemplate.queryForObject(sql, new Object[]{email},
@@ -71,7 +70,7 @@ public class UserDaoDbImpl extends GenericDaoDbImpl<User, Long> implements UserD
 
     @Override
     public User getWithRole(Long id) {
-        final String sql = "SELECT * FROM " + tableName + " u "
+        String sql = "SELECT * FROM " + tableName + " u "
                 + "LEFT JOIN " + roleTableName + " r ON u.role_id=r.id "
                 + "WHERE u.id = ?";
         try {
@@ -84,7 +83,7 @@ public class UserDaoDbImpl extends GenericDaoDbImpl<User, Long> implements UserD
 
     @Override
     public List<User> getByRole(Role role) {
-        final String sql = "SELECT * FROM " + tableName + " WHERE role_id = ?";
+        String sql = "SELECT * FROM " + tableName + " WHERE role_id = ?";
 
         return jdbcTemplate.query(sql, new Object[]{role.getId()},
                 new BeanPropertyRowMapper<>(User.class));
@@ -92,7 +91,7 @@ public class UserDaoDbImpl extends GenericDaoDbImpl<User, Long> implements UserD
 
     @Override
     public User getByEmailWithRole(String email) {
-        final String sql = "SELECT * FROM " + tableName + " u "
+        String sql = "SELECT * FROM " + tableName + " u "
                 + "LEFT JOIN " + roleTableName + " r ON u.role_id=r.id "
                 + "WHERE u.email = ?";
         try {

@@ -5,7 +5,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(value = ElementType.TYPE)
+/**
+ * Specifies the primary table for the annotated entity.
+ *
+ * If no <code>Table</code> annotation is specified for an entity
+ * class, the default values apply.
+ */
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DbTable {
 

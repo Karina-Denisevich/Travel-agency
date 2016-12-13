@@ -34,7 +34,6 @@ public class ProxyThread implements Runnable {
                     while ((bytes_read = inFromClient.read(request)) != -1) {
                         outToServer.write(request, 0, bytes_read);
                         outToServer.flush();
-                        System.out.println("+++++++++++++++++++++++++++hi  " + p);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

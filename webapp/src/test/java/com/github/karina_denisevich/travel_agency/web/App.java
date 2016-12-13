@@ -10,7 +10,6 @@ public class App {
 
     public static void main(String[] args) throws IOException {
         StartJetty.main(ports);
-        StartBalancer.main(null);
-
+        StartBalancer.main(ports);
     }
 }

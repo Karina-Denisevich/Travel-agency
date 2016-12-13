@@ -23,13 +23,9 @@ public class StartJetty {
      * @param args
      */
     public static void main(String[] args) {
-
         for (String port : args) {
             startInstance(Integer.parseInt(port));
         }
-//        startInstance(8081);
-//        startInstance(8082);
-//        startInstance(8083);
     }
 
     private static void startInstance(int port) {

@@ -2,11 +2,9 @@ package com.github.karina_denisevich.travel_agency.daoxml.impl;
 
 import com.github.karina_denisevich.travel_agency.annotation.DbTableAnalyzer;
 import com.github.karina_denisevich.travel_agency.daoapi.GenericDao;
-import com.github.karina_denisevich.travel_agency.daoapi.exception.DuplicateEntityException;
 import com.github.karina_denisevich.travel_agency.daoapi.exception.EmptyResultException;
 import com.github.karina_denisevich.travel_agency.daoxml.util.XmlFileIOUtils;
 import com.github.karina_denisevich.travel_agency.datamodel.AbstractModel;
-import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -29,7 +27,6 @@ public abstract class GenericDaoXmlImpl<T extends AbstractModel, PK extends Seri
 
     @PostConstruct
     private void initialize() throws IOException {
-
         String fileName = basePath.concat("\\")
                 .concat(new DbTableAnalyzer().getDbTableName(genericType)).concat(".xml");
         xmlFileIOUtils = new XmlFileIOUtils<>(fileName, genericType);

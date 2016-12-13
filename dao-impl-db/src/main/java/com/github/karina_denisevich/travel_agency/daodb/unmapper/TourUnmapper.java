@@ -18,7 +18,6 @@ public class TourUnmapper implements RowUnmapper<Tour> {
         if (tour.getId() != null) {
             map.put("id", tour.getId());
         }
-
         return map;
     }
 }

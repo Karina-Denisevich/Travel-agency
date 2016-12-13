@@ -40,13 +40,12 @@ public class TourToCategoryDaoXmlImpl implements TourToCategoryDao {
     private List<TourToCategory> getListForTour(Tour tour) {
         List<TourToCategory> tourToCategoryList = new ArrayList<>();
 
-        for (Category category : tour.getCategoryList()) {
+        tour.getCategoryList().forEach(category -> {
             TourToCategory tourToCategory = new TourToCategory();
             tourToCategory.setTour(tour);
             tourToCategory.setCategory(category);
             tourToCategoryList.add(tourToCategory);
-        }
-
+        });
         return tourToCategoryList;
     }
 

@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserDetailsDaoXmlImpl extends GenericDaoXmlImpl<UserDetails, Long>
         implements UserDetailsDao {
-
 }

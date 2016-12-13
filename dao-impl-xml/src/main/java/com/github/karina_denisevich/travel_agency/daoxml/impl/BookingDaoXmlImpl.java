@@ -24,7 +24,6 @@ public class BookingDaoXmlImpl extends GenericDaoXmlImpl<Booking, Long> implemen
                 deletedRows++;
             }
         }
-
         xmlFileIOUtils.writeCollection(bookingList);
         return deletedRows;
     }

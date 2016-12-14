@@ -1,12 +1,18 @@
 package com.github.karina_denisevich.travel_agency.web.dto;
 
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
+
 import java.util.List;
 
 public class TourDto extends AbstractDto{
 
+    @NotEmpty(message = "Title should not be empty")
     private String title;
     private String photoLink;
     private Boolean isHot;
+    @Range(min = 0, message = "Price should be grater than 0")
+    @NotEmpty(message = "Price should not be empty")
     private Double price;
     private String description;
     private List<CategoryDto> categoryDtoList;

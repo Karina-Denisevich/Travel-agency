@@ -1,8 +1,12 @@
 package com.github.karina_denisevich.travel_agency.web.dto;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class UserDetailsDto extends AbstractDto {
 
+    @NotEmpty(message = "First name should not be empty")
     private String firstName;
+    @NotEmpty(message = "Last name should not be empty")
     private String lastName;
     private Double discount;
     private String bDate;

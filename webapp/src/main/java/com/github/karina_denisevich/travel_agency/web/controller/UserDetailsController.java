@@ -12,6 +12,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -27,7 +28,7 @@ public class UserDetailsController extends AbstractController<UserDetails, UserD
     private ConversionServiceFactoryBean conversionService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    public ResponseEntity<Object> create(@RequestBody UserDetailsDto userDetailsDto,
+    public ResponseEntity<Object> create(@Valid @RequestBody UserDetailsDto userDetailsDto,
                                          @PathVariable Long id) {
         UserDetails userDetails = (conversionService.getObject().convert(userDetailsDto, UserDetails.class));
         userDetails.setId(id);
@@ -36,7 +37,7 @@ public class UserDetailsController extends AbstractController<UserDetails, UserD
     }
 
     @RequestMapping(value = "/saveAll", method = RequestMethod.POST, params = "id")
-    public ResponseEntity<Object> createBatch(@RequestBody List<UserDetailsDto> entityDtoList,
+    public ResponseEntity<Object> createBatch(@Valid @RequestBody List<UserDetailsDto> entityDtoList,
                                               @RequestParam("id") Long[] idArr) {
         List<UserDetails> convertedList = (List<UserDetails>) conversionService.getObject()
                 .convert(entityDtoList, TypeDescriptor.valueOf(List.class),

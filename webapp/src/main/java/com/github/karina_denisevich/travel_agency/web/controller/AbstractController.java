@@ -9,9 +9,11 @@ import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -64,7 +66,7 @@ public abstract class AbstractController<T extends AbstractModel,
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Object> create(@RequestBody D entityDto) {
+    public ResponseEntity<Object> create(@Valid @RequestBody D entityDto) {
         T entity = (conversionService.getObject().convert(entityDto, genericType));
         entity.setId(null);
         abstractService.save(entity);
@@ -72,7 +74,7 @@ public abstract class AbstractController<T extends AbstractModel,
     }
 
     @RequestMapping(value = "/saveAll", method = RequestMethod.POST)
-    public ResponseEntity<Object> createBatch(@RequestBody List<D> entityDtoList) {
+    public ResponseEntity<Object> createBatch(@Valid @RequestBody List<D> entityDtoList) {
         entityDtoList.forEach(d -> d.setId(null));
         List<T> convertedList = (List<T>) conversionService.getObject().convert(entityDtoList,
                 TypeDescriptor.valueOf(List.class),
@@ -82,7 +84,7 @@ public abstract class AbstractController<T extends AbstractModel,
     }
 
     @RequestMapping(value = "/{entityId}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> update(@RequestBody D entityDto,
+    public ResponseEntity<Object> update(@Valid @RequestBody D entityDto,
                                          @PathVariable Long entityId) {
         T entity = (conversionService.getObject().convert(entityDto, genericType));
         entity.setId(entityId);

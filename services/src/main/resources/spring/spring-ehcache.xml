@@ -11,8 +11,6 @@
         http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!--<cache:annotation-driven cache-manager="cacheManager"/>-->
-
-
     <!--<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"-->
     <!--p:cacheManager-ref="ehcache"/>-->
     <!--<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"-->
@@ -26,7 +24,6 @@
                     <constructor-arg name="cache" index="0" ref="defaultCache"/>
                     <!-- 5 minutes -->
                     <constructor-arg name="expiration" index="1" value="300"/>
-                    <!-- @CacheEvict(..., "allEntries" = true) doesn't work -->
                     <constructor-arg name="allowClear" index="2" value="true"/>
                 </bean>
             </set>
@@ -37,7 +34,7 @@
     <cache:annotation-driven/>
 
     <bean name="defaultCache" class="com.google.code.ssm.CacheFactory">
-        <property name="cacheName" value="userAuthBasic"/>
+        <property name="cacheName" value="userInfo"/>
         <property name="cacheClientFactory">
             <bean class="com.google.code.ssm.providers.xmemcached.MemcacheClientFactoryImpl"/>
         </property>

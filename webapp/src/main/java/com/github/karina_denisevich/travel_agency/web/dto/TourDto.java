@@ -1,8 +1,9 @@
 package com.github.karina_denisevich.travel_agency.web.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class TourDto extends AbstractDto{
@@ -11,8 +12,8 @@ public class TourDto extends AbstractDto{
     private String title;
     private String photoLink;
     private Boolean isHot;
-    @Range(min = 0, message = "Price should be grater than 0")
-    @NotEmpty(message = "Price should not be empty")
+    @Min(value = 0, message = "Price should be grater than 0")
+    @NotNull(message = "Price should not be null")
     private Double price;
     private String description;
     private List<CategoryDto> categoryDtoList;

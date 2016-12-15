@@ -7,7 +7,7 @@ public class UserDto extends AbstractDto {
 
     @NotEmpty(message = "Email should not be empty")
     private String email;
-    @Length(min = 5, message = "Password length should be more than 4")
+    @Length(min = 4, message = "Password length should be more than 3")
     private String password;
     private RoleDto roleDto;
 

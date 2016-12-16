@@ -120,10 +120,9 @@ public class TourServiceImpl implements TourService {
     public int delete(Long id) {
         bookingService.deleteByTourId(id);
         tourToCategoryDao.deleteByTourId(id);
-
         int deletedCount = tourDao.delete(id);
-        new PropertyFileUtil().deleteByKey(id.toString(), EN_PROPERTIES_FILE, RU_PROPERTIES_FILE, DE_PROPERTIES_FILE);
-        return deletedCount;
+        new PropertyFileUtil().deleteByKey(id + ".", EN_PROPERTIES_FILE, RU_PROPERTIES_FILE, DE_PROPERTIES_FILE);
+         return deletedCount;
     }
 
     @Override

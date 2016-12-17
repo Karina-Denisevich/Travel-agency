@@ -11,6 +11,8 @@ import org.apache.commons.lang3.Validate;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,8 +38,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     @CacheEvict(value = "userInfo", allEntries = true)
-//    @PreAuthorize("#user.id == null or hasRole('ROLE_ADMIN')" +
-//            " or @userServiceImpl.get(#user.id).email == authentication.name")
+    @PreAuthorize("#user.id == null or hasRole('ROLE_ADMIN')" +
+            " or #user.id == authentication.principal.userId")
     public Long save(User user) {
         beforeSave(user);
         if (user.getId() == null) {
@@ -53,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     @CacheEvict(value = "userInfo", allEntries = true)
-//    @PreAuthorize("#user.id==null or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void saveAll(List<User> users) {
         users.forEach(this::beforeSave);
         userDao.insertBatch(users);
@@ -68,7 +70,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Cacheable(value = "userInfo", key = "'users'")
-    //@PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public List<User> getAll() {
         return userDao.getAll();
     }
@@ -76,6 +78,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     @CacheEvict(value = "userInfo", allEntries = true)
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #id == authentication.principal.userId")
     public int delete(Long id) {
         bookingService.deleteByUserId(id);
         userDetailsService.delete(id);
@@ -92,32 +95,40 @@ public class UserServiceImpl implements UserService {
      */
     private Role getUserRole(User user) {
         Role role = user.getRole();
-        if (role == null) {
+        if (SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+                .contains((new SimpleGrantedAuthority("ROLE_ADMIN")))) {
+            if (role == null) {
+                return roleService.getByType(Role.RoleEnum.valueOf("ROLE_USER"));
+            } else if (role.getId() == null) {
+                return roleService.getByType(role.getType());
+            } else {
+                return roleService.get(role.getId());
+            }
+        } else {
             return roleService.getByType(Role.RoleEnum.valueOf("ROLE_USER"));
-        } else if (role.getId() == null) {
-            return roleService.getByType(role.getType());
-        }else{
-            return roleService.get(role.getId());
         }
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public User get(Long id) {
         return userDao.get(id);
     }
 
-
     @Override
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public User getByEmail(String email) {
         return userDao.getByEmail(email);
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public User getWithRole(Long id) {
         return userDao.getWithRole(id);
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<User> getByRole(Role role) {
         if (role.getId() == null) {
             role = roleService.getByType(role.getType());

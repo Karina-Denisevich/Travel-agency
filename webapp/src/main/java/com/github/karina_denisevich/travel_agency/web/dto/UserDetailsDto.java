@@ -1,5 +1,6 @@
 package com.github.karina_denisevich.travel_agency.web.dto;
 
+import com.github.karina_denisevich.travel_agency.datamodel.User;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class UserDetailsDto extends AbstractDto {
@@ -12,6 +13,7 @@ public class UserDetailsDto extends AbstractDto {
     private String bDate;
     private String phone;
     private String skype;
+    private User user;
 
     public String getFirstName() {
         return firstName;
@@ -59,5 +61,13 @@ public class UserDetailsDto extends AbstractDto {
 
     public void setSkype(String skype) {
         this.skype = skype;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -23,6 +23,7 @@ public class UserDetailsToDto implements Converter<UserDetails, UserDetailsDto> 
                 .convert(userDetails.getbDate(), String.class));
         userDetailsDto.setPhone(userDetails.getPhone());
         userDetailsDto.setSkype(userDetails.getSkype());
+        userDetailsDto.setUser(userDetails.getUser());
 
         return userDetailsDto;
     }

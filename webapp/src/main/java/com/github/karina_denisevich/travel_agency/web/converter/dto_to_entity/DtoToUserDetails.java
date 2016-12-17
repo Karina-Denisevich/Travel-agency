@@ -24,6 +24,7 @@ public class DtoToUserDetails implements Converter<UserDetailsDto, UserDetails> 
                 .convert(userDetailsDto.getbDate(), Date.class));
         userDetails.setPhone(userDetailsDto.getPhone());
         userDetails.setSkype(userDetailsDto.getSkype());
+        userDetails.setUser(userDetailsDto.getUser());
 
         return userDetails;
     }

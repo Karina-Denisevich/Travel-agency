@@ -10,6 +10,7 @@ import com.github.karina_denisevich.travel_agency.services.TourService;
 import com.github.karina_denisevich.travel_agency.services.locale.CustomLocale;
 import com.github.karina_denisevich.travel_agency.services.locale.util.PropertyFileUtil;
 import org.apache.commons.lang3.Validate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +42,7 @@ public class TourServiceImpl implements TourService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Long save(Tour tour) {
         beforeSave(tour);
         Long id;
@@ -94,6 +96,7 @@ public class TourServiceImpl implements TourService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void saveAll(List<Tour> tours) {
         tours.forEach(this::save);
     }
@@ -117,6 +120,7 @@ public class TourServiceImpl implements TourService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public int delete(Long id) {
         bookingService.deleteByTourId(id);
         tourToCategoryDao.deleteByTourId(id);

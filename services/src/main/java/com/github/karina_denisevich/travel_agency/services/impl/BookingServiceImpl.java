@@ -4,6 +4,11 @@ import com.github.karina_denisevich.travel_agency.daoapi.BookingDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Booking;
 import com.github.karina_denisevich.travel_agency.services.BookingService;
 import org.apache.commons.lang3.Validate;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +23,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #booking.user.id==authentication.principal.userId")
     public Long save(Booking booking) {
         beforeSave(booking);
         if (booking.getId() == null) {
@@ -42,43 +48,55 @@ public class BookingServiceImpl implements BookingService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void saveAll(List<Booking> bookingList) {
         bookingList.forEach(this::save);
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Booking get(Long id) {
         return bookingDao.get(id);
     }
 
     @Override
-//    @PostFilter("@bookingServiceImpl.getByIdWithUser(filterObject.id).user.email" +
-//            "==authentication.name or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Booking> getAll() {
         return bookingDao.getAll();
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public int delete(Long id) {
         return bookingDao.delete(id);
     }
 
     @Override
     public Booking getByIdWithUser(Long id) {
-        return bookingDao.getByIdWithUser(id);
+        Booking booking = bookingDao.getByIdWithUser(id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getName().equals(booking.getUser().getEmail()) ||
+                auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            return booking;
+        } else {
+            throw new AccessDeniedException("Access is denied");
+        }
     }
 
     @Override
-    public int deleteByUserId(Long id) {
-        return bookingDao.deleteByUserId(id);
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #userId == authentication.principal.userId")
+    public int deleteByUserId(Long userId) {
+        return bookingDao.deleteByUserId(userId);
     }
 
     @Override
-    public int deleteByTourId(Long id) {
-        return bookingDao.deleteByTourId(id);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public int deleteByTourId(Long tourId) {
+        return bookingDao.deleteByTourId(tourId);
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #userId == authentication.principal.userId")
     public List<Booking> getAllByUserId(Long userId) {
         return bookingDao.getAllByUserId(userId);
     }

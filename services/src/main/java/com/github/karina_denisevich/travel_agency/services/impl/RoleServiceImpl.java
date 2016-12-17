@@ -4,6 +4,7 @@ import com.github.karina_denisevich.travel_agency.daoapi.RoleDao;
 import com.github.karina_denisevich.travel_agency.datamodel.Role;
 import com.github.karina_denisevich.travel_agency.services.RoleService;
 import com.github.karina_denisevich.travel_agency.services.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Service
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class RoleServiceImpl implements RoleService {
 
     @Inject
@@ -19,6 +21,7 @@ public class RoleServiceImpl implements RoleService {
     @Inject
     private UserService userService;
 
+    @Transactional
     @Override
     public Long save(Role role) {
         if (role.getId() == null) {

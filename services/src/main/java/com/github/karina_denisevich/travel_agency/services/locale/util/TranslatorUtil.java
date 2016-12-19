@@ -12,7 +12,7 @@ import java.net.URLConnection;
 
 public class TranslatorUtil {
 
-    private static final String API_FILE_NAME = "services\\src\\main\\resources\\api.properties";
+    private static final String API_FILE_NAME = "services\\src\\main\\resources\\secured.properties";
     private String key;
 
     public String translate(String langFrom, String langTo, String text) {

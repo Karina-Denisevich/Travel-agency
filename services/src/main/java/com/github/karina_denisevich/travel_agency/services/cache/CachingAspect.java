@@ -74,7 +74,7 @@ public class CachingAspect {
         logger.info(String.format("From %1s was deleted : %2s objects", targetName, deletedCount));
     }
 
-    //@Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 20000)
     public void save() {
         FileIOUtil<ConcurrentHashMap<String, Object>> fileIOUtil = new FileIOUtil<>();
         fileIOUtil.write((ConcurrentHashMap<String, Object>) cache, FILE_NAME);
@@ -90,7 +90,7 @@ public class CachingAspect {
         }
     }
 
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 12000)
     public void clearCache() {
         cache.clear();
     }

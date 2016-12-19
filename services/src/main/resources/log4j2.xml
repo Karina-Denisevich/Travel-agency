@@ -15,7 +15,7 @@
             </Policies>
         </RollingFile>
 
-        <!--It is necessary to change access in Gmail, set any error log and set password before using-->
+        <!--It is necessary to change access in Gmail and set password before using-->
         <SMTP name="Mail" subject="Error Log"
               smtpProtocol="smtps"
               smtpPort="465"
@@ -23,12 +23,12 @@
               from="denisevichks97@gmail.com"
               to="denisevichks97@gmail.com"
               smtpUsername="denisevichks97@gmail.com"
-              smtpPassword=""
+              smtpPassword="WrKyxs5m"
               bufferSize="50">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </SMTP>
 
-        <JDBC name="databaseAppender" tableName="application_log">
+        <JDBC name="DatabaseAppender" tableName="application_log">
             <ConnectionFactory class="com.github.karina_denisevich.travel_agency.services.logger.util.ConnectionFactory"
                                method="getDatabaseConnection"/>
             <Column name="level" pattern="%level"/>
@@ -46,7 +46,7 @@
                 additivity="false">
             <AppenderRef ref="Console"/>
             <!--<AppenderRef ref="RollingFile"/>-->
-            <!--<AppenderRef ref="databaseAppender"/>-->
+            <!--<AppenderRef ref="DatabaseAppender"/>-->
             <!--<AppenderRef ref="Mail"/>-->
         </Logger>
     </Loggers>

@@ -66,4 +66,5 @@ buildNumber.properties
 
 logs/
 
-src/main/resources/api.properties
+src/main/resources/secured.properties
+src/main/resources/log4j2.xml

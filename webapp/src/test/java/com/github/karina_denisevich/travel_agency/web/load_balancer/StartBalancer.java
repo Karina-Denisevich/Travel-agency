@@ -36,8 +36,7 @@ public class StartBalancer extends Thread {
         byte[] reply = new byte[4096];
 
         while (true) {
-            // int remotePort = getRandomPort(remotePorts);
-            System.out.println("------------- ----------- ----- " + remotePort + currentThread().getName());
+            System.out.println("-------- " + remotePort + currentThread().getName());
 
             try (Socket client = serverSocket.accept();
                  Socket server = new Socket(host, remotePort)) {

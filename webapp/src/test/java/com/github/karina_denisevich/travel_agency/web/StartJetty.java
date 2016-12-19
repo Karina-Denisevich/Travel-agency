@@ -25,6 +25,7 @@ public class StartJetty {
         for (String port : args) {
             startInstance(Integer.parseInt(port));
         }
+        //startInstance(8080);
     }
 
     private static void startInstance(int port) {

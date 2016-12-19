@@ -9,12 +9,14 @@ public class FileIOUtil<T extends Serializable> {
     private static final Logger logger = LoggerFactory.getLogger(FileIOUtil.class);
 
     public void write(T object, String fileName) {
-        try (ObjectOutput objectOutputStream = new ObjectOutputStream
-                (new BufferedOutputStream(new FileOutputStream(fileName, false)))) {
-            objectOutputStream.writeObject(object);
-            logger.info(String.format("Object is written in file : %s", object));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (object != null) {
+            try (ObjectOutput objectOutputStream = new ObjectOutputStream
+                    (new BufferedOutputStream(new FileOutputStream(fileName, false)))) {
+                objectOutputStream.writeObject(object);
+                logger.info(String.format("Object is written in file : %s", object));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
